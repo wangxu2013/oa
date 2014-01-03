@@ -1,0 +1,59 @@
+*{paadding:0;margin:0;}
+ //#leftmenu{height:360px;}
+.hidden{display:none;}
+.container-fluid .brand{font-weight:bold;}
+.place{padding:10px;}
+.place a{margin:0 5px;}
+.titletip{color:#003366;font-weight:bold;font-size:14px;}
+.table-list{width:100%;background:#efefef;}
+.table-list th{background:#afd5eb;border:1px solid #ffffff;font-weight:normal;padding:5px;}
+.table-list td{border:1px solid #ffffff;font-size:13px;}
+//.table-list a{color:#0f806c;}
+.table-list .table-label{background:#afd5eb;width:120px;padding:5px;font-size:14px;}
+.table-list .center{text-align:center;}
+.table-list .errer{background-color:#f0cbcb;}
+.table-list .warning{background-color:#f9edb8;}
+
+select{margin:0 5px;width:150px;}
+input{margin:10px 0 0 5px;padding:5px;width:150px;}
+input.long{width:92%;}
+input[type=button],input[type=reset]{margin:10px 0 0;}
+textarea{margin:3px;resize:none;}
+label{display:inline;}
+.table-list tbody input{margin:3px;}
+.point{color:gray;font-size:12px;}
+.display-div{display:none;position:absolute;left:14%;margin-top:-25px;background:white;border:2px solid black;width:70%;height:300px;padding:10px;overflow:auto;}
+.page-div{text-align:center;color:gray;font-size:14px;}
+.page-div input{width:20px;padding:0;}
+.footer{width:100%;
+		height:25px;
+		bottom:0;
+		color:gray;
+		padding:5px 0;
+		text-align:center;
+		position:fixed;
+		border-top:1px solid #dedede;
+		background:white;
+}
+/*tab*/
+.tags { padding:0; margin: 0;height: 23px; }
+.tags li { background: #f6f6f6 ; float: left; margin-right: 3px; list-style: none; height: 23px; border-radius: 8px 8px 0 0;}
+.tags li a { padding:0 15px;float: left;color: #666666; line-height: 23px; height: 23px; text-decoration: none; }
+.tags li.selectTag { background:#d9d9d9; position: relative;}
+.tags li.selectTag a { color: #333333;}
+.Content { border: #d9d9d9 1px solid;padding:1px;}
+.tagContent{ padding:5px 5px 0 5px; display: none;color: #474747; }
+.Content div.selectTag { display: block; }
+.tab{padding:5px;}
+
+.tbInput{width:83%;}		
+.divBorder{border:1px solid #94c1dc;margin:5px 0;}	
+.font-small{font-size:12px;}
+.font-small th,.font-small td{font-size:12px;}
+.add td{text-align: center;}
+.grayText{color:gray;}
+
+
+.errorInfo{display:none;color:#CC3333;}
+.je{font-family: Times New Roman;font-weight: bold;font-size:13px;}
+.red{color:#CC3333;font-weight:bold;}

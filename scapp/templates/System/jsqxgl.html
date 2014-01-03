@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>	
+	<meta charset="utf-8">
+	<title>小微贷款业务管理系统</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="Charisma, a fully featured, responsive, HTML5, Bootstrap admin template.">
+	<meta name="author" content="Muhammad Usman">
+
+	<!-- The styles -->
+	<link href="/static/css/bootstrap.css" rel="stylesheet">
+	<link href="/static/css/main.css" rel="stylesheet">
+	<style type="text/css">
+		
+	</style>
+</head>
+
+<body onload="setTimeOut();">	
+	<div class="content">
+		<div class="well place">			
+			<i class="icon-home"></i><a href="#">系统管理</a>/<a href="#">角色权限管理</a>
+		</div>	
+		{%- with messages = get_flashed_messages(with_categories=true) %}
+		  	{%- if messages %}
+	    	{%- for category, message in messages %}
+	    	<div class="alert alert-{{category}}">
+	      		{{message}}
+	      	</div>
+	    	{%- endfor %}
+		  	{%- endif %}
+		{%- endwith %}
+		<div class="row-fluid">
+			<i class="icon-bookmark"></i><span class="titletip">角色清单</span>			
+			<div style="margin-bottom:5px;">
+				<a type="button" class="btn btn-info" href="#" onclick="iframe('System/new_role')">新增</a>				
+			</div>
+			<div style="border:1px solid #94c1dc;">				
+				<table class="table-list" cellspacing="10" id="uesr-list">
+					<thead>
+						<tr>
+							<th><input type="button" class="btn btn-info btn-mini" value="反选" style="margin:0;" onclick="ChkAllClick()"/></th>
+							<th>角色名称</th>							
+							<th>角色级别</th>							
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody class="center">
+						{%- for role in roles.items %}
+						<tr>
+							<td><input type="checkbox" onclick="changeColor(this)" name="checkbox"/></td>	
+							<td><a href="#" onclick="iframe('System/edit_role/{{role.id}}')">{{role.role_name}}</a></td>	
+							{%- if role.role_level == 0 %}
+								<td>系统管理员</td>
+							{%- elif role.role_level == 1 %}
+								<td>员工</td>
+							{%- elif role.role_level == 3 %}
+								<td>主管</td>
+							{%- elif role.role_level == 4 %}
+								<td>总经理</td>
+							{%- elif role.role_level == 5 %}
+								<td>财务</td>
+							{%- endif %}
+							<td>
+								<input type="button" class="btn btn-warning btn-mini" value="删除"/>
+							</td>
+						</tr>
+						{%- endfor %}
+					</tbody>
+				</table>
+			</div>
+			<div class="page-div">
+				{%- if roles.has_prev %}
+					<span style="CURSOR: pointer" onclick="iframe('System/jsqxgl/{{roles.prev_num}}')">&lt;&lt;</span>
+				{%- else %}
+					<span style="CURSOR: pointer">&lt;&lt;</span>
+				{%- endif %}
+				&#160;第&#160;<font color="#0088cc">{{roles.page}}</font>&#160;页&#160;
+				&#160;共&#160;<font color="#0088cc">{{roles.pages}}</font>&#160;页&#160;
+				{%- if roles.has_next %}
+					<span style="CURSOR: pointer" onclick="iframe('System/jsqxgl/{{roles.next_num}}')">&gt;&gt;</span>
+				{%- else %}
+					<span style="CURSOR: pointer">&gt;&gt;</span>
+				{%- endif %}
+			</div>
+		</div><!--/row-fluid -->
+	</div><!--/content -->
+	
+	<script src="/static/js/jquery-1.7.2.min.js"></script>
+	<script src="/static/js/bootstrap.min.js"></script>
+	<script src="/static/js/script.js"></script>
+	
+</body>
+</html>

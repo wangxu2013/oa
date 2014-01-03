@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>	
+	<meta charset="utf-8">
+	<title>小微贷款业务管理系统</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="Charisma, a fully featured, responsive, HTML5, Bootstrap admin template.">
+	<meta name="author" content="Muhammad Usman">
+
+	<!-- The styles -->
+	<link href="/static/css/bootstrap.css" rel="stylesheet">
+	<link href="/static/css/main.css" rel="stylesheet">
+
+	<style type="text/css">
+		html{overflow-y:scroll;}  
+		#date{line-height:25px;font-size:12px;color:gray;margin-top:-30px;}
+	</style>
+</head>
+
+<body onload="showdate();">
+<!--**************************************************top***********************************************-->
+	<div class="navbar navbar-inverse navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container-fluid">				
+				<a class="brand" href="javascript:void(0);" onclick="iframe('welcome')">OA管理系统</a>
+				<div class="nav-collapse collapse">
+					<ul class="nav pull-right">
+						<li class="dropdown">
+							<a href="javascript:void(0);" id="drop3" role="button" class="dropdown-toggle" data-toggle="dropdown">
+								<i class="icon-user icon-white"></i>&nbsp;{{current_user.login_name}}<b class="caret"></b>
+							</a>
+							<ul class="dropdown-menu" role="menu" aria-labelledby="drop3">
+								<li><a href="javascript:void(0);" onclick="changeiframe('change_password/{{current_user.id}}');">修改密码</a></li>
+								<li class="divider"></li>
+								<li><a href="logout">注销</a></li>
+							</ul>
+						</li>
+					</ul>					
+					<ul class="nav" id="topmenu">
+						<li 
+							{%- if menu == "xxgl"%}
+								class="active"
+							{%- endif %}
+							onclick="iframe('xxgl')"><a href="javascript:void(0);">报销管理</a></li>
+							{%- if role.role_level == 0 %}
+						<li 
+							{%- if menu == "xtgl"%}
+								class="active"
+							{%- endif %}
+							onclick="iframe('xtgl')"><a href="javascript:void(0);">系统管理</a></li>
+							{%- endif %}
+					</ul>
+				</div><!--/.nav-collapse -->
+			</div><!--/.container-fluid -->
+		</div><!--/.navbar-inner -->
+	</div><!--/.navbar -->
+<!--**************************************************left***********************************************-->
+    <div class="container-fluid" style="margin:55px auto 0;">
+		<div class="row-fluid">
+			<div class="span2" style="position:fixed;">
+				<div class="well sidebar-nav" id="leftmenu">				
+					<ul class="nav nav-list 
+							{%- if menu != "xxgl"%}
+								hidden
+							{%- endif %}
+							" id="xxgl">
+						<li class="nav-header">报销申请</li>
+						<li onclick="leftmenu(this);changeiframe('fybx/add')" id="new_bxsq" class="active">
+							<a href="javascript:void(0);">新增费用</a>
+						</li>
+						<li onclick="leftmenu(this);changeiframe('fybx/query/1/pc')" id="bxsq_list">
+							<a href="javascript:void(0);">费用查询</a>
+						</li>
+						<li onclick="leftmenu(this);changeiframe('fybx/check_query/1/pc')" id="check_bxsq">
+							<a href="javascript:void(0);">费用审批</a>
+						</li>      
+					</ul>
+					<ul class="nav nav-list 
+							{%- if menu != "xtgl"%}
+								hidden
+							{%- endif %}
+							" id="xtgl">
+						<li class="nav-header">系统管理</li>
+						<!-- 系统管理员 -->
+						{%- if role.role_level == 0 %}
+							<li onclick="leftmenu(this);changeiframe('system/project/add')" id="sjzd" class="active">
+								<a href="javascript:void(0);">项目管理</a>
+							</li>			
+							<li onclick="leftmenu(this);changeiframe('System/jggl')" id="jggl" >
+								<a href="javascript:void(0);">部门管理</a>
+							</li>
+							<li onclick="leftmenu(this);changeiframe('System/syzgl/1')" id="syzgl" >
+								<a href="javascript:void(0);">使用者管理</a>
+							</li>		
+							<li onclick="leftmenu(this);changeiframe('System/jsqxgl/1')" id="jsqxgl" >
+								<a href="javascript:void(0);">角色权限管理</a>
+							</li>
+						{%- endif %}		
+					</ul>
+				</div><!--/.well -->					
+			</div><!--/span-->
+<!--**************************************************content***********************************************-->
+			<div class="span10 pull-right">
+				<iframe frameborder="0" 
+					{%- if menu == "xxgl" %}
+						src="fybx/add"
+					{%- elif menu == "xtgl" %}
+						src="system/project/add"
+					{%- endif %}
+				width="100%;" id="content_frame" marginheight="0" marginwidth="0" height="100%" onload="resizeFrame('content_frame')"></iframe>
+			</div><!--/span-->
+		</div><!--/row-->		
+    </div><!--/.fluid-container-->		
+<!--**************************************************foot***********************************************-->
+	<div class="footer">
+		<p class="pull-center">@ 2013 CardPay (Shanghai) Info Tech Co.,Ltd</p>
+		<span id="date" class="pull-right"></span>
+	</div>
+	<script src="/static/js/jquery-1.7.2.min.js"></script>
+	<script src="/static/js/bootstrap.min.js"></script>
+	<script src="/static/js/script.js"></script>
+</body>
+</html>

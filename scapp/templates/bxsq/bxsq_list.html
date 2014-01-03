@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>	
+	<meta charset="utf-8">
+	<title>小微贷款业务管理系统</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="Charisma, a fully featured, responsive, HTML5, Bootstrap admin template.">
+	<meta name="author" content="Muhammad Usman">
+
+	<!-- The styles -->
+	<link href="/static/css/bootstrap.css" rel="stylesheet">
+	<link href="/static/css/main.css" rel="stylesheet">
+	<link href="/static/css/datepicker.css" rel="stylesheet">
+	<!-- ************************验证样式************************-->
+	<script src="/static/SpryAssets/SpryValidationTextField.js" type="text/javascript"></script>
+	<link href="/static/SpryAssets/SpryValidationTextField.css" rel="stylesheet" type="text/css">
+	<!--<script src="../../static/SpryAssets/SpryValidationSelect.js" type="text/javascript"></script>
+	<link href="../../static/SpryAssets/SpryValidationSelect.css" rel="stylesheet" type="text/css" />-->
+	<style type="text/css">
+		.table-list .table-label{width:140px;}
+	</style>
+	
+</head>
+
+<body onload="datepicker();setTimeOut();">
+	<form class="content">	
+		<div class="well place">			
+			<i class="icon-home"></i><a href="#">报销申请</a>/<a href="#">费用查询</a>
+		</div>	
+		{%- with messages = get_flashed_messages(with_categories=true) %}
+		  	{%- if messages %}
+	    	{%- for category, message in messages %}
+	    	<div class="alert alert-{{category}}" style="width:245px;margin:-10px auto 10px;">
+	      		{{message}}
+	      	</div>
+	    	{%- endfor %}
+		  	{%- endif %}
+		{%- endwith %}
+		<div class="row-fluid">			
+			<i class="icon-bookmark"></i><span class="titletip">费用列表</span>
+			<div style="border:1px solid #94c1dc;">				
+				<table class="table-list" cellspacing="10" id="uesr-list">
+					<thead>
+						<tr>
+							<th>所属部门</th>
+							<th>申请人</th>
+							<th>项目</th>
+							<th>金额</th>							
+							<th>描述</th>
+							<th>报销事由</th>							
+							<th>创建时间</th>
+							<th>审批状态</th>
+							<th>是否付款</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody class="center">	
+					{%- for obj in data.items %}					
+						<tr>
+							<td>{{obj.create.org.name}}</td>
+							<td>{{obj.create.real_name}}</td>
+							<td>{{obj.project.project_name}}</td>
+							<td>{{obj.amount}}</td>
+							<td>{{obj.describe}}</td>	
+							{%- if obj.reason == 1 %}
+								<td>差旅费</td>
+							{%- endif %}
+							{%- if obj.reason == 2 %}
+							<td>交通费</option>
+							{%- endif %}
+							{%- if obj.reason == 3 %}
+							<td>办公用品</td>
+							{%- endif %}
+							{%- if obj.reason == 4 %}
+							<td>招待费</td>
+							{%- endif %}
+							{%- if obj.reason == 5 %}
+							<td>技术服务费</td>
+							{%- endif %}
+							{%- if obj.reason == 6 %}
+							<td>水电煤气费</td>
+							{%- endif %}
+							{%- if obj.reason == 7 %}
+							<td>物业费</td>
+							{%- endif %}
+							{%- if obj.reason == 8 %}
+							<td>房屋租金</td>
+							{%- endif %}
+							{%- if obj.reason == 9 %}
+							<td>日用品</td>
+							{%- endif %}
+							{%- if obj.reason == 10 %}
+							<td>通讯费</td>
+							{%- endif %}
+							{%- if obj.reason == 11 %}
+							<td>油卡充值</td>
+							{%- endif %}
+							{%- if obj.reason == 12 %}
+							<td>停车费</td>
+							{%- endif %}
+							{%- if obj.reason == 15 %}
+							<td>产权调查费</td>
+							{%- endif %}
+							{%- if obj.reason == 14 %}
+							<td>快递费</td>
+							{%- endif %}
+							{%- if obj.reason == 16 %}
+							<td>押金</td>
+							{%- endif %}
+							{%- if obj.reason == 17 %}
+							<td>备件费用</td>
+							{%- endif %}
+							{%- if obj.reason == 18 %}
+							<td>垃圾处理费</td>
+							{%- endif %}
+							{%- if obj.reason == 19 %}
+							<td>社保费</td>
+							{%- endif %}
+							{%- if obj.reason == 20 %}
+							<td>公积金</td>
+							{%- endif %}
+							{%- if obj.reason == 21 %}
+							<td>税金</td>
+							{%- endif %}
+							{%- if obj.reason == 22 %}
+							<td>宽带费</td>
+							{%- endif %}
+							{%- if obj.reason == 23 %}
+							<td>资料费</td>
+							{%- endif %}
+							{%- if obj.reason == 24 %}
+							<td>培训费</td>
+							{%- endif %}
+							{%- if obj.reason == 25 %}
+							<td>保险费</td>
+							{%- endif %}
+							{%- if obj.reason == 26 %}
+							<td>其他</td>
+							{%- endif %}
+							<td>{{obj.create_date}}</td>
+							{%- if obj.is_refuse == '1' %}
+								<td>被拒绝</td>
+							{%- else %}
+								{%- if obj.is_retreat == '1' %}
+									<td>被退回</td>
+								{%- else %}
+									{%- if obj.status == '5' %}
+										<td>财务已审批</td>
+									{%- elif obj.status == '4' %}
+										<td>总经理已审批</td>
+									{%- elif obj.status == '3' %}
+										<td>主管已审批</td>
+									{%- elif obj.status == '1' %}
+										<td>未审批</td>
+									{%- endif %}
+								{%- endif %}
+							{%- endif %}
+							{%- if obj.is_paid == '1' %}
+								<td>已付款</td>
+							{%- else %}
+								<td>未付款</td>
+							{%- endif %}	
+							<td><input type='button' class='btn btn-danger btn-mini' value='编辑' onclick="iframe('fybx/edit/{{obj.id}}')"
+							{%- if obj.is_refuse == '1' %}
+								disabled
+							{%- else %}
+								{%- if obj.is_retreat == '1' %}
+									
+								{%- else %}
+									{%- if obj.status != obj.init_level %}
+										disabled
+									{%- endif %}
+								{%- endif %}
+							{%- endif %}
+							/></td>				
+						</tr>	
+					{%- endfor %}	
+					</tbody>
+				</table>
+			</div>
+			<div class="page-div">
+					{%- if data.has_prev %}
+						<span style="CURSOR: pointer" onclick="iframe('fybx/query/{{data.prev_num}}/pc')">&lt;&lt;</span>
+					{%- else %}
+						<span style="CURSOR: pointer">&lt;&lt;</span>
+					{%- endif %}
+					&#160;第&#160;<font color="#0088cc">{{data.page}}</font>&#160;页&#160;
+					&#160;共&#160;<font color="#0088cc">{{data.pages}}</font>&#160;页&#160;
+					{%- if data.has_next %}
+						<span style="CURSOR: pointer" onclick="iframe('fybx/query/{{data.next_num}}/pc')">&gt;&gt;</span>
+					{%- else %}
+						<span style="CURSOR: pointer">&gt;&gt;</span>
+					{%- endif %}
+			</div>
+		</div><!--/row-fluid -->
+		
+	</form>	
+
+	<script src="/static/js/jquery-1.7.2.min.js"></script>
+	<script src="/static/js/bootstrap.min.js"></script>
+	<script src="/static/js/script.js"></script>
+	<script src="/static/js/bootstrap-datepicker.js"></script>
+	<script type="text/javascript">
+		var max=0;
+		var jegs=0;
+		var num=0;
+		var idCard=0;
+		var phone=0;
+		var sprytextfield1 = new Spry.Widget.ValidationTextField("customer_no", "none");
+		var sprytextfield2 = new Spry.Widget.ValidationTextField("customer_name", "none");		
+		var sprytextfield3 = new Spry.Widget.ValidationTextField("manager_name_spay", "none");
+		var sprytextfield4 = new Spry.Widget.ValidationTextField("credentials_no", "none");
+		var sprytextfield5 = new Spry.Widget.ValidationTextField("credentials_org", "none");
+		//var sprytextfield11 = new Spry.Widget.ValidationTextField("credentials_valid", "date", {format:"yyyy-mm-dd"});
+		//var sprytextfield7 = new Spry.Widget.ValidationTextField("birthday", "date", {format:"yyyy-mm-dd"});
+		var sprytextfield15 = new Spry.Widget.ValidationTextField("telephone", "integer", {isRequired:false, minChars:11, maxChars:12});
+		var sprytextfield13 = new Spry.Widget.ValidationTextField("mobile", "phone_number", {format:"phone_custom", pattern:"10000000000", isRequired:false});
+		var sprytextfield16 = new Spry.Widget.ValidationTextField("contact_phone", "integer", {isRequired:false, minChars:11, maxChars:12});
+		var sprytextfield14 = new Spry.Widget.ValidationTextField("email", "email", {isRequired:false});
+	</script>
+</body>
+</html>
