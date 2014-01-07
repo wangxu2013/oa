@@ -44,8 +44,9 @@ def add_fybx():
 
     else:
         project = OA_Project.query.order_by("id").all()
+
         for obj in project:
-            obj['project_name']=obj['customer']+'-'+obj['project_name']
+            obj.project_name=obj.customer+'-'+obj.project_name
 
         return render_template("bxsq/new_bxsq.html",project=project)
 

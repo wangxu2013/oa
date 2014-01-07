@@ -27,6 +27,7 @@ def project_add():
         return redirect("system/project/add")
 
     else:
-    	org = OA_Org.query.order_by("id").all()
+
+    	org = OA_Org.query.filter(OA_Org.id>1).all()
         return render_template('System/new_project.html',org=org)
 
