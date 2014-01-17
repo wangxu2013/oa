@@ -9,12 +9,12 @@ from scapp.models import OA_Org,OA_UserRole,OA_Project,OA_Reimbursement
 from scapp.tools.json_encoding import DateDecimalEncoder
 import json
 
-#费用报销
+#reimbursement
 @app.route('/fybx/',methods=['GET'])
 def get_fybx():
     return render_template("")
 
-#费用报销新增
+#add reimbursement
 @app.route('/fybx/add',methods=['GET','POST'])
 def add_fybx():
     if request.method=='POST':
@@ -43,14 +43,14 @@ def add_fybx():
         return redirect('fybx/add')
 
     else:
-        project = OA_Project.query.order_by("id").all()
+        project = OA_Project.query.order_by("customer").all()
 
         for obj in project:
             obj.project_name=obj.customer+'-'+obj.project_name
 
         return render_template("bxsq/new_bxsq.html",project=project)
 
-#费用报销新增
+#edit reimbursement
 @app.route('/fybx/edit/<int:id>',methods=['GET','POST'])
 def edit_fybx(id):
     if request.method=='POST':
@@ -83,7 +83,7 @@ def edit_fybx(id):
         reimbursement = OA_Reimbursement.query.filter_by(id=id).first()
         return render_template("bxsq/edit_bxsq.html",reimbursement=reimbursement,project=project)
 
-#费用报销查询
+#query reimbursement
 @app.route('/fybx/query/<int:page>/<return_type>',methods=['GET'])
 def get_fybx_query(page,return_type):
     if return_type:
