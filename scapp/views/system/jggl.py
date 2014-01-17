@@ -34,7 +34,8 @@ def init_tree(tablename,id):
 def new_jggl(pId):
 	if request.method == 'POST':
 		try:
-			OA_Org(request.form['name'],pId).add()
+			org_level = OA_Org.query.filter_by(id=pId).first().org_level + 1
+			OA_Org(request.form['name'],pId,org_level).add()
 
 			# 事务提交
 			db.session.commit()
