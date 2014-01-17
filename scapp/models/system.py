@@ -94,11 +94,13 @@ class OA_Org(db.Model):
     name = db.Column(db.String(32))
     pId = db.Column(db.Integer)
     open = db.Column(db.Boolean)
+    org_level = db.Column(db.Integer)
 
-    def __init__(self, name, pId):
+    def __init__(self, name, pId,org_level):
         self.name = name
         self.pId = pId
         self.open = True
+    	self.org_level = org_level
 
     def add(self):
         db.session.add(self)

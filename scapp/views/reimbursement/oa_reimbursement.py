@@ -5,7 +5,7 @@ from flask import render_template,request,redirect, flash
 from flask.ext.login import current_user
 from scapp import app,db
 from scapp.config import logger,PER_PAGE
-from scapp.models import OA_UserRole,OA_Project,OA_Reimbursement
+from scapp.models import OA_Org,OA_UserRole,OA_Project,OA_Reimbursement
 from scapp.tools.json_encoding import DateDecimalEncoder
 import json
 
@@ -100,16 +100,28 @@ def get_fybx_check_query(page,return_type):
     role = OA_UserRole.query.filter_by(user_id=current_user.id).first().role
     level = role.role_level #取得用户权限等级
 
+    #员工只能看到自己的
     status = 1
     if level == 4 or level == 5:
         status = level - 1
 
+    departmentId=current_user.department
+    departmentLevel=OA_Org.query.filter_by(id=departmentId).first().org_level
+
+    sql="org_id="+str(departmentId)
+    if departmentLevel == 1:#公司
+        chileDepartment=OA_Org.query.filter_by(pId=departmentId).all()
+        sql="org_id in ("+str(departmentId)
+        for obj in chileDepartment:
+            sql+=","+str(obj.id)
+        sql+=")"
+
     if return_type:
         if return_type=='json':
-            data=OA_Reimbursement.query.filter("is_refuse=0","is_retreat=0","org_id=:department","status=:status","init_level<:role_level").params(department=current_user.department,status=status,role_level=level).order_by("id").all()
+            data=OA_Reimbursement.query.filter("is_refuse=0","is_retreat=0",sql,"status=:status","init_level<:role_level").params(status=status,role_level=level).order_by("id").all()
             return json.dumps(data,cls=DateDecimalEncoder,ensure_ascii=False)
         else:
-            data=OA_Reimbursement.query.filter("is_refuse=0","is_retreat=0","org_id=:department","status=:status","init_level<:role_level").params(department=current_user.department,status=status,role_level=level).order_by("id").paginate(page, per_page = PER_PAGE)
+            data=OA_Reimbursement.query.filter("is_refuse=0","is_retreat=0",sql,"status=:status","init_level<:role_level").params(status=status,role_level=level).order_by("id").paginate(page, per_page = PER_PAGE)
             return render_template("bxsq/check_list.html",data=data,role=role)
 
 #费用审批
