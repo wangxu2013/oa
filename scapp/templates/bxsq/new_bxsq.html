@@ -41,8 +41,8 @@
 			<table class="table-list" id="table2">
 				<tr>
 					<td class="table-label">项目名称<font class="red">*</font></td>
-					<td width="35%">
-						<select name="project_id">
+					<td width="50%">
+						<select name="project_id" style="width:90%">
 							{%- for obj in project %}
 							<option value="{{obj.id}}">{{obj.project_name}}</option>
 							{%- endfor %}
