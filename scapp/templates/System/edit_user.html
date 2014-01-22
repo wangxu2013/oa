@@ -59,14 +59,14 @@
 								<span id="sprypassword1">								
 									<input type="password" name="login_password" id="login_password" value="{{user.login_password}}">
 									<span class="passwordRequiredMsg">登录密码不能为空</span>
-									<span class="passwordMinCharsMsg">请输入4~8个字符密码</span>
-									<span class="passwordMaxCharsMsg">请输入4~8个字符密码</span>
+									<span class="passwordMinCharsMsg">请输入4~16个字符密码</span>
+									<span class="passwordMaxCharsMsg">请输入4~16个字符密码</span>
 								</span>
 							</td>
 							<td class="table-label">确认密码<font class="red">*</font></td>
 							<td>
 								<span id="spryconfirm1">
-									<input type="password" id="login_password2" name="login_password2">
+									<input type="password" id="login_password2" name="login_password2" value="{{user.login_password}}">
 									<span class="confirmRequiredMsg">确认密码不能为空</span>
 									<span class="confirmInvalidMsg">密码不一致</span>
 								</span>
@@ -161,7 +161,7 @@
 	<script src="/static/js/system.js"></script>
 	<script type="text/javascript">
 		var sprytextfield1 = new Spry.Widget.ValidationTextField("sprytextfield1", "none", {validateOn:["blur"]});
-		var sprypassword1 = new Spry.Widget.ValidationPassword("sprypassword1", {validateOn:["blur"], minChars:4, maxChars:8});
+		var sprypassword1 = new Spry.Widget.ValidationPassword("sprypassword1", {validateOn:["blur"], minChars:4, maxChars:16});
 		var spryconfirm1 = new Spry.Widget.ValidationConfirm("spryconfirm1", "login_password", {validateOn:["blur"]});
 		var sprytextfield2 = new Spry.Widget.ValidationTextField("sprytextfield2", "none", {validateOn:["blur"]});		
 	</script>
