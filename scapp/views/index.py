@@ -23,7 +23,7 @@ def GetStringMD5(str):
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        user = OA_User.query.filter_by(login_name=request.form['login_name'], login_password=request.form['login_password']).first()
+        user = OA_User.query.filter_by(login_name=request.form['login_name'], login_password=GetStringMD5(request.form['login_password'])).first()
         if user:
             login_user(user)
             role = OA_UserRole.query.filter_by(user_id=current_user.id).first().role
