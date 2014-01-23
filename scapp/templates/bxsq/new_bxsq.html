@@ -40,9 +40,19 @@
 		<!--**********************个人类***********************-->
 			<table class="table-list" id="table2">
 				<tr>
+					<td class="table-label">公司名称<font class="red">*</font></td>
+					<td colspan="3">
+						<select name="" style="width:260px;">
+							<option>乾康（上海）信息技术有限公司</option>
+							<option>乾康（上海）金融信息服务有限公司</option>
+							<option>云金天下</option>
+						</select>
+					</td>								
+				</tr>
+				<tr>
 					<td class="table-label">项目名称<font class="red">*</font></td>
-					<td width="35%">
-						<select name="project_id">
+					<td width="50%">
+						<select name="project_id" style="width:90%">
 							{%- for obj in project %}
 							<option value="{{obj.id}}">{{obj.project_name}}</option>
 							{%- endfor %}
