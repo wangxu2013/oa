@@ -65,7 +65,7 @@ def edit_user(id):
 		try:
 			user = OA_User.query.filter_by(id=id).first()
 			user.login_name = request.form['login_name']
-			user.login_password = request.form['login_password']
+			#user.login_password = request.form['login_password']
 			user.real_name = request.form['real_name']
 			user.sex = request.form['sex']
 			user.mobile = request.form['mobile']
