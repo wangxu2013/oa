@@ -10,6 +10,14 @@ from scapp.config import logger
 from scapp import app
 from scapp import db
 
+import hashlib
+
+#get md5 of a input string  
+def GetStringMD5(str):  
+    m = hashlib.md5()
+    m.update(str)
+    return m.hexdigest() 
+	
 # 登陆
 @app.route('/')
 @app.route('/login', methods=['GET', 'POST'])
@@ -83,8 +91,8 @@ def change_password(id):
     if request.method == 'POST':
         try:
             user = OA_User.query.filter_by(id=id).first()
-            if user.login_password == request.form['old_password']:
-                user.login_password = request.form['login_password']
+            if user.login_password == GetStringMD5(request.form['old_password']):
+                user.login_password = GetStringMD5(request.form['login_password'])
             else:
                 raise Exception
 
