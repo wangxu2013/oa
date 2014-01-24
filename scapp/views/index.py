@@ -37,7 +37,7 @@ def login():
                 status = level - 1
 
             count_1=OA_Reimbursement.query.filter("create_user=:id","is_refuse=0","is_retreat=0","status!=5").params(id=current_user.id).count()
-            count_2=OA_Reimbursement.query.filter("is_refuse=0","is_retreat=0","org_id=:department","status=:status","init_level<:role_level").params(department=current_user.department,status=status,role_level=level).count()
+            count_2=OA_Reimbursement.query.filter("is_refuse=0","is_retreat=0","org_id=:department","status<:status","init_level<:role_level").params(department=current_user.department,status=status,role_level=level).count()
 
             return render_template("welcome.html",role=role,count_1=count_1,count_2=count_2)
         else:
@@ -68,7 +68,7 @@ def welcome():
         status = level - 1
 
     count_1=OA_Reimbursement.query.filter("create_user=:id","is_refuse=0","is_retreat=0","status!=5").params(id=current_user.id).count()
-    count_2=OA_Reimbursement.query.filter("is_refuse=0","is_retreat=0","org_id=:department","status=:status","init_level<:role_level").params(department=current_user.department,status=status,role_level=level).count()
+    count_2=OA_Reimbursement.query.filter("is_refuse=0","is_retreat=0","org_id=:department","status<:status","init_level<:role_level").params(department=current_user.department,status=status,role_level=level).count()
     return render_template("welcome.html",role=role,count_1=count_1,count_2=count_2)
 
 # 系统管理
