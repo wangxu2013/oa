@@ -85,6 +85,13 @@ def xtgl():
     role = OA_UserRole.query.filter_by(user_id=current_user.id).first().role
     return render_template("index.html",menu = 'xtgl',role=role)
 
+# 待审批
+@app.route('/dsp', methods=['GET'])
+@login_required
+def dsp():
+    role = OA_UserRole.query.filter_by(user_id=current_user.id).first().role
+    return render_template("index.html",menu = 'dsp',role=role)	
+	
 # 修改密码
 @app.route('/change_password/<int:id>', methods=['GET','POST'])
 def change_password(id):
