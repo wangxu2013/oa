@@ -65,12 +65,18 @@
 							{%- endif %}
 							" id="xxgl">
 						<li class="nav-header">报销申请</li>
+						{%- if role.role_level == 5 %}
+						<div style="display:none">
+						{%- endif %}
 						<li onclick="leftmenu(this);changeiframe('fybx/add')" id="new_bxsq" class="active">
 							<a href="javascript:void(0);">新增费用</a>
 						</li>
 						<li onclick="leftmenu(this);changeiframe('fybx/query/1/pc')" id="bxsq_list">
 							<a href="javascript:void(0);">费用查询</a>
 						</li>
+						{%- if role.role_level == 5 %}
+						</div>
+						{%- endif %}
 						<li onclick="leftmenu(this);changeiframe('fybx/check_query/1/pc')" id="check_bxsq">
 							<a href="javascript:void(0);">费用审批</a>
 						</li>      
@@ -103,7 +109,11 @@
 			<div class="span10 pull-right">
 				<iframe frameborder="0" 
 					{%- if menu == "xxgl" %}
-						src="fybx/add"
+						{%- if role.role_level == 5 %}
+							src="fybx/check_query/1/pc"
+						{%- else %}
+							src="fybx/add"
+						{%- endif %}
 					{%- elif menu == "xtgl" %}
 						src="system/project/add"
 					{%- endif %}
