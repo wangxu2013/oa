@@ -163,19 +163,15 @@
 							{%- endif %}	
 							{%- if role.role_level == 5 %}
 								{%- if obj.status != '4' %}
-								<td><input type='button' class='btn btn-danger btn-mini' value='审批' onclick="iframe('fybx/check/{{obj.id}}')" disabled/></td>		
+								<td></td>		
 								{%- else %}
 								<td><input type='button' class='btn btn-danger btn-mini' value='审批' onclick="iframe('fybx/check/{{obj.id}}')"/></td>
 								{%- endif %}
 							{%- elif role.role_level == 4 %}
-								{%- if obj.status != '3' %}
-								<td><input type='button' class='btn btn-danger btn-mini' value='审批' onclick="iframe('fybx/check/{{obj.id}}')" disabled/></td>		
-								{%- else %}
 								<td><input type='button' class='btn btn-danger btn-mini' value='审批' onclick="iframe('fybx/check/{{obj.id}}')"/></td>
-								{%- endif %}
 							{%- elif role.role_level == 3 %}
 								{%- if obj.status != '1' %}
-								<td><input type='button' class='btn btn-danger btn-mini' value='审批' onclick="iframe('fybx/check/{{obj.id}}')" disabled/></td>		
+								<td></td>		
 								{%- else %}
 								<td><input type='button' class='btn btn-danger btn-mini' value='审批' onclick="iframe('fybx/check/{{obj.id}}')"/></td>
 								{%- endif %}

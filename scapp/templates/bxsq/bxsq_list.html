@@ -160,19 +160,18 @@
 							{%- else %}
 								<td>未付款</td>
 							{%- endif %}	
-							<td><input type='button' class='btn btn-danger btn-mini' value='编辑' onclick="iframe('fybx/edit/{{obj.id}}')"
 							{%- if obj.is_refuse == '1' %}
-								disabled
+								<td></td>
 							{%- else %}
 								{%- if obj.is_retreat == '1' %}
-									
+									<td><input type='button' class='btn btn-danger btn-mini' value='编辑' onclick="iframe('fybx/edit/{{obj.id}}')"/></td>
 								{%- else %}
 									{%- if obj.status != obj.init_level %}
-										disabled
+										<td></td>
 									{%- endif %}
 								{%- endif %}
 							{%- endif %}
-							/></td>				
+											
 						</tr>	
 					{%- endfor %}	
 					</tbody>
