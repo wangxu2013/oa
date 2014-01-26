@@ -29,7 +29,7 @@ class OA_User(db.Model):
     __tablename__ = 'oa_user' 
     id = db.Column(db.Integer, primary_key=True)
     login_name = db.Column(db.String(16))
-    login_password = db.Column(db.String(16))
+    login_password = db.Column(db.String(32))
     real_name = db.Column(db.String(32))
     sex = db.Column(db.String(1))
     mobile = db.Column(db.String(16))
