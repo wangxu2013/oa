@@ -40,6 +40,8 @@
 						<li 
 							{%- if menu == "xxgl"%}
 								class="active"
+							{%- elif menu == "dsp"%}
+								class="active"
 							{%- endif %}
 							onclick="iframe('xxgl')"><a href="javascript:void(0);">报销管理</a></li>
 							{%- if role.role_level == 0 %}
@@ -60,7 +62,7 @@
 			<div class="span2" style="position:fixed;">
 				<div class="well sidebar-nav" id="leftmenu">				
 					<ul class="nav nav-list 
-							{%- if menu != "xxgl"%}
+							{%- if menu == "xtgl"%}
 								hidden
 							{%- endif %}
 							" id="xxgl">
@@ -68,7 +70,11 @@
 						{%- if role.role_level == 5 %}
 						<div style="display:none">
 						{%- endif %}
-						<li onclick="leftmenu(this);changeiframe('fybx/add')" id="new_bxsq" class="active">
+						<li onclick="leftmenu(this);changeiframe('fybx/add')" id="new_bxsq" class="
+									{%- if menu == "xxgl"%}
+										active
+									{%- endif %}									
+									">
 							<a href="javascript:void(0);">新增费用</a>
 						</li>
 						<li onclick="leftmenu(this);changeiframe('fybx/query/1/pc')" id="bxsq_list">
@@ -77,7 +83,11 @@
 						{%- if role.role_level == 5 %}
 						</div>
 						{%- endif %}
-						<li onclick="leftmenu(this);changeiframe('fybx/check_query/1/pc')" id="check_bxsq">
+						<li onclick="leftmenu(this);changeiframe('fybx/check_query/1/pc')" id="check_bxsq" class="
+									{%- if menu == "dsp"%}
+										active
+									{%- endif %}									
+									">
 							<a href="javascript:void(0);">费用审批</a>
 						</li>      
 					</ul>
@@ -110,10 +120,12 @@
 				<iframe frameborder="0" 
 					{%- if menu == "xxgl" %}
 						{%- if role.role_level == 5 %}
-							src="fybx/check_query/1/pc"
+							src="fybx/check_query/1/pc"						
 						{%- else %}
 							src="fybx/add"
 						{%- endif %}
+					{%- elif menu == "dsp" %}
+						src="fybx/check_query/1/pc"	
 					{%- elif menu == "xtgl" %}
 						src="system/project/add"
 					{%- endif %}
