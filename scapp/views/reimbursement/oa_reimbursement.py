@@ -192,7 +192,7 @@ def get_fytj_query(page,return_type):
                 total_paid=costs_statistics.get_total_paid_costs(org_id)
                 monthly=costs_statistics.get_monthly_paid_costs(org_id)
                 season=costs_statistics.get_season_paid_costs(org_id)
-            return render_template("bxsq/bxsq_list.html",data=data,
+            return render_template("bxsq/fytj.html",data=data,
                                    total_apply=total_apply,total_paid=total_paid,
                                    monthly=monthly,season=season)
 
