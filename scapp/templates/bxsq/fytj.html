@@ -51,7 +51,7 @@
 							<th>创建时间</th>
 							<th>审批状态</th>
 							<th>是否付款</th>
-							<th>审批时间</th>
+
 						</tr>
 					</thead>
 					<tbody class="center">	
@@ -160,19 +160,7 @@
 							{%- else %}
 								<td>未付款</td>
 							{%- endif %}	
-							<td><input type='button' class='btn btn-danger btn-mini' value='编辑' onclick="iframe('fybx/edit/{{obj.id}}')"
-							{%- if obj.is_refuse == '1' %}
-								disabled
-							{%- else %}
-								{%- if obj.is_retreat == '1' %}
-									
-								{%- else %}
-									{%- if obj.status != obj.init_level %}
-										disabled
-									{%- endif %}
-								{%- endif %}
-							{%- endif %}
-							/></td>				
+
 						</tr>	
 					{%- endfor %}	
 					</tbody>					
@@ -183,13 +171,13 @@
 				<table class="table-list" id="table2">
 					<tr>
 						<td class="table-label">当前申请总额</td>
-						<td></td>		
+						<td>{{ total_apply }}</td>
 						<td class="table-label">当前付款总额</td>
-						<td></td>
+						<td>{{ total_paid }}</td>
 						<td class="table-label">本月付款金额</td>
-						<td></td>		
+						<td>{{ monthly }}</td>
 						<td class="table-label">本季度付款金额</td>
-						<td></td>		
+						<td>{{ season }}</td>
 					</tr>
 				</table>					
 			</div>
