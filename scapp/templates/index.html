@@ -83,6 +83,11 @@
 						{%- if role.role_level == 5 %}
 						</div>
 						{%- endif %}
+                        {%- if role.role_level == 4 %}
+						    <li onclick="leftmenu(this);changeiframe('fybx/fytj/1/pc')" id="bxtj_list">
+							<a href="javascript:void(0);">费用统计</a>
+						    </li>
+						{%- endif %}
 						<li onclick="leftmenu(this);changeiframe('fybx/check_query/1/pc')" id="check_bxsq" class="
 									{%- if menu == "dsp"%}
 										active

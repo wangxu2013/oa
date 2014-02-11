@@ -28,6 +28,7 @@ class OA_Reimbursement(db.Model):
     create_date = db.Column(db.DateTime)
     modify_user = db.Column(db.Integer)
     modify_date = db.Column(db.DateTime)
+    paid_date = db.Column(db.DateTime)
 
     #外键
     project = db.relationship('OA_Project', backref='project')
@@ -38,7 +39,7 @@ class OA_Reimbursement(db.Model):
 	
     def __init__(self,project_id,org_id,amount,describe,reason,start_date,end_date,
         is_refuse,is_retreat,fail_reason,
-        is_paid,init_level,status):
+        is_paid,init_level,status,paid_date):
         self.project_id=project_id
         self.org_id=org_id
         self.amount=amount
@@ -56,6 +57,7 @@ class OA_Reimbursement(db.Model):
         self.create_date=datetime.datetime.now()
         self.modify_user=current_user.id
         self.modify_date=datetime.datetime.now()
+        self.paid_date=paid_date
 
     def add(self):
         db.session.add(self)
