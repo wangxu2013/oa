@@ -23,7 +23,7 @@ logger.setLevel(logging.WARNING)
 
 _DBUSER = "root"  # 数据库用户名
 _DBPASS = "root"  # 数据库用户名密码
-_DBHOST = "192.168.0.250"  # 服务器
+_DBHOST = "localhost"  # 服务器
 _DBPORT = '3306' #服务器端口
 _DBNAME = "new_oa"  # 数据库名称
 
