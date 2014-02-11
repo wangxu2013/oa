@@ -51,7 +51,7 @@
 							<th>创建时间</th>
 							<th>审批状态</th>
 							<th>是否付款</th>
-							<th>操作</th>
+							<th>审批时间</th>
 						</tr>
 					</thead>
 					<tbody class="center">	
@@ -174,8 +174,23 @@
 											
 						</tr>	
 					{%- endfor %}	
-					</tbody>
+					</tbody>					
 				</table>
+			</div>
+			<!--**********************费用统计***********************-->
+			<div style="border:1px solid #94c1dc;margin-top:5px;">	
+				<table class="table-list" id="table2">
+					<tr>
+						<td class="table-label">当前申请总额</td>
+						<td></td>		
+						<td class="table-label">当前付款总额</td>
+						<td></td>
+						<td class="table-label">本月付款金额</td>
+						<td></td>		
+						<td class="table-label">本季度付款金额</td>
+						<td></td>		
+					</tr>
+				</table>					
 			</div>
 			<div class="page-div">
 					{%- if data.has_prev %}
