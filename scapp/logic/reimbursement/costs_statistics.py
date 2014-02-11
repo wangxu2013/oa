@@ -17,7 +17,7 @@ def get_total_paid_costs(org_id):
     result=db.session.execute(str_query_string).fetchall()
     for data in result:
         total_amount=data['t_amount']
-    return total_amount
+    return total_amount if total_amount is not None else 0
 
 
 def get_monthly_paid_costs(org_id):
@@ -27,7 +27,7 @@ def get_monthly_paid_costs(org_id):
     result=db.session.execute(str_query_string).fetchall()
     for data in result:
         total_amount=data['t_amount']
-    return total_amount
+    return total_amount if total_amount is not None else 0
 
 
 def get_season_paid_costs(org_id):
@@ -37,4 +37,4 @@ def get_season_paid_costs(org_id):
     result=db.session.execute(str_query_string).fetchall()
     for data in result:
         total_amount=data['t_amount']
-    return total_amount
+    return total_amount if total_amount is not None else 0
