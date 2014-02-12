@@ -220,6 +220,6 @@ def query_data(page):
     if level == 5:
         sql = ""
 
-    data=OA_Reimbursement.query.filter(sql).order_by("id").paginate(page, per_page = PER_PAGE)
+    data=OA_Reimbursement.query.filter(sql).order_by("is_paid desc").paginate(page, per_page = PER_PAGE)
 
     return data
