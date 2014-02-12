@@ -27,7 +27,7 @@ def add_fybx():
             OA_Reimbursement(request.form['project_id'],request.form['org_id'],request.form['amount'],request.form['describe'],
                              request.form['reason'],request.form['start_date'],request.form['end_date'],
                              '0','0','','0',
-                             level,level).add()
+                             level,level,None).add()
             #Param:
             # project_id,amount,describe,
             # reason,is_refuse,is_paid,
