@@ -42,7 +42,7 @@
 				<table class="table-list" cellspacing="10" id="uesr-list">
 					<thead>
 						<tr>
-							<th>申请人所属单位</th>
+							<th>费用所属单位</th>
 							<th>申请人</th>
 							<th>项目</th>
 							<th>金额</th>							
@@ -57,7 +57,7 @@
 					<tbody class="center">	
 					{%- for obj in data.items %}					
 						<tr>
-							<td>{{obj.create.org.name}}</td>
+							<td>{{obj.org_r.name}}</td>
 							<td>{{obj.create.real_name}}</td>
 							<td>{{obj.project.project_name}}</td>
 							<td>{{obj.amount}}</td>
