@@ -27,7 +27,7 @@
 					<ul class="nav pull-right">
 						<li class="dropdown">
 							<a href="javascript:void(0);" id="drop3" role="button" class="dropdown-toggle" data-toggle="dropdown">
-								<i class="icon-user icon-white"></i>&nbsp;{{current_user.login_name}}<b class="caret"></b>
+								<i class="icon-user icon-white"></i>&nbsp;{{current_user.real_name}}<b class="caret"></b>
 							</a>
 							<ul class="dropdown-menu" role="menu" aria-labelledby="drop3">
 								<li><a href="javascript:void(0);" onclick="changeiframe('change_password/{{current_user.id}}');">修改密码</a></li>
@@ -82,6 +82,11 @@
 						</li>
 						{%- if role.role_level == 5 %}
 						</div>
+						{%- endif %}
+                        {%- if role.role_level == 4 %}
+						    <li onclick="leftmenu(this);changeiframe('fybx/fytj/1/pc')" id="bxtj_list">
+							<a href="javascript:void(0);">费用统计</a>
+						    </li>
 						{%- endif %}
 						<li onclick="leftmenu(this);changeiframe('fybx/check_query/1/pc')" id="check_bxsq" class="
 									{%- if menu == "dsp"%}

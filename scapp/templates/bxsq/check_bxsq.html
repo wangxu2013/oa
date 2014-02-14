@@ -190,13 +190,18 @@
 								selected
 							{%- endif %}
 							>其他</option>
+                            <option value="27"
+							{%- if reimbursement.reason == 27 %}
+								selected
+							{%- endif %}
+							>专家费</option>
 						</select>
 					</td>				
 				</tr>	
 				<tr>
 					<td class="table-label">描述</td>					
 					<td colspan="3">
-						<textarea name="describe" value="{{reimbursement.describe}}" class="tbInput" disabled></textarea>						
+						<textarea name="describe" class="tbInput" disabled>{{reimbursement.describe}}</textarea>
 					</td>
 				</tr>
 				<tr>

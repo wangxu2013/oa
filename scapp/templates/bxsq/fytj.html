@@ -25,7 +25,7 @@
 <body onload="datepicker();setTimeOut();">
 	<form class="content">	
 		<div class="well place">			
-			<i class="icon-home"></i><a href="#">报销申请</a>/<a href="#">费用审核</a>
+			<i class="icon-home"></i><a href="#">报销申请</a>/<a href="#">费用统计</a>
 		</div>	
 		{%- with messages = get_flashed_messages(with_categories=true) %}
 		  	{%- if messages %}
@@ -37,8 +37,7 @@
 		  	{%- endif %}
 		{%- endwith %}
 		<div class="row-fluid">			
-			<i class="icon-bookmark"></i><span class="titletip">待审批列表</span>
-			
+			<i class="icon-bookmark"></i><span class="titletip">费用统计</span>
 			<div style="border:1px solid #94c1dc;">				
 				<table class="table-list" cellspacing="10" id="uesr-list">
 					<thead>
@@ -52,11 +51,11 @@
 							<th>创建时间</th>
 							<th>审批状态</th>
 							<th>是否付款</th>
-							<th>操作</th>
+
 						</tr>
 					</thead>
-					<tbody class="center">						
-						{%- for obj in data.items %}					
+					<tbody class="center">	
+					{%- for obj in data.items %}					
 						<tr>
 							<td>{{obj.org_r.name}}</td>
 							<td>{{obj.create.real_name}}</td>
@@ -67,7 +66,7 @@
 								<td>差旅费</td>
 							{%- endif %}
 							{%- if obj.reason == 2 %}
-							<td>交通费</option>
+							<td>交通费</td>
 							{%- endif %}
 							{%- if obj.reason == 3 %}
 							<td>办公用品</td>
@@ -135,11 +134,11 @@
 							{%- if obj.reason == 25 %}
 							<td>保险费</td>
 							{%- endif %}
-                            {%- if obj.reason == 27 %}
-							<td>专家费</td>
-							{%- endif %}
 							{%- if obj.reason == 26 %}
 							<td>其他</td>
+							{%- endif %}
+                            {%- if obj.reason == 27 %}
+							<td>专家费</td>
 							{%- endif %}
 							<td>{{obj.create_date}}</td>
 							{%- if obj.is_refuse == '1' %}
@@ -164,36 +163,37 @@
 							{%- else %}
 								<td>未付款</td>
 							{%- endif %}	
-							{%- if role.role_level == 5 %}
-								{%- if obj.status != '4' %}
-								<td></td>		
-								{%- else %}
-								<td><input type='button' class='btn btn-danger btn-mini' value='审批' onclick="iframe('fybx/check/{{obj.id}}')"/></td>
-								{%- endif %}
-							{%- elif role.role_level == 4 %}
-								<td><input type='button' class='btn btn-danger btn-mini' value='审批' onclick="iframe('fybx/check/{{obj.id}}')"/></td>
-							{%- elif role.role_level == 3 %}
-								{%- if obj.status != '1' %}
-								<td></td>		
-								{%- else %}
-								<td><input type='button' class='btn btn-danger btn-mini' value='审批' onclick="iframe('fybx/check/{{obj.id}}')"/></td>
-								{%- endif %}
-							{%- endif %}
+
 						</tr>	
 					{%- endfor %}	
-					</tbody>
+					</tbody>					
 				</table>
+			</div>
+			<!--**********************费用统计***********************-->
+			<div style="border:1px solid #94c1dc;margin-top:5px;">	
+				<table class="table-list" id="table2">
+					<tr>
+						<td class="table-label">当前申请总额</td>
+						<td>{{ total_apply }}</td>
+						<td class="table-label">当前付款总额</td>
+						<td>{{ total_paid }}</td>
+						<td class="table-label">本月付款金额</td>
+						<td>{{ monthly }}</td>
+						<td class="table-label">本季度付款金额</td>
+						<td>{{ season }}</td>
+					</tr>
+				</table>					
 			</div>
 			<div class="page-div">
 					{%- if data.has_prev %}
-						<span style="CURSOR: pointer" onclick="iframe('fybx/check_query/{{data.prev_num}}/pc')">&lt;&lt;</span>
+						<span style="CURSOR: pointer" onclick="iframe('fybx/fytj/{{data.prev_num}}/pc')">&lt;&lt;</span>
 					{%- else %}
 						<span style="CURSOR: pointer">&lt;&lt;</span>
 					{%- endif %}
 					&#160;第&#160;<font color="#0088cc">{{data.page}}</font>&#160;页&#160;
 					&#160;共&#160;<font color="#0088cc">{{data.pages}}</font>&#160;页&#160;
 					{%- if data.has_next %}
-						<span style="CURSOR: pointer" onclick="iframe('fybx/check_query/{{data.next_num}}/pc')">&gt;&gt;</span>
+						<span style="CURSOR: pointer" onclick="iframe('fybx/fytj/{{data.next_num}}/pc')">&gt;&gt;</span>
 					{%- else %}
 						<span style="CURSOR: pointer">&gt;&gt;</span>
 					{%- endif %}
