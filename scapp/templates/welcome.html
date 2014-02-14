@@ -85,7 +85,11 @@
 									</tr>
 									<tr>
 										<td>等待您审批</td>
+										{%- if role.role_level == 6 %}
+										<td><a href="fksh">{{count_2}}</a></td>
+										{%- else %}
 										<td><a href="dsp">{{count_2}}</a></td>
+										{%- endif %}
 									</tr>							
 								</tbody>
 							</table>

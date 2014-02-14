@@ -71,7 +71,7 @@
 							<th>创建时间</th>
 							<th>审批状态</th>
 							<th>是否付款</th>
-
+							<th>操作</th>
 						</tr>
 					</thead>
 					<tbody class="center">	
@@ -185,7 +185,13 @@
 							{%- else %}
 								<td>未付款</td>
 							{%- endif %}	
-
+							{%- if role.role_level == 6 %}
+								{%- if obj.status == '5' and obj.is_refuse != '1' %}
+								<td><input type='button' class='btn btn-danger btn-mini' value='付款' onclick="iframe('fybx/check/{{obj.id}}')"/></td>
+								{%- else %}
+								<td></td>
+								{%- endif %}
+							{%- endif %}
 						</tr>	
 					{%- endfor %}	
 					</tbody>					
