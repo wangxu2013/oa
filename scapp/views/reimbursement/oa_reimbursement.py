@@ -236,6 +236,8 @@ def fksh_search():
 #付款审核
 @app.route('/fybx/fksh/<int:page>/<return_type>',methods=['GET','POST'])
 def get_fksh_query(page,return_type):
+    role = OA_UserRole.query.filter_by(user_id=current_user.id).first().role
+
     if return_type:
         if return_type=='json':
             data=OA_Reimbursement.query.order_by("id").all()
@@ -252,14 +254,14 @@ def get_fksh_query(page,return_type):
             if is_paid != '-1':
                 sql += " and is_paid = '"+is_paid+"'"
 
-            data=OA_Reimbursement.query.filter(sql).order_by("is_paid desc").paginate(page, per_page = PER_PAGE)
+            data=OA_Reimbursement.query.filter(sql).order_by("is_paid asc").paginate(page, per_page = PER_PAGE)
 
             total_apply=costs_statistics.get_total_apply_costs(int(org_id))
             total_paid=costs_statistics.get_total_paid_costs(int(org_id))
             monthly=costs_statistics.get_monthly_paid_costs(int(org_id))
             season=costs_statistics.get_season_paid_costs(int(org_id))
 
-            return render_template("bxsq/fksh.html",data=data,
+            return render_template("bxsq/fksh.html",role=role,data=data,
                                    total_apply=total_apply,total_paid=total_paid,
                                    monthly=monthly,season=season,
                                    beg_date=request.form['beg_date'],end_date=request.form['end_date'],

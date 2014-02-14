@@ -135,6 +135,13 @@ def xtgl():
 def dsp():
     role = OA_UserRole.query.filter_by(user_id=current_user.id).first().role
     return render_template("index.html",menu = 'dsp',role=role)	
+
+# 待审批(财务总监)
+@app.route('/fksh', methods=['GET'])
+@login_required
+def fksh():
+    role = OA_UserRole.query.filter_by(user_id=current_user.id).first().role
+    return render_template("index.html",menu = 'fksh',role=role) 
 	
 # 修改密码
 @app.route('/change_password/<int:id>', methods=['GET','POST'])
