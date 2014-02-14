@@ -137,6 +137,9 @@
 							{%- if obj.reason == 26 %}
 							<td>其他</td>
 							{%- endif %}
+                            {%- if obj.reason == 27 %}
+							<td>专家费</td>
+							{%- endif %}
 							<td>{{obj.create_date}}</td>
 							{%- if obj.is_refuse == '1' %}
 								<td>被拒绝</td>
