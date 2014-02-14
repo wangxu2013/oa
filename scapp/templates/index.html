@@ -94,7 +94,13 @@
 									{%- endif %}									
 									">
 							<a href="javascript:void(0);">费用审批</a>
-						</li>      
+						</li>
+						{%- if role.role_level == 6 %}<!-- 财务总监可见 -->
+						    <li onclick="leftmenu(this);changeiframe('fybx/fksh_search')" id="fksh_search">
+							<a href="javascript:void(0);">付款审核</a>
+						    </li>
+						{%- endif %}
+						</li>  
 					</ul>
 					<ul class="nav nav-list 
 							{%- if menu != "xtgl"%}

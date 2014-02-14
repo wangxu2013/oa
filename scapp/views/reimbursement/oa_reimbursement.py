@@ -24,10 +24,14 @@ def add_fybx():
             role = OA_UserRole.query.filter_by(user_id=current_user.id).first().role
             level = role.role_level #取得用户权限等级
 
+            status = level;
+            if level == 6:#财务总监提交的报销 置为 待财务审批(发票)
+                status = 4
+
             OA_Reimbursement(request.form['project_id'],request.form['org_id'],request.form['amount'],request.form['describe'],
                              request.form['reason'],request.form['start_date'],request.form['end_date'],
                              '0','0','','0',
-                             level,level,None).add()
+                             level,status,None).add()
             #Param:
             # project_id,amount,describe,
             # reason,is_refuse,is_paid,
@@ -104,7 +108,7 @@ def get_fybx_check_query(page,return_type):
 
     #员工只能看到自己的
     status = 1
-    if level == 4 or level == 5:
+    if level == 4 or level == 5 or level == 6:
         status = level - 1
 
     departmentId=current_user.department
@@ -119,7 +123,7 @@ def get_fybx_check_query(page,return_type):
         sql+=")"
     
     #财务能看到所有公司报销
-    if level == 5:
+    if level == 5 or level == 6:
         sql = ""
         
     if return_type:
@@ -140,7 +144,7 @@ def check_fybx(id):
             reimbursement = OA_Reimbursement.query.filter_by(id=id).first()
 
             if request.form['decision'] == '1':#通过
-                if level == 5:
+                if level == 6:
                     reimbursement.is_paid = '1'
                     reimbursement.paid_date= datetime.datetime.now()
                 reimbursement.status = level
@@ -202,7 +206,7 @@ def query_data(page):
 
     #员工只能看到自己的
     status = 1
-    if level == 4 or level == 5:
+    if level == 4 or level == 5 or level == 6:
         status = level - 1
 
     departmentId=current_user.department
@@ -217,9 +221,46 @@ def query_data(page):
         sql+=")"
 
     #财务能看到所有公司报销
-    if level == 5:
+    if level == 5 or level == 6:
         sql = ""
 
     data=OA_Reimbursement.query.filter(sql).order_by("is_paid desc").paginate(page, per_page = PER_PAGE)
 
     return data
+
+#付款审核搜索
+@app.route('/fybx/fksh_search',methods=['GET'])
+def fksh_search():
+    return render_template("bxsq/fksh_search.html")
+
+#付款审核
+@app.route('/fybx/fksh/<int:page>/<return_type>',methods=['GET','POST'])
+def get_fksh_query(page,return_type):
+    if return_type:
+        if return_type=='json':
+            data=OA_Reimbursement.query.order_by("id").all()
+            return json.dumps(data,cls=DateDecimalEncoder,ensure_ascii=False)
+        else:
+            beg_date = request.form['beg_date'] + " 00:00:00"
+            end_date = request.form['end_date'] + " 23:59:59"
+            org_id = request.form['org_id']
+            is_paid = request.form['is_paid']
+
+            sql = "create_date between '"+beg_date+"' and '"+end_date+"'"
+            if org_id != '-1':
+                sql += " and org_id = "+org_id
+            if is_paid != '-1':
+                sql += " and is_paid = '"+is_paid+"'"
+
+            data=OA_Reimbursement.query.filter(sql).order_by("is_paid desc").paginate(page, per_page = PER_PAGE)
+
+            total_apply=costs_statistics.get_total_apply_costs(int(org_id))
+            total_paid=costs_statistics.get_total_paid_costs(int(org_id))
+            monthly=costs_statistics.get_monthly_paid_costs(int(org_id))
+            season=costs_statistics.get_season_paid_costs(int(org_id))
+
+            return render_template("bxsq/fksh.html",data=data,
+                                   total_apply=total_apply,total_paid=total_paid,
+                                   monthly=monthly,season=season,
+                                   beg_date=request.form['beg_date'],end_date=request.form['end_date'],
+                                   org_id=org_id,is_paid=is_paid)

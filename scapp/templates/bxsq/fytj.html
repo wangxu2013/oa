@@ -147,14 +147,16 @@
 								{%- if obj.is_retreat == '1' %}
 									<td>被退回</td>
 								{%- else %}
-									{%- if obj.status == '5' %}
-										<td>财务已审批</td>
+									{%- if obj.status == '6' %}
+										<td>已审批</td>
+									{%- elif obj.status == '5' %}
+										<td>待财务总监审批</td>
 									{%- elif obj.status == '4' %}
-										<td>总经理已审批</td>
+										<td>待财务审批</td>
 									{%- elif obj.status == '3' %}
-										<td>主管已审批</td>
+										<td>待总经理审批</td>
 									{%- elif obj.status == '1' %}
-										<td>未审批</td>
+										<td>待主管审批</td>
 									{%- endif %}
 								{%- endif %}
 							{%- endif %}

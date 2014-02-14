@@ -7,6 +7,11 @@ function createForm(action,arr){
     tmpForm.appendTo(document.body).submit();
 }
 
+function submitForm(formId,action){
+    document.getElementById(formId).action = action;
+    document.getElementById(formId).submit();
+}
+
 function creattime(i){
     if(i<10)
         {i="0"+i};
