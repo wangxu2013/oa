@@ -171,10 +171,12 @@
 								{%- if obj.is_retreat == '1' %}
 									<td><input type='button' class='btn btn-danger btn-mini' value='编辑' onclick="iframe('fybx/edit/{{obj.id}}')"/></td>
 								{%- else %}
-									{%- if obj.status != obj.init_level %}
+									{%- if obj.status > obj.init_level %}
 										<td></td>
-									{%- endif %}
-								{%- endif %}
+                                    {%- else %}
+                                        <td><input type='button' class='btn btn-danger btn-mini' value='编辑' onclick="iframe('fybx/edit/{{obj.id}}')"/></td>
+								    {%- endif %}
+                                {%- endif %}
 							{%- endif %}
 											
 						</tr>	
