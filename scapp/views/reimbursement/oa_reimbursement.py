@@ -128,10 +128,10 @@ def get_fybx_check_query(page,return_type):
         
     if return_type:
         if return_type=='json':
-            data=OA_Reimbursement.query.filter("is_refuse=0","is_retreat=0",sql,"status<=:status","init_level<:role_level").params(status=status,role_level=level).order_by("id").all()
+            data=OA_Reimbursement.query.filter("is_refuse=0","is_retreat=0",sql,"status<=:status","init_level<:role_level").params(status=status,role_level=level).order_by("status asc").all()
             return json.dumps(data,cls=DateDecimalEncoder,ensure_ascii=False)
         else:
-            data=OA_Reimbursement.query.filter("is_refuse=0","is_retreat=0",sql,"status<=:status","init_level<:role_level").params(status=status,role_level=level).order_by("id").paginate(page, per_page = PER_PAGE)
+            data=OA_Reimbursement.query.filter("is_refuse=0","is_retreat=0",sql,"status<=:status","init_level<:role_level").params(status=status,role_level=level).order_by("status asc").paginate(page, per_page = PER_PAGE)
             return render_template("bxsq/check_list.html",data=data,role=role)
 
 #费用审批
@@ -142,6 +142,7 @@ def check_fybx(id):
             role = OA_UserRole.query.filter_by(user_id=current_user.id).first().role
             level = role.role_level #取得用户权限等级
             reimbursement = OA_Reimbursement.query.filter_by(id=id).first()
+
 
             if request.form['decision'] == '1':#通过
                 if level == 6:
