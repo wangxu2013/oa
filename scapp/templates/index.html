@@ -78,17 +78,11 @@
 							<a href="javascript:void(0);">新增费用</a>
 						</li>
 						<li onclick="leftmenu(this);changeiframe('fybx/query/1/pc')" id="bxsq_list">
-							<a href="javascript:void(0);">费用查询</a>
+							<a href="javascript:void(0);">个人查询</a>
 						</li>
 						{%- if role.role_level == 5 %}
 						</div>
 						{%- endif %}
-                        {%- if role.role_level == 4 %}
-						    <li onclick="leftmenu(this);changeiframe('fybx/fytj/1/pc')" id="bxtj_list">
-							<a href="javascript:void(0);">费用统计</a>
-						    </li>
-						{%- endif %}
-
 						<li onclick="leftmenu(this);changeiframe('fybx/check_query/1/pc')" id="check_bxsq" class="
 									{%- if menu == "dsp"%}
 										active
@@ -96,7 +90,14 @@
 									">
 							<a href="javascript:void(0);">费用审批</a>
 						</li>
-						{%- if role.role_level == 6 %}<!-- 财务总监可见 -->
+						
+						{%- if role.role_level == 4 %}
+						    <li onclick="leftmenu(this);changeiframe('fybx/fytj/1/pc')" id="bxtj_list">
+							<a href="javascript:void(0);">费用统计</a>
+						    </li>
+						{%- endif %}
+						<!-- 财务总监可见 -->
+						{%- if role.role_level == 6 %}
 						    <li onclick="leftmenu(this);changeiframe('fybx/fksh_search')" id="fksh_search">
 							<a href="javascript:void(0);">付款审核</a>
 						    </li>

@@ -128,10 +128,16 @@ def get_fybx_check_query(page,return_type):
         
     if return_type:
         if return_type=='json':
-            data=OA_Reimbursement.query.filter("is_refuse=0","is_retreat=0",sql,"status<=:status","init_level<:role_level").params(status=status,role_level=level).order_by("status asc").all()
+            if level == 6 or level == 5:
+                data=OA_Reimbursement.query.filter("is_refuse=0","is_retreat=0",sql,"status=:status","init_level<:role_level").params(status=status,role_level=level).order_by("status asc").all()
+            else:
+                data=OA_Reimbursement.query.filter("is_refuse=0","is_retreat=0",sql,"status<=:status","init_level<:role_level").params(status=status,role_level=level).order_by("status asc").all()
             return json.dumps(data,cls=DateDecimalEncoder,ensure_ascii=False)
         else:
-            data=OA_Reimbursement.query.filter("is_refuse=0","is_retreat=0",sql,"status<=:status","init_level<:role_level").params(status=status,role_level=level).order_by("status asc").paginate(page, per_page = PER_PAGE)
+            if level == 6 or level == 5:
+                data=OA_Reimbursement.query.filter("is_refuse=0","is_retreat=0",sql,"status=:status","init_level<:role_level").params(status=status,role_level=level).order_by("status asc").paginate(page, per_page = PER_PAGE)
+            else:
+                data=OA_Reimbursement.query.filter("is_refuse=0","is_retreat=0",sql,"status<=:status","init_level<:role_level").params(status=status,role_level=level).order_by("status asc").paginate(page, per_page = PER_PAGE)
             return render_template("bxsq/check_list.html",data=data,role=role)
 
 #费用审批
