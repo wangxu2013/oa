@@ -54,10 +54,8 @@ def login():
 
             count_1=OA_Reimbursement.query.filter("create_user=:id","is_refuse=0","is_retreat=0","status!=6").params(id=current_user.id).count()
 
-            if level == 6:
-                count_2=OA_Reimbursement.query.filter("is_refuse=0","is_retreat=0",sql,"status=5","init_level<:role_level").params(role_level=level).count()
-            elif level == 5:
-                count_2=OA_Reimbursement.query.filter("is_refuse=0","is_retreat=0",sql,"status=4","init_level<:role_level").params(role_level=level).count()
+            if level == 6 or level == 5:
+                count_2=OA_Reimbursement.query.filter("is_refuse=0","is_retreat=0",sql,"status=:status","init_level<:role_level").params(status=status,role_level=level).count()
             else:
                 count_2=OA_Reimbursement.query.filter("is_refuse=0","is_retreat=0",sql,"status<=:status","init_level<:role_level").params(status=status,role_level=level).count()
 
@@ -106,10 +104,8 @@ def welcome():
 
     count_1=OA_Reimbursement.query.filter("create_user=:id","is_refuse=0","is_retreat=0","status!=6").params(id=current_user.id).count()
 
-    if level == 6:
-        count_2=OA_Reimbursement.query.filter("is_refuse=0","is_retreat=0",sql,"status=5","init_level<:role_level").params(role_level=level).count()
-    elif level == 5:
-        count_2=OA_Reimbursement.query.filter("is_refuse=0","is_retreat=0",sql,"status=4","init_level<:role_level").params(role_level=level).count()
+    if level == 6 or level == 5:
+        count_2=OA_Reimbursement.query.filter("is_refuse=0","is_retreat=0",sql,"status=:status","init_level<:role_level").params(status=status,role_level=level).count()
     else:
         count_2=OA_Reimbursement.query.filter("is_refuse=0","is_retreat=0",sql,"status<=:status","init_level<:role_level").params(status=status,role_level=level).count()
 
