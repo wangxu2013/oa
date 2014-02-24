@@ -80,11 +80,18 @@
 								</thead>
 								<tbody class="center">
 									<tr>
-										<td>等待上级审批</td>
+										<td>您待审批的报销</td>
 										<td>{{count_1}}</td>
 									</tr>
 									<tr>
-										<td>等待您审批</td>
+										<td>等待您审批的报销</td>
+										<!--
+											{%- if role.role_level == 6 %}
+											<td><a href="fksh">{{count_2}}</a></td>
+											{%- else %}
+											<td><a href="dsp">{{count_2}}</a></td>
+											{%- endif %}
+										-->
 										<td><a href="dsp">{{count_2}}</a></td>
 									</tr>							
 								</tbody>
