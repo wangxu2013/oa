@@ -90,15 +90,28 @@ def edit_fybx(id):
         return render_template("bxsq/edit_bxsq.html",reimbursement=reimbursement,project=project)
 
 #query reimbursement
-@app.route('/fybx/query/<int:page>/<return_type>',methods=['GET'])
+@app.route('/fybx/query/<int:page>/<return_type>',methods=['POST'])
 def get_fybx_query(page,return_type):
     if return_type:
         if return_type=='json':
             data=OA_Reimbursement.query.order_by("id").all()
             return json.dumps(data,cls=DateDecimalEncoder,ensure_ascii=False)
         else:
-            data=OA_Reimbursement.query.filter_by(create_user=current_user.id).order_by("id").paginate(page, per_page = PER_PAGE)
+            beg_date = request.form['beg_date'] + " 00:00:00"
+            end_date = request.form['end_date'] + " 23:59:59"
+            is_paid = request.form['is_paid']
+
+            sql = "create_date between '"+beg_date+"' and '"+end_date+"'"
+            if is_paid != '-1':
+                sql += " and is_paid = '"+is_paid+"'"
+            sql += " and create_user = "+str(current_user.id)
+            data=OA_Reimbursement.query.filter(sql).order_by("id").paginate(page, per_page = PER_PAGE)
             return render_template("bxsq/bxsq_list.html",data=data)
+
+#个人费用搜索
+@app.route('/fybx/fksh_gr_search',methods=['GET'])
+def fksh_gr_search():
+    return render_template("bxsq/fksh_gr_search.html")
 
 #费用审批查询
 @app.route('/fybx/check_query/<int:page>/<return_type>',methods=['GET'])
