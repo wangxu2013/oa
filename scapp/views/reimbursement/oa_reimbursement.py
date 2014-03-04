@@ -106,7 +106,7 @@ def get_fybx_query(page,return_type):
                 sql += " and is_paid = '"+is_paid+"'"
             sql += " and create_user = "+str(current_user.id)
             data=OA_Reimbursement.query.filter(sql).order_by("id").paginate(page, per_page = PER_PAGE)
-            return render_template("bxsq/bxsq_list.html",data=data)
+            return render_template("bxsq/bxsq_list.html",data=data,beg_date=request.form['beg_date'],end_date=request.form['end_date'],is_paid=request.form['is_paid'])
 
 #个人费用搜索
 @app.route('/fybx/fksh_gr_search',methods=['GET'])
