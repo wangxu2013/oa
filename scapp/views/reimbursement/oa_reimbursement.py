@@ -28,7 +28,13 @@ def add_fybx():
             if level == 6:#财务总监提交的报销 置为 待财务审批(发票)
                 status = 4
 
-            OA_Reimbursement(request.form['project_id'],request.form['org_id'],request.form['amount'],request.form['describe'],
+            if level==6:
+                OA_Reimbursement(request.form['project_id'],request.form['org_id'],request.form['amount'],request.form['describe'],
+                             request.form['reason'],request.form['start_date'],request.form['end_date'],
+                             '0','0','','0',
+                             4,status,None).add()
+            else:
+                OA_Reimbursement(request.form['project_id'],request.form['org_id'],request.form['amount'],request.form['describe'],
                              request.form['reason'],request.form['start_date'],request.form['end_date'],
                              '0','0','','0',
                              level,status,None).add()
