@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-cn">
 <head>	
 	<meta charset="utf-8">
@@ -39,6 +39,7 @@
 									<option value="0">否</option>
 								</select>
 							</td>
+							{%- if level!=4%}
 							<td class="table-label">所属公司</td>
 							<td>
 								<select name="org_id" style="width:260px;">
@@ -48,6 +49,7 @@
 									<option value="5">云金天下</option>
 								</select>
 							</td>
+							{%- endif %}
 						</tr>
 					</table>
 				</div>

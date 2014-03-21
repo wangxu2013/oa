@@ -204,32 +204,31 @@ def check_fybx(id):
         reimbursement = OA_Reimbursement.query.filter_by(id=id).first()
         return render_template("bxsq/check_bxsq.html",reimbursement=reimbursement,project=project,role=role)
 
-#费用统计
-@app.route('/fybx/fytj/<int:page>/<return_type>',methods=['GET'])
-def get_fytj_query(page,return_type):
-    if return_type:
-        if return_type=='json':
-            data=OA_Reimbursement.query.order_by("id").all()
-            return json.dumps(data,cls=DateDecimalEncoder,ensure_ascii=False)
-        else:
-            role = OA_UserRole.query.filter_by(user_id=current_user.id).first().role
-            level = role.role_level #取得用户权限等级
-            org_id=current_user.department
-            data=''
-            if level==4:
-                data=query_data(page)
-                total_apply=costs_statistics.get_total_apply_costs(org_id)
-                total_paid=costs_statistics.get_total_paid_costs(org_id)
-                monthly=costs_statistics.get_monthly_paid_costs(org_id)
-                season=costs_statistics.get_season_paid_costs(org_id)
-            return render_template("bxsq/fytj.html",data=data,
-                                   total_apply=total_apply,total_paid=total_paid,
-                                   monthly=monthly,season=season)
+# #费用统计
+# @app.route('/fybx/fytj/<int:page>/<return_type>',methods=['GET'])
+# def get_fytj_query(page,return_type):
+#     if return_type:
+#         if return_type=='json':
+#             data=OA_Reimbursement.query.order_by("id").all()
+#             return json.dumps(data,cls=DateDecimalEncoder,ensure_ascii=False)
+#         else:
+#             role = OA_UserRole.query.filter_by(user_id=current_user.id).first().role
+#             level = role.role_level #取得用户权限等级
+#             org_id=current_user.department
+#             data=''
+#             if level==4:
+#                 data=query_data(page)
+#                 total_apply=costs_statistics.get_total_apply_costs(org_id)
+#                 total_paid=costs_statistics.get_total_paid_costs(org_id)
+#                 monthly=costs_statistics.get_monthly_paid_costs(org_id)
+#                 season=costs_statistics.get_season_paid_costs(org_id)
+#             return render_template("bxsq/fytj.html",data=data,
+#                                    total_apply=total_apply,total_paid=total_paid,
+#                                    monthly=monthly,season=season)
 
-def query_data(page):
+def query_data(page,beg_date,end_date,is_paid):
     role = OA_UserRole.query.filter_by(user_id=current_user.id).first().role
     level = role.role_level #取得用户权限等级
-
     #员工只能看到自己的
     status = 1
     if level == 4 or level == 5 or level == 6:
@@ -249,7 +248,9 @@ def query_data(page):
     #财务能看到所有公司报销
     if level == 5 or level == 6:
         sql = ""
-
+    sql += " and create_date between '"+beg_date+"' and '"+end_date+"'"
+    if is_paid != '-1':
+        sql += " and is_paid = '"+is_paid+"'"
     data=OA_Reimbursement.query.filter(sql).order_by("is_paid desc").paginate(page, per_page = PER_PAGE)
 
     return data
@@ -257,13 +258,15 @@ def query_data(page):
 #付款审核搜索
 @app.route('/fybx/fksh_search',methods=['GET'])
 def fksh_search():
-    return render_template("bxsq/fksh_search.html")
+    role = OA_UserRole.query.filter_by(user_id=current_user.id).first().role
+    level = role.role_level #取得用户权限等级
+    return render_template("bxsq/fksh_search.html",level=level)
 
 #付款审核
 @app.route('/fybx/fksh/<int:page>/<return_type>',methods=['GET','POST'])
 def get_fksh_query(page,return_type):
     role = OA_UserRole.query.filter_by(user_id=current_user.id).first().role
-
+    level = role.role_level #取得用户权限等级
     if return_type:
         if return_type=='json':
             data=OA_Reimbursement.query.order_by("id").all()
@@ -271,24 +274,37 @@ def get_fksh_query(page,return_type):
         else:
             beg_date = request.form['beg_date'] + " 00:00:00"
             end_date = request.form['end_date'] + " 23:59:59"
-            org_id = request.form['org_id']
             is_paid = request.form['is_paid']
+            if level!=4:
+                org_id = request.form['org_id']
+                sql = "create_date between '"+beg_date+"' and '"+end_date+"'"
+                if org_id != '-1':
+                    sql += " and org_id = "+org_id
+                if is_paid != '-1':
+                    sql += " and is_paid = '"+is_paid+"'"
 
-            sql = "create_date between '"+beg_date+"' and '"+end_date+"'"
-            if org_id != '-1':
-                sql += " and org_id = "+org_id
-            if is_paid != '-1':
-                sql += " and is_paid = '"+is_paid+"'"
+                data=OA_Reimbursement.query.filter(sql).order_by("is_paid asc").paginate(page, per_page = PER_PAGE)
 
-            data=OA_Reimbursement.query.filter(sql).order_by("is_paid asc").paginate(page, per_page = PER_PAGE)
+                total_apply=costs_statistics.get_total_apply_costs(int(org_id))
+                total_paid=costs_statistics.get_total_paid_costs(int(org_id))
+                monthly=costs_statistics.get_monthly_paid_costs(int(org_id))
+                season=costs_statistics.get_season_paid_costs(int(org_id))
 
-            total_apply=costs_statistics.get_total_apply_costs(int(org_id))
-            total_paid=costs_statistics.get_total_paid_costs(int(org_id))
-            monthly=costs_statistics.get_monthly_paid_costs(int(org_id))
-            season=costs_statistics.get_season_paid_costs(int(org_id))
+                return render_template("bxsq/fksh.html",role=role,data=data,
+                                       total_apply=total_apply,total_paid=total_paid,
+                                       monthly=monthly,season=season,
+                                       beg_date=request.form['beg_date'],end_date=request.form['end_date'],
+                                       org_id=org_id,is_paid=is_paid)
 
-            return render_template("bxsq/fksh.html",role=role,data=data,
-                                   total_apply=total_apply,total_paid=total_paid,
-                                   monthly=monthly,season=season,
-                                   beg_date=request.form['beg_date'],end_date=request.form['end_date'],
-                                   org_id=org_id,is_paid=is_paid)
+            else:
+                org_id=current_user.department
+                data=''
+                data=query_data(page,beg_date,end_date,is_paid)
+                total_apply=costs_statistics.get_total_apply_costs(org_id)
+                total_paid=costs_statistics.get_total_paid_costs(org_id)
+                monthly=costs_statistics.get_monthly_paid_costs(org_id)
+                season=costs_statistics.get_season_paid_costs(org_id)
+                return render_template("bxsq/fytj.html",data=data,
+                                       total_apply=total_apply,total_paid=total_paid,
+                                       monthly=monthly,season=season,beg_date=request.form['beg_date'],end_date=request.form['end_date'],
+                                       is_paid=is_paid)
