@@ -23,10 +23,13 @@
 </head>
 
 <body onload="datepicker();setTimeOut();">
-	<form class="content">	
+	<form id="content" class="content" method="POST">	
 		<div class="well place">			
 			<i class="icon-home"></i><a href="#">报销申请</a>/<a href="#">费用统计</a>
 		</div>	
+			<input type="hidden" name="beg_date" value="{{beg_date}}">
+			<input type="hidden" name="end_date" value="{{end_date}}">
+			<input type="hidden" name="is_paid" value="{{is_paid}}">
 		{%- with messages = get_flashed_messages(with_categories=true) %}
 		  	{%- if messages %}
 	    	{%- for category, message in messages %}
@@ -188,14 +191,14 @@
 			</div>
 			<div class="page-div">
 					{%- if data.has_prev %}
-						<span style="CURSOR: pointer" onclick="iframe('fybx/fytj/{{data.prev_num}}/pc')">&lt;&lt;</span>
+						<span style="CURSOR: pointer" onclick="submitForm('content','/fybx/fksh/{{data.prev_num}}/pc')">&lt;&lt;</span>
 					{%- else %}
 						<span style="CURSOR: pointer">&lt;&lt;</span>
 					{%- endif %}
 					&#160;第&#160;<font color="#0088cc">{{data.page}}</font>&#160;页&#160;
 					&#160;共&#160;<font color="#0088cc">{{data.pages}}</font>&#160;页&#160;
 					{%- if data.has_next %}
-						<span style="CURSOR: pointer" onclick="iframe('fybx/fytj/{{data.next_num}}/pc')">&gt;&gt;</span>
+						<span style="CURSOR: pointer" onclick="submitForm('content','/fybx/fksh/{{data.next_num}}/pc')">&gt;&gt;</span>
 					{%- else %}
 						<span style="CURSOR: pointer">&gt;&gt;</span>
 					{%- endif %}
