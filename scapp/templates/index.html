@@ -77,7 +77,7 @@
 									">
 							<a href="javascript:void(0);">新增费用</a>
 						</li>
-						<li onclick="leftmenu(this);changeiframe('fybx/query/1/pc')" id="bxsq_list">
+						<li onclick="leftmenu(this);changeiframe('fybx/fksh_gr_search')" id="bxsq_list">
 							<a href="javascript:void(0);">个人查询</a>
 						</li>
 						{%- if role.role_level == 5 %}
@@ -92,7 +92,7 @@
 						</li>
 						
 						{%- if role.role_level == 4 %}
-						    <li onclick="leftmenu(this);changeiframe('fybx/fytj/1/pc')" id="bxtj_list">
+						    <li onclick="leftmenu(this);changeiframe('fybx/fksh_search')" id="bxtj_list">
 							<a href="javascript:void(0);">费用统计</a>
 						    </li>
 						{%- endif %}

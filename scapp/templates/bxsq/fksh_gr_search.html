@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-cn">
 <head>	
 	<meta charset="utf-8">
@@ -15,7 +15,7 @@
 </head>
 
 <body onload="datepicker();">	
-	<form class="content" method="POST" action="/fybx/fksh/1/pc">
+	<form class="content" method="POST" action="/fybx/query/1/pc">
 		<div class="well place">			
 			<i class="icon-home"></i><a href="#">报销管理</a>/<a href="#">付款审核</a>
 		</div>		
@@ -39,17 +39,6 @@
 									<option value="0">否</option>
 								</select>
 							</td>
-							{%- if level!=4%}
-							<td class="table-label">所属公司</td>
-							<td>
-								<select name="org_id" style="width:260px;">
-									<option value="-1">全部</option>
-									<option value="2">乾康（上海）信息技术有限公司</option>
-									<option value="3">乾康（上海）金融信息服务有限公司</option>
-									<option value="5">云金天下</option>
-								</select>
-							</td>
-							{%- endif %}
 						</tr>
 					</table>
 				</div>

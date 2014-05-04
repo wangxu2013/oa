@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-cn">
 <head>	
 	<meta charset="utf-8">
@@ -15,12 +15,12 @@
 </head>
 
 <body onload="datepicker();">	
-	<form class="content" method="POST" action="/fybx/fksh/1/pc">
+	<form class="content">
 		<div class="well place">			
-			<i class="icon-home"></i><a href="#">报销管理</a>/<a href="#">付款审核</a>
+			<i class="icon-home"></i><a href="#">报销管理</a>/<a href="#">费用查询</a>
 		</div>		
 		<div class="row-fluid">
-			<i class="icon-bookmark"></i><span class="titletip">付款搜索</span>
+			<i class="icon-bookmark"></i><span class="titletip">费用搜索</span>
 			<div>
 				<div style="border:1px solid #94c1dc;">
 					<table class="table-list">
@@ -31,25 +31,14 @@
 							<td><input type="text" class="datepicker" name="end_date" data-date-format="yyyy-mm-dd" readonly/></td>
 						</tr>
 						<tr>
-							<td class="table-label">是否已付款</td>
+							<td class="table-label">付款状态</td>
 							<td>
 								<select name="is_paid">
 									<option value="-1">全部</option>
-									<option value="1">是</option>
-									<option value="0">否</option>
+									<option value="1">已付款</option>
+									<option value="0">未付款</option>
 								</select>
-							</td>
-							{%- if level!=4%}
-							<td class="table-label">所属公司</td>
-							<td>
-								<select name="org_id" style="width:260px;">
-									<option value="-1">全部</option>
-									<option value="2">乾康（上海）信息技术有限公司</option>
-									<option value="3">乾康（上海）金融信息服务有限公司</option>
-									<option value="5">云金天下</option>
-								</select>
-							</td>
-							{%- endif %}
+							</td>							
 						</tr>
 					</table>
 				</div>
