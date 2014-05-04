@@ -88,7 +88,7 @@ def edit_fybx(id):
             # 消息闪现
             flash('保存失败','error')
 
-        return redirect('fybx/query/1/pc')
+        return redirect('fybx/fksh_gr_search')
 
     else:
         project = OA_Project.query.order_by("id").all()
@@ -96,7 +96,7 @@ def edit_fybx(id):
         return render_template("bxsq/edit_bxsq.html",reimbursement=reimbursement,project=project)
 
 #query reimbursement
-@app.route('/fybx/query/<int:page>/<return_type>',methods=['POST'])
+@app.route('/fybx/query/<int:page>/<return_type>',methods=['GET','POST'])
 def get_fybx_query(page,return_type):
     if return_type:
         if return_type=='json':
