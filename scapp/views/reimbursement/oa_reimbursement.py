@@ -93,6 +93,10 @@ def edit_fybx(id):
 
     else:
         project = OA_Project.query.order_by("id").all()
+        
+        for obj in project:
+            obj.project_name=obj.customer+'-'+obj.project_name
+            
         reimbursement = OA_Reimbursement.query.filter_by(id=id).first()
         return render_template("bxsq/edit_bxsq.html",reimbursement=reimbursement,project=project)
 
