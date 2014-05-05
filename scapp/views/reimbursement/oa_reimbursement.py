@@ -68,6 +68,7 @@ def edit_fybx(id):
     if request.method=='POST':
         try:
             reimbursement = OA_Reimbursement.query.filter_by(id=id).first()
+            reimbursement.org_id = request.form['org_id']
             reimbursement.project_id = request.form['project_id']
             reimbursement.amount = request.form['amount']
             reimbursement.describe = request.form['describe']

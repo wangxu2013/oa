@@ -31,6 +31,28 @@
 		<!--**********************个人类***********************-->
 			<table class="table-list" id="table2">
 				<tr>
+					<td class="table-label">费用所属公司<font class="red">*</font></td>
+					<td colspan="3">
+						<select name="org_id" style="width:260px;">
+							{%- if reimbursement.org_id == 3 %}
+							<option value="3" selected>乾康（上海）信息技术有限公司</option>
+							{%- else %}
+							<option value="3">乾康（上海）信息技术有限公司</option>
+							{%- endif %}
+							{%- if reimbursement.org_id == 2 %}
+							<option value="2" selected>乾康（上海）金融信息服务有限公司</option>
+							{%- else %}
+							<option value="2">乾康（上海）金融信息服务有限公司</option>
+							{%- endif %}
+							{%- if reimbursement.org_id == 5 %}
+							<option value="5" selected>云金天下</option>
+							{%- else %}
+							<option value="5">云金天下</option>
+							{%- endif %}
+						</select>
+					</td>								
+				</tr>
+				<tr>
 					<td class="table-label">项目名称<font class="red">*</font></td>
 					<td width="50%">
 						<select name="project_id" style="width:90%">
