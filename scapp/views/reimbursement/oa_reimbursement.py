@@ -25,8 +25,8 @@ def add_fybx():
             level = role.role_level #取得用户权限等级
 
             status = level;
-            if level == 6:#财务总监提交的报销 置为 待财务审批(发票)
-                status = 4
+            if level == 5 or level == 6:#财务总监提交的报销 置为 待财务审批(发票)
+                status = 3
 
             if level==6:
                 OA_Reimbursement(request.form['project_id'],request.form['org_id'],request.form['amount'],request.form['describe'],
