@@ -170,21 +170,21 @@
 								{%- if obj.status != '5' %}
 								<td></td>		
 								{%- else %}
-								<td><input type='button' class='btn btn-danger btn-mini' value='审批' onclick="iframe('fybx/check/{{obj.id}}')"/></td>
+								<td><input type='button' class='btn btn-danger btn-mini' value='审批' onclick="iframe('fybx/check/{{obj.id}}.{{data.page}}')"/></td>
 								{%- endif %}
 							{%- elif role.role_level == 5 %}
 								{%- if obj.status != '4' %}
 								<td></td>		
 								{%- else %}
-								<td><input type='button' class='btn btn-danger btn-mini' value='审批' onclick="iframe('fybx/check/{{obj.id}}')"/></td>
+								<td><input type='button' class='btn btn-danger btn-mini' value='审批' onclick="iframe('fybx/check/{{obj.id}}.{{data.page}}')"/></td>
 								{%- endif %}
 							{%- elif role.role_level == 4 %}
-								<td><input type='button' class='btn btn-danger btn-mini' value='审批' onclick="iframe('fybx/check/{{obj.id}}')"/></td>
+								<td><input type='button' class='btn btn-danger btn-mini' value='审批' onclick="iframe('fybx/check/{{obj.id}}.{{data.page}}')"/></td>
 							{%- elif role.role_level == 3 %}
 								{%- if obj.status != '1' %}
 								<td></td>		
 								{%- else %}
-								<td><input type='button' class='btn btn-danger btn-mini' value='审批' onclick="iframe('fybx/check/{{obj.id}}')"/></td>
+								<td><input type='button' class='btn btn-danger btn-mini' value='审批' onclick="iframe('fybx/check/{{obj.id}}.{{data.page}}')"/></td>
 								{%- endif %}
 							{%- endif %}
 						</tr>	

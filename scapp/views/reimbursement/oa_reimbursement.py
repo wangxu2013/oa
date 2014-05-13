@@ -190,14 +190,14 @@ def get_fybx_check_query(page,return_type):
             return render_template("bxsq/check_list.html",data=data,role=role)
 
 #费用审批
-@app.route('/fybx/check/<int:id>',methods=['GET','POST'])
+@app.route('/fybx/check/<id>',methods=['GET','POST'])
 def check_fybx(id):
+    str=id.split('.')
     if request.method=='POST':
         try:
             role = OA_UserRole.query.filter_by(user_id=current_user.id).first().role
             level = role.role_level #取得用户权限等级
-            reimbursement = OA_Reimbursement.query.filter_by(id=id).first()
-
+            reimbursement = OA_Reimbursement.query.filter_by(id=str[0]).first()
 
             if request.form['decision'] == '1':#通过
                 if level == 6:
@@ -225,14 +225,13 @@ def check_fybx(id):
             logger.exception('exception')
             # 消息闪现
             flash('保存失败','error')
-
-        return redirect('fybx/check_query/1/pc')
+        return redirect('fybx/check_query/'+str[1]+'/pc')
 
     else:
         role = OA_UserRole.query.filter_by(user_id=current_user.id).first().role
         project = OA_Project.query.order_by("id").all()
-        reimbursement = OA_Reimbursement.query.filter_by(id=id).first()
-        return render_template("bxsq/check_bxsq.html",reimbursement=reimbursement,project=project,role=role)
+        reimbursement = OA_Reimbursement.query.filter_by(id=str[0]).first()
+        return render_template("bxsq/check_bxsq.html",reimbursement=reimbursement,project=project,role=role,parentPage=int(str[1]))
 
 # #费用统计
 # @app.route('/fybx/fytj/<int:page>/<return_type>',methods=['GET'])
