@@ -19,6 +19,15 @@
 		<div class="well place">			
 			<i class="icon-home"></i><a href="#">报销管理</a>/<a href="#">付款审核</a>
 		</div>		
+		{%- with messages = get_flashed_messages(with_categories=true) %}
+		  	{%- if messages %}
+	    	{%- for category, message in messages %}
+	    	<div class="alert alert-{{category}}" style="width:245px;margin:-10px auto 10px;">
+	      		{{message}}
+	      	</div>
+	    	{%- endfor %}
+		  	{%- endif %}
+		{%- endwith %}
 		<div class="row-fluid">
 			<i class="icon-bookmark"></i><span class="titletip">付款搜索</span>
 			<div>
