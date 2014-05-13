@@ -45,7 +45,7 @@
 								<select id="department" name="department">
 									{%- for obj in orgs %}
 									{%- if user.department == obj.id %}
-										<option value="{{obj.id}}" checked>{{obj.name}}</option>
+										<option value="{{obj.id}}" selected>{{obj.name}}</option>
 									{%- else %}
 										<option value="{{obj.id}}">{{obj.name}}</option>
 									{%- endif%}
