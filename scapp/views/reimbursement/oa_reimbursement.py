@@ -131,7 +131,9 @@ def check_query_search():
     level = role.role_level #取得用户权限等级
     date = time.strftime('%Y-%m-%d',time.localtime(time.time()-2*30*24*60*60))
     user = OA_User.query.all()
-    return render_template("bxsq/check_query_search.html",level=level,beg_date=date,user=user)
+    #获得公司id
+    departmentId=current_user.department
+    return render_template("bxsq/check_query_search.html",level=level,beg_date=date,user=user,departmentId=departmentId)
 
 #费用审批搜索
 @app.route('/fybx/check_query/<int:page>/<return_type>',methods=['GET','POST'])
@@ -158,24 +160,36 @@ def get_fybx_check_query(page,return_type):
     if level == 5 or level == 6:
         #POST时有搜索条件
         if request.method == 'POST':
-            beg_date = request.form['beg_date'] + " 00:00:00"
-            end_date = request.form['end_date'] + " 23:59:59"
-            org_id = request.form['org_id']
-            sql = "create_date between '"+beg_date+"' and '"+end_date+"'"
-            if org_id != '-1':
-                sql += " and org_id = "+org_id
+            if request.form['beg_date']:
+                beg_date = request.form['beg_date'] + " 00:00:00"
+                end_date = request.form['end_date'] + " 23:59:59"
+                org_id = request.form['org_id']
+                sql = "create_date between '"+beg_date+"' and '"+end_date+"'"
+                if org_id != '-1':
+                    sql += " and org_id = "+org_id
         else:
             sql = ""
     #总经理
     if level == 4:
         #POST时有搜索条件
         if request.method == 'POST':
-            beg_date = request.form['beg_date'] + " 00:00:00"
-            end_date = request.form['end_date'] + " 23:59:59"
-            sql += " and create_date between '"+beg_date+"' and '"+end_date+"'"
+            if request.form['beg_date']:
+                beg_date = request.form['beg_date'] + " 00:00:00"
+                end_date = request.form['end_date'] + " 23:59:59"
+                sql += " and create_date between '"+beg_date+"' and '"+end_date+"'"
+                org_id='-1'
+    #项目经理、主管
+    if level == 2 or level == 3:
+        #POST时有搜索条件
+        if request.method == 'POST':
+            if request.form['beg_date']:
+                beg_date = request.form['beg_date'] + " 00:00:00"
+                end_date = request.form['end_date'] + " 23:59:59"
+                sql += " and create_date between '"+beg_date+"' and '"+end_date+"'"
+                org_id='-1'
     if request.method=='POST':
-        person = request.form['person']
-        if person:
+        if request.form['person']:
+            person = request.form['person']
             sql+=" and create_user="+person 
     if return_type:
         if return_type=='json':
@@ -190,10 +204,17 @@ def get_fybx_check_query(page,return_type):
             else:
                 data=OA_Reimbursement.query.filter("is_refuse=0","is_retreat=0",sql,"status<=:status","init_level<:role_level").params(status=status,role_level=level).order_by("status asc").paginate(page, per_page = PER_PAGE)
             if request.method == 'POST':
-                if person:
+                #选择员工
+                if request.form['person']:
                     return render_template("bxsq/check_list.html",data=data,role=role,beg_date=beg_date,end_date=end_date,person=person,org_id=org_id)
+                #默认不选择员工
                 else:
-                    return render_template("bxsq/check_list.html",data=data,role=role,beg_date=beg_date,end_date=end_date,org_id=org_id)
+                    #有查询条件
+                    if request.form['beg_date']:
+                        return render_template("bxsq/check_list.html",data=data,role=role,beg_date=beg_date,end_date=end_date,org_id=org_id)
+                    #首页进入，无查询条件
+                    else:
+                        return render_template("bxsq/check_list.html",data=data,role=role)
             else:
                 return render_template("bxsq/check_list.html",data=data,role=role)
 
