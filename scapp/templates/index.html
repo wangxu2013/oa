@@ -14,6 +14,7 @@
 	<style type="text/css">
 		html{overflow-y:scroll;}  
 		#date{line-height:25px;font-size:12px;color:gray;margin-top:-30px;}
+		#text{background:rgba(0,0,0,0.5);width:100%;height:100%;position:fixed;top:0;z-index:1000000;display:none;}
 	</style>
 </head>
 
@@ -142,7 +143,7 @@
 					{%- elif menu == "xtgl" %}
 						src="system/project/add"
 					{%- endif %}
-				width="100%;" id="content_frame" marginheight="0" marginwidth="0" height="100%" onload="resizeFrame('content_frame')"></iframe>
+				width="100%;" id="content_frame" name="content_frame" marginheight="0" marginwidth="0" height="100%" onload="resizeFrame('content_frame')"></iframe>
 			</div><!--/span-->
 		</div><!--/row-->		
     </div><!--/.fluid-container-->		
@@ -151,6 +152,10 @@
 		<p class="pull-center">@ 2013 CardPay (Shanghai) Info Tech Co.,Ltd</p>
 		<span id="date" class="pull-right"></span>
 	</div>
+	<div id="text">	
+		
+	</div>
+
 	<script src="/static/js/jquery-1.7.2.min.js"></script>
 	<script src="/static/js/bootstrap.min.js"></script>
 	<script src="/static/js/script.js"></script>

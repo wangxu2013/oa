@@ -5,10 +5,10 @@ from flask import render_template,request,redirect, flash
 from flask.ext.login import current_user
 from scapp import app,db
 from scapp.config import logger,PER_PAGE
-from scapp.models import OA_Org,OA_UserRole,OA_Project,OA_Reimbursement
+from scapp.models import OA_Org,OA_UserRole,OA_Project,OA_Reimbursement,OA_User
 from scapp.tools.json_encoding import DateDecimalEncoder
 from scapp.logic.reimbursement import costs_statistics
-import datetime
+import datetime,time
 import json
 
 #reimbursement
@@ -129,12 +129,13 @@ def get_fybx_query(page,return_type):
 def check_query_search():
     role = OA_UserRole.query.filter_by(user_id=current_user.id).first().role
     level = role.role_level #取得用户权限等级
-    return render_template("bxsq/check_query_search.html",level=level)
+    date = time.strftime('%Y-%m-%d',time.localtime(time.time()-2*30*24*60*60))
+    user = OA_User.query.all()
+    return render_template("bxsq/check_query_search.html",level=level,beg_date=date,user=user)
 
 #费用审批搜索
 @app.route('/fybx/check_query/<int:page>/<return_type>',methods=['GET','POST'])
 def get_fybx_check_query(page,return_type):
-            
     role = OA_UserRole.query.filter_by(user_id=current_user.id).first().role
     level = role.role_level #取得用户权限等级
 
@@ -153,7 +154,6 @@ def get_fybx_check_query(page,return_type):
         for obj in chileDepartment:
             sql+=","+str(obj.id)
         sql+=")"
-    
     #财务能看到所有公司报销
     if level == 5 or level == 6:
         #POST时有搜索条件
@@ -166,7 +166,6 @@ def get_fybx_check_query(page,return_type):
                 sql += " and org_id = "+org_id
         else:
             sql = ""
-    
     #总经理
     if level == 4:
         #POST时有搜索条件
@@ -174,7 +173,10 @@ def get_fybx_check_query(page,return_type):
             beg_date = request.form['beg_date'] + " 00:00:00"
             end_date = request.form['end_date'] + " 23:59:59"
             sql += " and create_date between '"+beg_date+"' and '"+end_date+"'"
-            
+    if request.method=='POST':
+        person = request.form['person']
+        if person:
+            sql+=" and create_user="+person 
     if return_type:
         if return_type=='json':
             if level == 6 or level == 5:
@@ -187,8 +189,15 @@ def get_fybx_check_query(page,return_type):
                 data=OA_Reimbursement.query.filter("is_refuse=0","is_retreat=0",sql,"status=:status","init_level<:role_level").params(status=status,role_level=level).order_by("status asc").paginate(page, per_page = PER_PAGE)
             else:
                 data=OA_Reimbursement.query.filter("is_refuse=0","is_retreat=0",sql,"status<=:status","init_level<:role_level").params(status=status,role_level=level).order_by("status asc").paginate(page, per_page = PER_PAGE)
-            return render_template("bxsq/check_list.html",data=data,role=role)
+            if request.method == 'POST':
+                if person:
+                    return render_template("bxsq/check_list.html",data=data,role=role,beg_date=beg_date,end_date=end_date,person=person,org_id=org_id)
+                else:
+                    return render_template("bxsq/check_list.html",data=data,role=role,beg_date=beg_date,end_date=end_date,org_id=org_id)
+            else:
+                return render_template("bxsq/check_list.html",data=data,role=role)
 
+    
 #费用审批
 @app.route('/fybx/check/<id>',methods=['GET','POST'])
 def check_fybx(id):

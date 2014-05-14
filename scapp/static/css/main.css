@@ -57,3 +57,7 @@ label{display:inline;}
 .errorInfo{display:none;color:#CC3333;}
 .je{font-family: Times New Roman;font-weight: bold;font-size:13px;}
 .red{color:#CC3333;font-weight:bold;}
+
+.topDiv{background:white;width:60%;padding:15px;margin:0 auto;margin-top:70px;height:415px;}
+.topDiv .table-list th{padding:5px 0;}
+
