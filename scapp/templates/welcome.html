@@ -92,7 +92,11 @@
 											<td><a href="dsp">{{count_2}}</a></td>
 											{%- endif %}
 										-->
-										<td><a href="dsp">{{count_2}}</a></td>
+										{%- if role.role_level != 1 %}
+											<td><a href="dsp">{{count_2}}</a></td>
+										{%- else%}
+											<td>{{count_2}}</td>
+										{%- endif%}
 									</tr>							
 								</tbody>
 							</table>
