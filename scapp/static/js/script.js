@@ -623,3 +623,23 @@ function hiddenInput(id,obj){
 //     "</table>";
 //     $(".sqxx").html(sqxx); //申请信息          
 // }
+
+//table搜索
+function search(obj){         
+    var value=$(obj).val();
+    if(value==""){
+        $("tr").show();
+    }
+    else{
+        $("td[name=search]").each(function(){
+            if(this.innerHTML.indexOf(value)>=0){
+                $(this).parent().show();
+            }                       
+            else{
+                $(this).parent().hide();
+            }
+                
+        })
+    }
+
+}
