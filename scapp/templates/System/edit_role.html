@@ -61,6 +61,11 @@
 									{%- else %}
 										<option value="3">主管</option>
 									{%- endif %}
+									{%- if role.role_level == 2 %}
+										<option value="2" selected>项目经理</option>
+									{%- else %}
+										<option value="2">项目经理</option>
+									{%- endif %}
 									{%- if role.role_level == 1 %}
 										<option value="1" selected>员工</option>
 									{%- else %}
