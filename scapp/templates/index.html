@@ -14,6 +14,7 @@
 	<style type="text/css">
 		html{overflow-y:scroll;}  
 		#date{line-height:25px;font-size:12px;color:gray;margin-top:-30px;}
+		#text{background:rgba(0,0,0,0.5);width:100%;height:100%;position:fixed;top:0;z-index:1000000;display:none;}
 	</style>
 </head>
 
@@ -83,16 +84,18 @@
 						{%- if role.role_level == 5 %}
 						</div>
 						{%- endif %}
-						<li onclick="leftmenu(this);changeiframe('fybx/check_query/1/pc')" id="check_bxsq" class="
+
+						{%- if role.role_level != 1 %}
+						<li onclick="leftmenu(this);changeiframe('fybx/check_query_search')" id="check_bxsq" class="
 									{%- if menu == "dsp"%}
 										active
 									{%- endif %}									
 									">
 							<a href="javascript:void(0);">费用审批</a>
 						</li>
-						
+						{%- endif %}
 						{%- if role.role_level == 4 %}
-						    <li onclick="leftmenu(this);changeiframe('fybx/fytj/1/pc')" id="bxtj_list">
+						    <li onclick="leftmenu(this);changeiframe('fybx/fksh_search')" id="bxtj_list">
 							<a href="javascript:void(0);">费用统计</a>
 						    </li>
 						{%- endif %}
@@ -133,7 +136,7 @@
 				<iframe frameborder="0" 
 					{%- if menu == "xxgl" %}
 						{%- if role.role_level == 5 %}
-							src="fybx/check_query/1/pc"						
+							src="/fybx/check_query_search"						
 						{%- else %}
 							src="fybx/add"
 						{%- endif %}
@@ -142,7 +145,7 @@
 					{%- elif menu == "xtgl" %}
 						src="system/project/add"
 					{%- endif %}
-				width="100%;" id="content_frame" marginheight="0" marginwidth="0" height="100%" onload="resizeFrame('content_frame')"></iframe>
+				width="100%;" id="content_frame" name="content_frame" marginheight="0" marginwidth="0" height="100%" onload="resizeFrame('content_frame')"></iframe>
 			</div><!--/span-->
 		</div><!--/row-->		
     </div><!--/.fluid-container-->		
@@ -151,6 +154,10 @@
 		<p class="pull-center">@ 2013 CardPay (Shanghai) Info Tech Co.,Ltd</p>
 		<span id="date" class="pull-right"></span>
 	</div>
+	<div id="text">	
+		
+	</div>
+
 	<script src="/static/js/jquery-1.7.2.min.js"></script>
 	<script src="/static/js/bootstrap.min.js"></script>
 	<script src="/static/js/script.js"></script>

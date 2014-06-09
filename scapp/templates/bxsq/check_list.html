@@ -23,10 +23,14 @@
 </head>
 
 <body onload="datepicker();setTimeOut();">
-	<form class="content">	
+	<form class="content" id="tests" method="post" action="/fybx/check_query/{{data.page}}/pc">	
 		<div class="well place">			
-			<i class="icon-home"></i><a href="#">报销申请</a>/<a href="#">费用审核</a>
+			<i class="icon-home"></i><a href="#">报销申请</a>/<a href="/fybx/check_query_search">费用审核</a>
 		</div>	
+			<input type="hidden" value="{{beg_date}}" name="beg_date"/>
+			<input type="hidden" value="{{end_date}}" name="end_date"/>
+			<input type="hidden" value="{{person}}" name="person"/>
+			<input type="hidden" value="{{org_id}}" name="org_id"/>
 		{%- with messages = get_flashed_messages(with_categories=true) %}
 		  	{%- if messages %}
 	    	{%- for category, message in messages %}
@@ -138,6 +142,9 @@
                             {%- if obj.reason == 27 %}
 							<td>专家费</td>
 							{%- endif %}
+							{%- if obj.reason == 28 %}
+							<td>销售部费用</td>
+							{%- endif %}
 							{%- if obj.reason == 26 %}
 							<td>其他</td>
 							{%- endif %}
@@ -170,21 +177,21 @@
 								{%- if obj.status != '5' %}
 								<td></td>		
 								{%- else %}
-								<td><input type='button' class='btn btn-danger btn-mini' value='审批' onclick="iframe('fybx/check/{{obj.id}}')"/></td>
+								<td><input type='button' class='btn btn-danger btn-mini' value='审批' onclick="showList('sp',{{obj.id}},{{data.page}})"/></td>
 								{%- endif %}
 							{%- elif role.role_level == 5 %}
 								{%- if obj.status != '4' %}
 								<td></td>		
 								{%- else %}
-								<td><input type='button' class='btn btn-danger btn-mini' value='审批' onclick="iframe('fybx/check/{{obj.id}}')"/></td>
+								<td><input type='button' class='btn btn-danger btn-mini' value='审批' onclick="showList('sp',{{obj.id}},{{data.page}})"/></td>
 								{%- endif %}
 							{%- elif role.role_level == 4 %}
-								<td><input type='button' class='btn btn-danger btn-mini' value='审批' onclick="iframe('fybx/check/{{obj.id}}')"/></td>
+								<td><input type='button' class='btn btn-danger btn-mini' value='审批' onclick="showList('sp',{{obj.id}},{{data.page}})"/></td>
 							{%- elif role.role_level == 3 %}
 								{%- if obj.status != '1' %}
 								<td></td>		
 								{%- else %}
-								<td><input type='button' class='btn btn-danger btn-mini' value='审批' onclick="iframe('fybx/check/{{obj.id}}')"/></td>
+								<td><input type='button' class='btn btn-danger btn-mini' value='审批' onclick="showList('sp',{{obj.id}},{{data.page}})"/></td>
 								{%- endif %}
 							{%- endif %}
 						</tr>	
@@ -194,14 +201,14 @@
 			</div>
 			<div class="page-div">
 					{%- if data.has_prev %}
-						<span style="CURSOR: pointer" onclick="iframe('fybx/check_query/{{data.prev_num}}/pc')">&lt;&lt;</span>
+						<span style="CURSOR: pointer" onclick="submitForm('tests','/fybx/check_query/{{data.prev_num}}/pc')">&lt;&lt;</span>
 					{%- else %}
 						<span style="CURSOR: pointer">&lt;&lt;</span>
 					{%- endif %}
 					&#160;第&#160;<font color="#0088cc">{{data.page}}</font>&#160;页&#160;
 					&#160;共&#160;<font color="#0088cc">{{data.pages}}</font>&#160;页&#160;
 					{%- if data.has_next %}
-						<span style="CURSOR: pointer" onclick="iframe('fybx/check_query/{{data.next_num}}/pc')">&gt;&gt;</span>
+						<span style="CURSOR: pointer" onclick="submitForm('tests','/fybx/check_query/{{data.next_num}}/pc')">&gt;&gt;</span>
 					{%- else %}
 						<span style="CURSOR: pointer">&gt;&gt;</span>
 					{%- endif %}
@@ -231,6 +238,19 @@
 		var sprytextfield13 = new Spry.Widget.ValidationTextField("mobile", "phone_number", {format:"phone_custom", pattern:"10000000000", isRequired:false});
 		var sprytextfield16 = new Spry.Widget.ValidationTextField("contact_phone", "integer", {isRequired:false, minChars:11, maxChars:12});
 		var sprytextfield14 = new Spry.Widget.ValidationTextField("email", "email", {isRequired:false});
+		function showList(name,id,page){
+			$('#text',window.parent.document).show();
+			var html="<div class=topDiv ><input type='button' class='btn btn-info btn-mini pull-right' value='关闭' onclick='$(\"#text\",window.parent.document).hide();'/><br/>"
+			if(name=="sp"){
+				$('#text',window.parent.document).html(html+"<iframe src='fybx/check/"+id+"."+page+"' width=100% height=90% frameborder=0></iframe></div>");	
+				
+	
+			}
+		}
+	function submitForm(formId,action){
+	    document.getElementById(formId).action = action;
+	    document.getElementById(formId).submit();
+	}
 	</script>
 </body>
 </html>

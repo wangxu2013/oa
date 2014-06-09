@@ -23,10 +23,8 @@
 </head>
 
 <body onload="datepicker();setTimeOut();">
-	<form class="content" method="POST" action="/fybx/check/{{reimbursement.id}}">	
-		<div class="well place">			
-			<i class="icon-home"></i><a href="#">报销申请</a>/<a href="#">审核费用</a>
-		</div>	
+	<form class="content" id="fybx" method="POST" action="/fybx/check/{{reimbursement.id}}.{{parentPage}}" >	
+		<i class="icon-bookmark"></i><span class="titletip">付款搜索</span>
 		<div style="border:1px solid #94c1dc;">		
 		<!--**********************个人类***********************-->
 			<table class="table-list" id="table2">
@@ -195,6 +193,11 @@
 								selected
 							{%- endif %}
 							>专家费</option>
+							<option value="28"
+							{%- if reimbursement.reason == 28 %}
+								selected
+							{%- endif %}
+							>销售部费用</option>
 						</select>
 					</td>				
 				</tr>	
@@ -225,7 +228,7 @@
 			</table>					
 		</div>
 		<span class="point">*为必填字段</span><br/>
-		<input type="submit" value="提交" class="btn btn-info" />
+		<input onclick="getAction()" value="提交" class="btn btn-info" />
 		<input type="reset" value="重置" class="btn btn-info" />
 	</form>	
 
@@ -244,6 +247,15 @@
 				$("#jjyy").removeAttr("disabled");
 			}
 		}
+		function getAction(){
+			document.getElementById("fybx").submit();
+			$("#text",window.parent.document).hide();
+			var oDoc = window.parent.document;
+            var oAnotherFrame = oDoc.getElementById("content_frame");
+            var form = oAnotherFrame.contentWindow.document.getElementById("tests");
+            form.submit(); 
+		}
+			
 	</script>
 </body>
 </html>
