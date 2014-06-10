@@ -167,6 +167,8 @@ def get_fybx_check_query(page,return_type):
                 sql = "create_date between '"+beg_date+"' and '"+end_date+"'"
                 if org_id != '-1':
                     sql += " and org_id = "+org_id
+            else:
+                sql = ""
         else:
             sql = ""
     #总经理
