@@ -36,16 +36,23 @@
 						</li>
 					</ul>
 					<ul class="nav" id="topmenu">
-						<li><a href="xxgl">报销管理</a></li>
-						{%- if role.role_level == 0 %}
-						<li><a href="xtgl">系统管理</a></li>
-						{%- endif %}
+						{%- for obj in privileges %}
+							{%- if obj.privilege_access_value == "bxgl" and obj.privilege_operation != "0" %}
+								<li><a href="xxgl">报销管理</a></li>
+							{%- endif %}
+							{%- if obj.privilege_access_value == "xtgl" and obj.privilege_operation != "0" %}
+							<li><a href="xtgl">系统管理</a></li>
+							{%- endif %}
+						{%- endfor %}
 					</ul>
 				</div><!--/.nav-collapse -->
 			</div><!--/.container-fluid -->
 		</div><!--/.navbar-inner -->		
 	</div><!--/.navbar -->
-	<img src="/static/img/welcome2.png" style="margin-top:40px;"/>
+	<div style="height:290px;overflow:hidden;">
+		<img src="/static/img/welcome2.png" style="margin-top:-10px;"/>
+	</div>
+	
 	<div class="container-fluid" style="margin:10px auto 50px;">
 		<div class="row-fluid">
 			<div class="span3">
@@ -57,7 +64,7 @@
 							<span>用户名：{{current_user.login_name}}</span>
 						</li>
 						<li>
-							<span>所属单位：{{current_user.org.name}}</span>
+							<span>职位：</span>
 						</li>             
 					</ul>
 				</div><!--/.well -->						
@@ -83,25 +90,53 @@
 										<td>您待审批的报销</td>
 										<td>{{count_1}}</td>
 									</tr>
-									<tr>
-										<td>等待您审批的报销</td>
-										<!--
-											{%- if role.role_level == 6 %}
-											<td><a href="fksh">{{count_2}}</a></td>
-											{%- else %}
-											<td><a href="dsp">{{count_2}}</a></td>
-											{%- endif %}
-										-->
-										{%- if role.role_level != 1 %}
-											<td><a href="dsp">{{count_2}}</a></td>
-										{%- else%}
-											<td>{{count_2}}</td>
-										{%- endif%}
-									</tr>							
+									{%- for obj in privileges %}
+										{%- if obj.privilege_access_value == "fysp" and obj.privilege_operation != "0" %}
+										<tr>
+											<td>等待您审批的报销</td>
+												{%- if count_2==0 %}
+													<td>{{count_2}}</td>
+												{%- else%}
+													<td><a href="dsp">{{count_2}}</a></td>
+												{%- endif %}
+										</tr>		
+										{%- endif %}
+									{%- endfor %}					
 								</tbody>
 							</table>
 						</div>
 					</div><!--/row-fluid -->
+					{%- for obj in privileges %}
+						{%- if obj.privilege_access_value == "fytj" and obj.privilege_operation != "0" %}
+					<div class="row-fluid" >
+						<i class="icon-bookmark"></i><span class="titletip">统计</span>
+						<div style="border:1px solid #94c1dc;overflow:auto; height:100px;">
+							<table class="table-list">
+								<thead>
+									<tr>
+										<th>负责部门或项目</th>
+										<th>当前申请总额</th>
+										<th>当前付款总额</th>
+										<th>本月付款金额</th>
+										<th>本季度付款金额</th>
+									</tr>
+								</thead>
+								<tbody class="center">
+									{%- for obj in result %}
+									<tr>
+										<td>{{obj.name}}</td>
+										<td>{{obj.total_apply}}</td>
+										<td>{{obj.total_paid}}</td>
+										<td>{{obj.monthly}}</td>
+										<td>{{obj.season}}</td>
+									</tr>	
+									{%- endfor %}						
+								</tbody>
+							</table>
+						</div>
+					</div><!--/row-fluid -->
+						{%- endif %}
+					{%- endfor %}	
 				</div><!--/content -->
 				<iframe frameborder="0" width="100%" height="280" id="content_frame" src="change_password/{{current_user.id}}" style="display:none;"></iframe>
 			</div><!--/span-->

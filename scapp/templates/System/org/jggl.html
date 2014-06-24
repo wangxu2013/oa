@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>	
+	<meta charset="utf-8">
+	<title>OA管理系统</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="Charisma, a fully featured, responsive, HTML5, Bootstrap admin template.">
+	<meta name="author" content="Muhammad Usman">
+
+	<!-- The styles -->
+	<link href="/static/css/bootstrap.css" rel="stylesheet">
+	<link href="/static/css/main.css" rel="stylesheet">
+	<link rel="stylesheet" href="/static/css/zTreeStyle/zTreeStyle.css" type="text/css">
+	<style type="text/css">
+		input[type=text]{width:85%;}
+	</style>
+	<script src="/static/js/jquery-1.7.2.min.js"></script>
+	<script src="/static/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="/static/js/jquery.ztree.core-3.5.js"></script>
+	<script src="/static/js/system.js" type="text/javascript"></script>
+	<script src="/static/js/script.js"></script>
+	<SCRIPT type="text/javascript">
+		<!--
+		//树节点单击回调
+		var pId = 0;
+		function zTreeOnClick(event, treeId, treeNode) {
+			pId = treeNode.id;
+		    var childNodes = $.fn.zTree.getZTreeObj("tree").transformToArray(treeNode);
+		    childNodes.shift();
+		    var content = "";
+		    //表格赋值
+		    for(var i = 0;i<childNodes.length;i++){
+		        content += "<tr class='num'>" +
+		                        "<td>"+childNodes[i].id+"</td>"+
+		                        "<td>"+childNodes[i].name+"</td>"+
+		                        "<td>"+
+		                        "<input type='button' class='btn btn-danger btn-mini' onclick=iframe('System/edit_jggl/"+childNodes[i].id+"') value='编辑' />"+
+		                        "<input type='button' class='btn btn-danger btn-mini' onclick=iframe('System/edit_jggl/"+childNodes[i].id+"') value='删除' />"+
+		                        "</td>"+
+		                    "</tr>";
+		    }
+		    $("table tbody").html(content);
+		    Frame();
+		};
+
+		var setting = {
+			data: {
+				simpleData: {
+					enable: true
+				}
+			},
+			async: {
+				enable: true,
+				url:"/System/tree/OA_Org/0"
+			},
+			callback: {
+				onClick: zTreeOnClick
+			}
+		};		
+		$(document).ready(function(){						
+			$.fn.zTree.init($("#tree"), setting);		
+					 	
+		});
+		//-->
+	</SCRIPT>	
+</head>
+
+<body onload="setTimeOut();">	
+	<div class="content">
+		<div class="well place">			
+			<i class="icon-home"></i><a href="#">系统管理</a>/<a href="#">部门管理</a>
+		</div>	
+		{%- with messages = get_flashed_messages(with_categories=true) %}
+		  	{%- if messages %}
+	    	{%- for category, message in messages %}
+	    	<div class="alert alert-{{category}}">
+	      		{{message}}
+	      	</div>
+	    	{%- endfor %}
+		  	{%- endif %}
+		{%- endwith %}
+		<div class="row-fluid">	
+			<div class="span4">		
+				<i class="icon-bookmark"></i><span class="titletip">部门列表</span>			
+				<ul id="tree" class="ztree"></ul>	
+			</div>
+			<div class="span8" style="margin-top:25px;">
+			<!--<div class="box-content">  -->
+				<div style="margin-bottom:5px;">
+					<a type="button" class="btn btn-info" href="#" onclick="iframe('System/new_jggl/'+pId);">新增</a>
+				</div>
+				<div style="border:1px solid #94c1dc;">				
+					<table class="table-list" cellspacing="10">
+						<thead>
+							<tr>
+								<th width="10%">部门编号</th>
+								<th width="30%">部门名称</th>			
+								<th width="20%">操作</th>
+							</tr>
+						</thead>
+						<tbody class="center">
+																			
+						</tbody>
+					</table>
+				</div>
+			</div>		
+		</div>
+	</div><!--/content -->
+</body>
+</html>
