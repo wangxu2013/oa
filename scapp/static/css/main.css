@@ -23,6 +23,7 @@ label{display:inline;}
 .table-list tbody input{margin:3px;}
 .point{color:gray;font-size:12px;}
 .display-div{display:none;position:absolute;left:14%;margin-top:-25px;background:white;border:2px solid black;width:70%;height:300px;padding:10px;overflow:auto;}
+.display-div2{display:none;position:absolute;left:28%;margin-top:-120px;background:white;border:2px solid black;width:30%;height:430px;padding:10px;overflow:auto;}
 .page-div{text-align:center;color:gray;font-size:14px;}
 .page-div input{width:20px;padding:0;}
 .footer{width:100%;
