@@ -29,6 +29,10 @@ _DBNAME = "new_oa"  # 数据库名称
 
 PER_PAGE = 10  # 每页数量
 
+Approval_type_ORG = 1#部门 
+Approval_type_PRJ = 2#项目
+Approval_type_CAIWU = 3#财务
+
 class Config(object):
     SECRET_KEY = '\xb5\xc8\xfb\x18\xba\xc7*\x03\xbe\x91{\xfd\xe0L\x9f\xe3\\\xb3\xb1P\xac\xab\x061'
     DEBUG = False

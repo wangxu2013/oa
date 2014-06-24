@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>	
+	<meta charset="utf-8">
+	<title>OA管理系统</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="Charisma, a fully featured, responsive, HTML5, Bootstrap admin template.">
+	<meta name="author" content="Muhammad Usman">
+
+	<!-- The styles -->
+	<link href="../../static/css/bootstrap.css" rel="stylesheet">
+	<link rel="stylesheet" href="/static/css/zTreeStyle/zTreeStyle.css" type="text/css">
+	<link href="../../static/css/main.css" rel="stylesheet">
+	<link href="../../static/css/datepicker.css" rel="stylesheet">
+	<!-- ************************验证样式************************-->
+	<script src="../../static/SpryAssets/SpryValidationTextField.js" type="text/javascript"></script>
+	<link href="../../static/SpryAssets/SpryValidationTextField.css" rel="stylesheet" type="text/css">
+	<script src="../../static/js/jquery-1.7.2.min.js"></script>
+	<script type="text/javascript" src="/static/js/jquery.ztree.core-3.5.js"></script>
+	<script src="../../static/js/bootstrap.min.js"></script>
+	<script src="../../static/js/script.js"></script>
+	<script src="../../static/js/bootstrap-datepicker.js"></script>
+	<SCRIPT type="text/javascript">
+		<!--
+		//树节点单击回调
+		var pId = 0;
+		function zTreeOnClick(event, treeId, treeNode) {
+			//点击项目树获取归属项目id
+			$("#node_id").val(treeNode.id);
+			$("#node_type").val(treeNode.node_type);
+			$("#belong_name").val(treeNode.name);
+			$("#yzA").val(treeNode.name);
+			$('#A_xdyss').hide();
+		};
+
+		var setting = {
+			data: {
+				simpleData: {
+					enable: true
+				}
+			},
+			async: {
+				enable: true,
+				url:"/fytj/fytj_tree"
+			},
+			callback: {
+				onClick: zTreeOnClick
+			}
+		};		
+		$(document).ready(function(){						
+			$.fn.zTree.init($("#tree"), setting);		
+					 	
+		});
+		//-->
+	</SCRIPT>
+</head>
+
+<body onload="datepicker();">	
+	<form class="content" method="POST" action="/fytj/fytj_list/1">
+		<div class="well place">			
+			<i class="icon-home"></i><a href="#">报销管理</a>/<a href="#">付款审核</a>
+		</div>		
+		<div class="row-fluid">
+			<i class="icon-bookmark"></i><span class="titletip">付款搜索</span>
+			<div>
+				<div style="border:1px solid #94c1dc;">
+					<table class="table-list">
+						<tr>
+							<td class="table-label">费用开始时间</td>
+							<td><input type="text" class="datepicker" name="beg_date" data-date-format="yyyy-mm-dd" readonly/></td>
+							<td class="table-label">费用结束时间</td>
+							<td><input type="text" class="datepicker" name="end_date" data-date-format="yyyy-mm-dd" readonly/></td>
+						</tr>
+						<tr>
+							<td class="table-label">是否已付款</td>
+							<td>
+								<select name="is_paid">
+									<option value="-1">全部</option>
+									<option value="1">是</option>
+									<option value="0">否</option>
+								</select>
+							</td>
+							<td class="table-label">费用所属</td>
+							<td>
+								<input type="hidden" id="node_id" name="node_id"/>
+								<input type="hidden" id="node_type" name="node_type"/>
+								<input type="text" id="belong_name" readonly/>
+								<input type="button" value="选择" class="btn" onclick="$('#A_xdyss').show();"/>
+								<span id="A_manager_name_spay">
+									<input type="hidden" id="yzA"/>
+									<span class="textfieldRequiredMsg">不能为空</span>
+								</span>							
+								<div class="display-div2" id="A_xdyss">																
+									<input type="button" value="关闭" class="btn btn-info btn-mini pull-right" onclick="$('#A_xdyss').hide();"/><br/>							
+									<div style="width:100%;float:left;margin-top:0px;">
+										<i class="icon-bookmark"></i><span class="titletip">请选择(<img src="/static/css/zTreeStyle/img/diy/1_open.png"/>公司部门，<img src="/static/css/zTreeStyle/img/diy/2.png"/>项目组)</span>
+										<div style="border:1px solid #94c1dc;height:380px;overflow:auto;">
+											<ul id="tree" class="ztree"></ul>	
+										</div>
+									</div>
+								</div>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<input type="submit" class="btn btn-info" value="搜索"/>										
+			</div><!--/搜索-->
+		</div><!--/row-fluid -->
+	</form><!--/content -->
+</body>
+</html>
