@@ -44,7 +44,7 @@ def fysp_list(page):
             org_id = request.form['org_id']
             project_id = request.form['project_id']
     
-    sql =" is_refuse=0 and is_paid =0 and ("
+    sql =" is_refuse=0 and is_paid =0 "
     orgAll = OA_Org.query.filter_by(manager=current_user.id).all()
     if org_id == "-1":
         if len(orgAll)>0:
@@ -58,21 +58,21 @@ def fysp_list(page):
             if len(appreval)>1:
                 appreval=appreval[0:len(appreval)-1]
             appreval+=")"
-            sql += " (approval in "+appreval
+            sql += "and (approval in "+appreval
             #含财务部门
             if type=='2':
                 sql += " or approval_type = 3)"
             else:
                 sql += " and approval_type=1)"
         else:
-           sql +=" approval is null" 
+           sql +="and approval is null" 
     else:
         org = OA_Org.query.filter_by(id=org_id).first()
         if org:
             if org.is_caiwu=='1':
-                sql +="  approval_type = 3"
+                sql +=" and approval_type = 3"
             else:
-                sql += "  (approval="+org_id+" and approval_type = 1)"
+                sql += " and (approval="+org_id+" and approval_type = 1)"
     #前台没有选择项目
     da = OA_Project.query.filter_by(manager_id=current_user.id).all()
     if project_id == "-1":
@@ -83,10 +83,10 @@ def fysp_list(page):
             if len(app)>1:
                 app=app[0:len(app)-1]
             app+=")"
-            sql += " or (approval in "+app+" and approval_type = 2))"
+            sql += " or (approval in "+app+" and approval_type = 2)"
     #前台选择项目
     else:
-        sql += " or (approval="+project_id+" and approval_type = 2))"
+        sql += " or (approval="+project_id+" and approval_type = 2)"
     #POST时有搜索条件
     if request.method == 'POST':
         if request.form['beg_date']:
@@ -95,6 +95,7 @@ def fysp_list(page):
         data = OA_Reimbursement.query.filter(sql).paginate(page, per_page = PER_PAGE)
     else:
         data=0
+    print sql
     return render_template("bxsq/fysp/fysp_list.html",data=data,beg_date=beg_date,end_date=end_date,
                            org_id=org_id,project_id=project_id)
 
