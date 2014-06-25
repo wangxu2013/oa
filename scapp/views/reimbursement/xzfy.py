@@ -23,7 +23,6 @@ def new_xzfy():
             #提单，自动级别高的部门下
             approval =""
             approval_type=""
-            print level
             if str(level)=='5':
                 approval_type=Approval_type_CAIWU
             elif str(level)=='6':
@@ -35,9 +34,6 @@ def new_xzfy():
                     app = string.split('.')
                     approval=app[0]
                     approval_type=app[1]
-            print "========"
-            print approval
-            print approval_type
             OA_Reimbursement(approval,approval_type,request.form['project_id'],request.form['org_id'],
                              request.form['amount'],request.form['describe'],request.form['reason'],
                              request.form['start_date'],request.form['end_date'],
@@ -65,15 +61,23 @@ def new_xzfy():
 def edit_xzfy(id):
     if request.method=='POST':
         try:
+            role = OA_UserRole.query.filter_by(user_id=current_user.id).first().oa_userrole_ibfk_2
+            level = role.role_level #取得用户权限等级
             reimbursement = OA_Reimbursement.query.filter_by(id=id).first()
             #如果是负责人提单，自动到上级部门或项目
             approval =""
             approval_type=""
-            string = getLastId(request.form['project_id'],Approval_type_PRJ,level)
-            if string:
-                app = string.split('.')
-                approval=app[0]
-                approval_type=app[1]
+            if str(level)=='5':
+                approval_type=Approval_type_CAIWU
+            elif str(level)=='6':
+                approval=request.form['project_id']
+                approval_type=Approval_type_PRJ
+            else:
+                string = getLastId(request.form['project_id'],Approval_type_PRJ,level)
+                if string:
+                    app = string.split('.')
+                    approval=app[0]
+                    approval_type=app[1]
             reimbursement.approval = approval
             reimbursement.approval_type = approval_type
             reimbursement.project_id = request.form['project_id']
