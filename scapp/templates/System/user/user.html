@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>	
+	<meta charset="utf-8">
+	<title>OA管理系统</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="Charisma, a fully featured, responsive, HTML5, Bootstrap admin template.">
+	<meta name="author" content="Muhammad Usman">
+
+	<!-- The styles -->
+	<link href="/static/css/bootstrap.css" rel="stylesheet">
+	<link href="/static/css/main.css" rel="stylesheet">
+	<style type="text/css">
+		
+	</style>
+	
+	
+</head>
+
+<body onload="setTimeOut();">	
+	<div class="content">
+		<div class="well place">			
+			<i class="icon-home"></i><a href="#">系统管理</a>/<a href="#">用户管理</a>
+		</div>		
+		<div class="row-fluid">
+			{%- with messages = get_flashed_messages(with_categories=true) %}
+			  	{%- if messages %}
+		    	{%- for category, message in messages %}
+		    	<div class="alert alert-{{category}}">
+		      		{{message}}
+		      	</div>
+		    	{%- endfor %}
+			  	{%- endif %}
+			{%- endwith %}
+			<i class="icon-bookmark"></i><span class="titletip">使用者列表</span>
+			<div style="margin-bottom:5px;">
+				<a type="button" class="btn btn-info" href="#" onclick="iframe('System/new_user')">新增</a>	
+			</div>
+			<div style="border:1px solid #94c1dc;">				
+				<table class="table-list" cellspacing="10" id="uesr-list">
+					<thead>
+						<tr>
+							<th><input type="button" class="btn btn-info btn-mini" value="反选" style="margin:0;" onclick="ChkAllClick()"/></th>
+							<th>登录名称</th>
+							<th>真实姓名</th>
+							<th>性别</th>						
+							<th>状态</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody class="center">
+						{%- for obj in users.items %}
+						<tr>
+							<td><input type="checkbox" onclick="changeColor(this)" name="checkbox"/></td>
+							<td><a href="#" onclick="iframe('System/edit_user/{{obj.id}}')">{{obj.login_name}}</a></td>							
+							<td>{{obj.real_name}}</td>
+							{%- if obj.sex == '1' %}
+								<td>男</td>
+							{%- else %}
+								<td>女</td>
+							{%- endif %}
+							
+							{%- if obj.active == '1' %}
+								<td>激活</td>
+							{%- else %}
+								<td>未激活</td>
+							{%- endif %}
+							<td>
+								<input type="button" class="btn btn-warning btn-mini" value="禁用"/>
+								<input type="button" class="btn btn-warning btn-mini" value="密码重置"/>
+							</td>
+						</tr>	
+						{%- endfor %}		
+					</tbody>
+				</table>
+			</div>
+			<div class="page-div">
+				{%- if users.has_prev %}
+					<span style="CURSOR: pointer" onclick="iframe('System/user/{{users.prev_num}}')">&lt;&lt;</span>
+				{%- else %}
+					<span style="CURSOR: pointer">&lt;&lt;</span>
+				{%- endif %}
+				&#160;第&#160;<font color="#0088cc">{{users.page}}</font>&#160;页&#160;
+				&#160;共&#160;<font color="#0088cc">{{users.pages}}</font>&#160;页&#160;
+				{%- if users.has_next %}
+					<span style="CURSOR: pointer" onclick="iframe('System/user/{{users.next_num}}')">&gt;&gt;</span>
+				{%- else %}
+					<span style="CURSOR: pointer">&gt;&gt;</span>
+				{%- endif %}
+			</div>
+		</div><!--/row-fluid -->
+	</div><!--/content -->
+	
+	<script src="/static/js/jquery-1.7.2.min.js"></script>
+	<script src="/static/js/bootstrap.min.js"></script>
+	<script src="/static/js/script.js"></script>
+	
+</body>
+</html>

@@ -38,6 +38,8 @@
 						</li>
 					</ul>					
 					<ul class="nav" id="topmenu">
+					{%- for obj in privileges %}
+							{%- if obj.privilege_access_value == "bxgl" and obj.privilege_operation != "0" %}
 						<li 
 							{%- if menu == "xxgl"%}
 								class="active"
@@ -45,13 +47,15 @@
 								class="active"
 							{%- endif %}
 							onclick="iframe('xxgl')"><a href="javascript:void(0);">报销管理</a></li>
-							{%- if role.role_level == 0 %}
+						{%- endif %}
+						{%- if obj.privilege_access_value == "xtgl" and obj.privilege_operation != "0" %}
 						<li 
 							{%- if menu == "xtgl"%}
 								class="active"
 							{%- endif %}
 							onclick="iframe('xtgl')"><a href="javascript:void(0);">系统管理</a></li>
-							{%- endif %}
+						{%- endif %}
+					{%- endfor %}
 					</ul>
 				</div><!--/.nav-collapse -->
 			</div><!--/.container-fluid -->
@@ -68,44 +72,37 @@
 							{%- endif %}
 							" id="xxgl">
 						<li class="nav-header">报销申请</li>
-						{%- if role.role_level == 5 %}
-						<div style="display:none">
-						{%- endif %}
-						<li onclick="leftmenu(this);changeiframe('fybx/add')" id="new_bxsq" class="
-									{%- if menu == "xxgl"%}
-										active
-									{%- endif %}									
-									">
-							<a href="javascript:void(0);">新增费用</a>
-						</li>
-						<li onclick="leftmenu(this);changeiframe('fybx/fksh_gr_search')" id="bxsq_list">
-							<a href="javascript:void(0);">个人查询</a>
-						</li>
-						{%- if role.role_level == 5 %}
-						</div>
-						{%- endif %}
-
-						{%- if role.role_level != 1 %}
-						<li onclick="leftmenu(this);changeiframe('fybx/check_query_search')" id="check_bxsq" class="
-									{%- if menu == "dsp"%}
-										active
-									{%- endif %}									
-									">
-							<a href="javascript:void(0);">费用审批</a>
-						</li>
-						{%- endif %}
-						{%- if role.role_level == 4 %}
-						    <li onclick="leftmenu(this);changeiframe('fybx/fksh_search')" id="bxtj_list">
-							<a href="javascript:void(0);">费用统计</a>
-						    </li>
-						{%- endif %}
-						<!-- 财务总监可见 -->
-						{%- if role.role_level == 6 %}
-						    <li onclick="leftmenu(this);changeiframe('fybx/fksh_search')" id="fksh_search">
-							<a href="javascript:void(0);">费用查询</a>
-						    </li>
-						{%- endif %}
-						</li>  
+						{%- for obj in privileges %}
+							{%- if obj.privilege_access_value == "xzfy" and obj.privilege_operation != "0" %}
+							<li onclick="leftmenu(this);changeiframe('xzfy/new_xzfy')" id="xzfy" class="
+								{%- if menu == "xxgl"%}
+									active
+								{%- endif %}									
+								">
+								<a href="javascript:void(0);">新增费用</a>
+							</li>
+							{%- endif %}
+							{%- if obj.privilege_access_value == "grcx" and obj.privilege_operation != "0" %}
+							<li onclick="leftmenu(this);changeiframe('grcx/grcx_search')" id="grcx">
+								<a href="javascript:void(0);">个人查询</a>
+							</li>
+							{%- endif %}
+							{%- if obj.privilege_access_value == "fysp" and obj.privilege_operation != "0" %}
+							<li onclick="leftmenu(this);changeiframe('fysp/fysp_search')" id="fysp" class="
+										{%- if menu == "dsp"%}
+											active
+										{%- endif %}									
+										">
+								<a href="javascript:void(0);">费用审批</a>
+							</li>
+							{%- endif %}
+							{%- if obj.privilege_access_value == "fytj" and obj.privilege_operation != "0" %}
+							    <li onclick="leftmenu(this);changeiframe('fytj/fytj_search')" id="fytj">
+								<a href="javascript:void(0);">费用统计</a>
+							    </li>
+							</li>  
+							{%- endif %}
+						{%- endfor %}
 					</ul>
 					<ul class="nav nav-list 
 							{%- if menu != "xtgl"%}
@@ -114,20 +111,48 @@
 							" id="xtgl">
 						<li class="nav-header">系统管理</li>
 						<!-- 系统管理员 -->
-						{%- if role.role_level == 0 %}
-							<li onclick="leftmenu(this);changeiframe('system/project/add')" id="sjzd" class="active">
-								<a href="javascript:void(0);">项目管理</a>
-							</li>			
+						{%- for obj in privileges %}
+							{%- if obj.privilege_access_value == "sygl" and obj.privilege_operation != "0" %}
+							<li onclick="leftmenu(this);changeiframe('System/reason/1')" id="sygl" class="active">
+								<a href="javascript:void(0);">事由管理</a>
+							</li>
+							{%- endif %}
+							{%- if obj.privilege_access_value == "zwgl" and obj.privilege_operation != "0" %}
+							<li onclick="leftmenu(this);changeiframe('System/job/1')" id="zwgl">
+								<a href="javascript:void(0);">职位管理</a>
+							</li>
+							{%- endif %}
+							{%- if obj.privilege_access_value == "khgl" and obj.privilege_operation != "0" %}
+							<li onclick="leftmenu(this);changeiframe('System/customer/1')" id="khgl">
+								<a href="javascript:void(0);">客户管理</a>
+							</li>
+							{%- endif %}
+							{%- if obj.privilege_access_value == "mkgl" and obj.privilege_operation != "0" %}
+							<li onclick="leftmenu(this);changeiframe('System/menu')" id="mkgl">
+								<a href="javascript:void(0);">模块管理</a>
+							</li>
+							{%- endif %}
+							{%- if obj.privilege_access_value == "jggl" and obj.privilege_operation != "0" %}
 							<li onclick="leftmenu(this);changeiframe('System/jggl')" id="jggl" >
 								<a href="javascript:void(0);">部门管理</a>
 							</li>
-							<li onclick="leftmenu(this);changeiframe('System/syzgl/1')" id="syzgl" >
-								<a href="javascript:void(0);">使用者管理</a>
-							</li>		
+							{%- endif %}
+							{%- if obj.privilege_access_value == "xmgl" and obj.privilege_operation != "0" %}
+							<li onclick="leftmenu(this);changeiframe('System/project/1')" id="xmgl">
+								<a href="javascript:void(0);">项目管理</a>
+							</li>
+							{%- endif %}
+							{%- if obj.privilege_access_value == "yhgl" and obj.privilege_operation != "0" %}			
+							<li onclick="leftmenu(this);changeiframe('System/user/1')" id="yhgl" >
+								<a href="javascript:void(0);">用户管理</a>
+							</li>	
+							{%- endif %}
+							{%- if obj.privilege_access_value == "jsqxgl" and obj.privilege_operation != "0" %}	
 							<li onclick="leftmenu(this);changeiframe('System/jsqxgl/1')" id="jsqxgl" >
 								<a href="javascript:void(0);">角色权限管理</a>
 							</li>
-						{%- endif %}		
+							{%- endif %}
+						{%- endfor %}
 					</ul>
 				</div><!--/.well -->					
 			</div><!--/span-->
@@ -135,15 +160,11 @@
 			<div class="span10 pull-right">
 				<iframe frameborder="0" 
 					{%- if menu == "xxgl" %}
-						{%- if role.role_level == 5 %}
-							src="/fybx/check_query_search"						
-						{%- else %}
-							src="fybx/add"
-						{%- endif %}
+						src="xzfy/new_xzfy"
 					{%- elif menu == "dsp" %}
-						src="fybx/check_query/1/pc"	
+						src="fysp/fysp_list/1"	
 					{%- elif menu == "xtgl" %}
-						src="system/project/add"
+						src="System/reason/1"
 					{%- endif %}
 				width="100%;" id="content_frame" name="content_frame" marginheight="0" marginwidth="0" height="100%" onload="resizeFrame('content_frame')"></iframe>
 			</div><!--/span-->

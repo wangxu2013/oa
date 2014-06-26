@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>	
+	<meta charset="utf-8">
+	<title>OA管理系统</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="Charisma, a fully featured, responsive, HTML5, Bootstrap admin template.">
+	<meta name="author" content="Muhammad Usman">
+
+	<!-- The styles -->
+	<link href="/static/css/bootstrap.css" rel="stylesheet">
+	<link href="/static/css/main.css" rel="stylesheet">
+	<link href="/static/css/datepicker.css" rel="stylesheet">
+	<!-- ************************验证样式************************-->
+	<script src="/static/SpryAssets/SpryValidationTextField.js" type="text/javascript"></script>
+	<link href="/static/SpryAssets/SpryValidationTextField.css" rel="stylesheet" type="text/css">
+	<!--<script src="../../static/SpryAssets/SpryValidationSelect.js" type="text/javascript"></script>
+	<link href="../../static/SpryAssets/SpryValidationSelect.css" rel="stylesheet" type="text/css" />-->
+	<style type="text/css">
+		.table-list .table-label{width:140px;}
+	</style>
+	
+</head>
+
+<body onload="datepicker();setTimeOut();">
+	<form id="content" class="content" method="POST">	
+		<div class="well place">			
+			<i class="icon-home"></i><a href="#">报销申请</a>/<a href="#">费用统计</a>
+		</div>	
+			<input type="hidden" name="beg_date" value="{{beg_date}}">
+			<input type="hidden" name="end_date" value="{{end_date}}">
+			<input type="hidden" name="is_paid" value="{{is_paid}}">
+			<input type="hidden" name="node_id" value="{{node_id}}">
+			<input type="hidden" name="node_type" value="{{node_type}}">
+		{%- with messages = get_flashed_messages(with_categories=true) %}
+		  	{%- if messages %}
+	    	{%- for category, message in messages %}
+	    	<div class="alert alert-{{category}}" style="width:245px;margin:-10px auto 10px;">
+	      		{{message}}
+	      	</div>
+	    	{%- endfor %}
+		  	{%- endif %}
+		{%- endwith %}
+		<div class="row-fluid">			
+			<i class="icon-bookmark"></i><span class="titletip">费用统计</span>
+			<div style="border:1px solid #94c1dc;">				
+				<table class="table-list" cellspacing="10" id="uesr-list">
+					<thead>
+						<tr>
+							<th>费用所属单位</th>
+							<th>申请人</th>
+							<th>项目</th>
+							<th>金额</th>	
+							<th>报销事由</th>							
+							<th>创建时间</th>
+							<th>审批状态</th>
+						</tr>
+					</thead>
+					<tbody class="center">	
+					{%- for obj in data.items %}					
+						<tr>
+							<td>{{obj.oa_reimbursement_ibfk_3.name}}</td>
+							<td>{{obj.oa_reimbursement_ibfk_2.real_name}}</td>
+							<td>{{obj.oa_reimbursement_ibfk_1.project_name}}</td>
+							<td>{{obj.amount}}</td>	
+							<td>{{obj.oa_reimbursement_ibfk_5.reason_name}}</td>
+							<td>{{obj.create_date}}</td>
+							
+							{%- if obj.is_paid == '1' %}
+								<td>已付款</td>
+							{%- else %}
+								{%- if obj.is_refuse == '1' %}
+									<td>被拒绝</td>
+								{%- else %}
+									{%- if obj.is_retreat == '1' %}
+										<td>被退回</td>
+									{%- else %}
+										<td>审批中</td>
+									{%- endif %}
+								{%- endif %}
+							{%- endif %}	
+						</tr>	
+					{%- endfor %}	
+					</tbody>					
+				</table>
+			</div>
+			<div class="page-div">
+					{%- if data.has_prev %}
+						<span style="CURSOR: pointer" onclick="submitForm('content','/fytj/fytj_list/{{data.prev_num}}')">&lt;&lt;</span>
+					{%- else %}
+						<span style="CURSOR: pointer">&lt;&lt;</span>
+					{%- endif %}
+					&#160;第&#160;<font color="#0088cc">{{data.page}}</font>&#160;页&#160;
+					&#160;共&#160;<font color="#0088cc">{{data.pages}}</font>&#160;页&#160;
+					{%- if data.has_next %}
+						<span style="CURSOR: pointer" onclick="submitForm('content','/fytj/fytj_list/{{data.next_num}}')">&gt;&gt;</span>
+					{%- else %}
+						<span style="CURSOR: pointer">&gt;&gt;</span>
+					{%- endif %}
+			</div>
+		</div><!--/row-fluid -->
+		
+	</form>	
+
+	<script src="/static/js/jquery-1.7.2.min.js"></script>
+	<script src="/static/js/bootstrap.min.js"></script>
+	<script src="/static/js/script.js"></script>
+	<script src="/static/js/bootstrap-datepicker.js"></script>
+	<script type="text/javascript">
+		var max=0;
+		var jegs=0;
+		var num=0;
+		var idCard=0;
+		var phone=0;
+		var sprytextfield1 = new Spry.Widget.ValidationTextField("customer_no", "none");
+		var sprytextfield2 = new Spry.Widget.ValidationTextField("customer_name", "none");		
+		var sprytextfield3 = new Spry.Widget.ValidationTextField("manager_name_spay", "none");
+		var sprytextfield4 = new Spry.Widget.ValidationTextField("credentials_no", "none");
+		var sprytextfield5 = new Spry.Widget.ValidationTextField("credentials_org", "none");
+		//var sprytextfield11 = new Spry.Widget.ValidationTextField("credentials_valid", "date", {format:"yyyy-mm-dd"});
+		//var sprytextfield7 = new Spry.Widget.ValidationTextField("birthday", "date", {format:"yyyy-mm-dd"});
+		var sprytextfield15 = new Spry.Widget.ValidationTextField("telephone", "integer", {isRequired:false, minChars:11, maxChars:12});
+		var sprytextfield13 = new Spry.Widget.ValidationTextField("mobile", "phone_number", {format:"phone_custom", pattern:"10000000000", isRequired:false});
+		var sprytextfield16 = new Spry.Widget.ValidationTextField("contact_phone", "integer", {isRequired:false, minChars:11, maxChars:12});
+		var sprytextfield14 = new Spry.Widget.ValidationTextField("email", "email", {isRequired:false});
+	</script>
+</body>
+</html>
