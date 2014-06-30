@@ -77,7 +77,7 @@
 											<td>被退回</td>
 											<td><input type='button' class='btn btn-danger btn-mini' value='编辑' onclick="iframe('xzfy/edit_xzfy/{{obj.id}}')"/></td>	
 										{%- else %}
-											<td>审批中</td>
+											<td>{{obj.approval}}审批</td>
 											<td></td>
 										{%- endif %}
 									{%- else %}
@@ -85,7 +85,7 @@
 											<td>新申请</td>
 											<td><input type='button' class='btn btn-danger btn-mini' value='编辑' onclick="iframe('xzfy/edit_xzfy/{{obj.id}}')"/></td>	
 										{%- else %}
-											<td>审批中</td>
+											<td>{{obj.approval}}审批</td>
 											<td></td>
 										{%- endif %}
 									{%- endif %}
