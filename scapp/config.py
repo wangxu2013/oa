@@ -29,7 +29,7 @@ _DBNAME = "new_oa"  # 数据库名称
 
 PER_PAGE = 10  # 每页数量
 UPLOAD_FOLDER_REL = '/static/upload' #上传目录(相对路径)
-UPLOAD_FOLDER_ABS = os.path.join(_HERE,'static\\upload') #上传目录(绝对路径)
+UPLOAD_FOLDER_ABS = os.path.join(_HERE,'static/upload') #上传目录(绝对路径)
 
 Approval_type_ORG = 1#部门 
 Approval_type_PRJ = 2#项目
