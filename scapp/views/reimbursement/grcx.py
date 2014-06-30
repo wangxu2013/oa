@@ -35,6 +35,15 @@ def grcx_list(page,return_type):
                 sql += " and is_paid = '"+is_paid+"'"
             sql += " and create_user = "+str(current_user.id)
             data=OA_Reimbursement.query.filter(sql).order_by("id").paginate(page, per_page = PER_PAGE)
+            for obj in data.items:
+                if str(obj.approval_type)=='3':
+                    obj.approval='财务'
+                if str(obj.approval_type)=='1':
+                    tt = OA_Org.query.filter_by(id=obj.approval).first()
+                    obj.approval=tt.name
+                if str(obj.approval_type)=='2':
+                    tt = OA_Project.query.filter_by(id=obj.approval).first()
+                    obj.approval=tt.project_name
             return render_template("bxsq/grcx/grcx_list.html",data=data,beg_date=request.form['beg_date'],end_date=request.form['end_date'],is_paid=request.form['is_paid'])
 
 

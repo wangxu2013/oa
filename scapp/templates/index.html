@@ -56,6 +56,7 @@
 							onclick="iframe('xtgl')"><a href="javascript:void(0);">系统管理</a></li>
 						{%- endif %}
 					{%- endfor %}
+					
 					</ul>
 				</div><!--/.nav-collapse -->
 			</div><!--/.container-fluid -->
@@ -103,6 +104,9 @@
 							</li>  
 							{%- endif %}
 						{%- endfor %}
+						<li onclick="leftmenu(this);changeiframe('wdgl/wdgl')" id="wdgl">
+								<a href="javascript:void(0);">文档管理</a>
+							    </li>
 					</ul>
 					<ul class="nav nav-list 
 							{%- if menu != "xtgl"%}

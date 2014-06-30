@@ -11,3 +11,4 @@ from scapp.models.system_usage.oa_menu import OA_Menu
 from scapp.models.system_usage.oa_privilege import OA_Privilege
 from scapp.models.system_usage.oa_reason import OA_Reason
 from scapp.models.reimbursement.oa_reimbursement import OA_Reimbursement
+from scapp.models.reimbursement.oa_doc import OA_Doc
