@@ -20,26 +20,20 @@ def new_xzfy():
         try:
             role = OA_UserRole.query.filter_by(user_id=current_user.id).first().oa_userrole_ibfk_2
             level = role.role_level #取得用户权限等级
-            #如果是负责人提单，自动到上级部门或项目
+            #提单，自动级别高的部门下
             approval =""
             approval_type=""
-            project = OA_Project.query.filter_by(id=request.form['project_id']).first()
-            if project:
-                if project.manager_id==current_user.id:
-                    if project.p_project_id:
-                        approval=project.p_project_id
-                        approval_type=Approval_type_PRJ
-                    else:
-                        org = OA_Org.query.filter_by(id=project.p_org_id).first()
-                        if org.manager:
-                            if org.manager==current_user.id:
-                                approval=org.pId
-                            else:
-                                approval=project.p_org_id
-                        approval_type=Approval_type_ORG
-                else:
-                    approval=request.form['project_id']
-                    approval_type=Approval_type_PRJ
+            if str(level)=='5':
+                approval_type=Approval_type_CAIWU
+            elif str(level)=='6':
+                approval=request.form['project_id']
+                approval_type=Approval_type_PRJ
+            else:
+                string = getLastId(request.form['project_id'],Approval_type_PRJ,level)
+                if string:
+                    app = string.split('.')
+                    approval=app[0]
+                    approval_type=app[1]
             OA_Reimbursement(approval,approval_type,request.form['project_id'],request.form['org_id'],
                              request.form['amount'],request.form['describe'],request.form['reason'],
                              request.form['start_date'],request.form['end_date'],
@@ -67,25 +61,23 @@ def new_xzfy():
 def edit_xzfy(id):
     if request.method=='POST':
         try:
+            role = OA_UserRole.query.filter_by(user_id=current_user.id).first().oa_userrole_ibfk_2
+            level = role.role_level #取得用户权限等级
             reimbursement = OA_Reimbursement.query.filter_by(id=id).first()
             #如果是负责人提单，自动到上级部门或项目
             approval =""
             approval_type=""
-            if reimbursement.manager_id==current_user.id:
-                if reimbursement.p_project_id:
-                    approval=reimbursement.p_project_id
-                    approval_type=Approval_type_PRJ
-                else:
-                    org = OA_Org.query.filter_by(id=project.p_org_id).first()
-                    if org.manager:
-                        if org.manager==current_user.id:
-                            approval=org.pid
-                        else:
-                            approval=project.p_org_id
-                    approval_type=Approval_type_ORG
-            else:
+            if str(level)=='5':
+                approval_type=Approval_type_CAIWU
+            elif str(level)=='6':
                 approval=request.form['project_id']
                 approval_type=Approval_type_PRJ
+            else:
+                string = getLastId(request.form['project_id'],Approval_type_PRJ,level)
+                if string:
+                    app = string.split('.')
+                    approval=app[0]
+                    approval_type=app[1]
             reimbursement.approval = approval
             reimbursement.approval_type = approval_type
             reimbursement.project_id = request.form['project_id']
@@ -112,3 +104,47 @@ def edit_xzfy(id):
         reasons = OA_Reason.query.order_by("id").all()
         belong_name = OA_Project.query.filter_by(id=reimbursement.project_id).first().project_name
         return render_template("bxsq/xzfy/edit_xzfy.html",reimbursement=reimbursement,reasons=reasons,belong_name=belong_name)
+
+#递归查询级别
+def getLastId(id,approval_type,level):
+    #项目
+    if int(approval_type)==int(Approval_type_PRJ):
+        project = OA_Project.query.filter_by(id=id).first()
+        if project:
+            #如果存在上级项目
+            if project.p_project_id:
+                #获取上级项目manager级别
+                last_project = OA_Project.query.filter_by(id=project.p_project_id).first()
+                role = OA_UserRole.query.filter_by(user_id=last_project.manager_id).first().oa_userrole_ibfk_2
+                last_level = role.role_level #取得用户权限等级
+                if int(last_level)>int(level):
+                    return project.id+"."+Approval_type_PRJ
+                else:
+                    return getLastId(project.p_project_id,Approval_type_PRJ,level)
+                    
+            #如果存在上级部门
+            else:
+                #获取上级部门manager级别
+                last_org = OA_Org.query.filter_by(id=project.p_org_id).first()
+                role = OA_UserRole.query.filter_by(user_id=last_org.manager).first().oa_userrole_ibfk_2
+                last_level = role.role_level #取得用户权限等级
+                if int(last_level)>int(level):
+                    return str(project.p_org_id)+"."+str(Approval_type_ORG)
+                else:
+                    return getLastId(project.p_org_id,Approval_type_ORG,level)
+                    
+    #部门
+    else:
+        org = OA_Org.query.filter_by(id=id).first()
+        if org:
+            #如果存在上级部门
+            if org.pId:
+                #获取上级部门manager级别
+                last_org = OA_Org.query.filter_by(id=org.pId).first()
+                role = OA_UserRole.query.filter_by(user_id=last_org.manager).first().oa_userrole_ibfk_2
+                last_level = role.role_level #取得用户权限等级
+                if int(last_level)>int(level):
+                    return str(org.pId)+"."+str(Approval_type_ORG)
+                else:
+                    return getLastId(last_org.id,Approval_type_ORG,level)
+                    
