@@ -78,7 +78,7 @@
 											<td><input type='button' class='btn btn-danger btn-mini' value='编辑' onclick="iframe('xzfy/edit_xzfy/{{obj.id}}')"/></td>	
 										{%- else %}
 											<td>{{obj.approval}}审批</td>
-											<td></td>
+											<td><input type='button' class='btn btn-danger btn-mini' value='查看' onclick="iframe('xzfy/check_xzfy/{{obj.id}}')"/></td>
 										{%- endif %}
 									{%- else %}
 										{%- if obj.approval == obj.project_id %}
@@ -86,7 +86,7 @@
 											<td><input type='button' class='btn btn-danger btn-mini' value='编辑' onclick="iframe('xzfy/edit_xzfy/{{obj.id}}')"/></td>	
 										{%- else %}
 											<td>{{obj.approval}}审批</td>
-											<td></td>
+											<td><input type='button' class='btn btn-danger btn-mini' value='查看' onclick="iframe('xzfy/check_xzfy/{{obj.id}}')"/></td>
 										{%- endif %}
 									{%- endif %}
 								{%- endif %}
