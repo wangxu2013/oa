@@ -66,7 +66,7 @@
 							<td>{{obj.create_date}}</td>
 							{%- if obj.is_paid == '1' %}
 								<td>已付款</td>
-								<td></td>
+								<td><input type='button' class='btn btn-danger btn-mini' value='查看' onclick="iframe('xzfy/check_xzfy/{{obj.id}}')"/></td>
 							{%- else %}
 								{%- if obj.is_refuse == '1' %}
 									<td>被拒绝</td>
