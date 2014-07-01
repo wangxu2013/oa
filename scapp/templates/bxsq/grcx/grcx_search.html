@@ -16,9 +16,9 @@
 
 <body onload="datepicker();">	
 	<form class="content" method="POST" action="/grcx/grcx_list/1/pc">
-		<div class="well place">			
+		<div class="well place">
 			<i class="icon-home"></i><a href="#">报销管理</a>/<a href="#">个人查询</a>
-		</div>		
+		</div>	
 		{%- with messages = get_flashed_messages(with_categories=true) %}
 		  	{%- if messages %}
 	    	{%- for category, message in messages %}
