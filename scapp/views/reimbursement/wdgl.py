@@ -20,7 +20,7 @@ from scapp import app
 # 机构管理
 @app.route('/wdgl/wdgl', methods=['GET'])
 def wdgl():
-    return render_template("bxsq/wdgl/wdgl.html")
+    return render_template("wdgl/wdgl.html")
 
 # 加载树
 @app.route('/System/tree/doc/<int:id>', methods=['GET','POST'])
@@ -101,14 +101,14 @@ def new_doc(type,p_id):
             # 消息闪现
             flash('保存失败','error')
             
-        return render_template("bxsq/wdgl/wdgl.html")
+        return render_template("wdgl/wdgl.html")
     else:
         print type
-        return render_template("bxsq/wdgl/new_wdgl.html",type=type,p_id=p_id)
+        return render_template("wdgl/new_wdgl.html",type=type,p_id=p_id)
 
 @app.route('/wdgl/edit_doc/<int:id>', methods=['GET','POST'])
 def edit_doc(id):
     doc = OA_Doc.query.filter_by(id=id).first()
     
     
-    return render_template("bxsq/wdgl/wdgl.html")
+    return render_template("wdgl/wdgl.html")
