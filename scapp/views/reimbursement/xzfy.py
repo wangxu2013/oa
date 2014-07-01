@@ -105,6 +105,14 @@ def edit_xzfy(id):
         belong_name = OA_Project.query.filter_by(id=reimbursement.project_id).first().project_name
         return render_template("bxsq/xzfy/edit_xzfy.html",reimbursement=reimbursement,reasons=reasons,belong_name=belong_name)
 
+# 修改费用
+@app.route('/xzfy/check_xzfy/<int:id>', methods=['GET','POST'])
+def check_xzfy(id):
+    reimbursement = OA_Reimbursement.query.filter_by(id=id).first()
+    reasons = OA_Reason.query.order_by("id").all()
+    belong_name = OA_Project.query.filter_by(id=reimbursement.project_id).first().project_name
+    return render_template("bxsq/xzfy/check_xzfy.html",reimbursement=reimbursement,reasons=reasons,belong_name=belong_name)
+    
 #递归查询级别
 def getLastId(id,approval_type,level):
     #项目
@@ -147,4 +155,3 @@ def getLastId(id,approval_type,level):
                     return str(org.pId)+"."+str(Approval_type_ORG)
                 else:
                     return getLastId(last_org.id,Approval_type_ORG,level)
-                    
