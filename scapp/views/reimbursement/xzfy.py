@@ -120,19 +120,33 @@ def getLastId(id,approval_type,level):
         project = OA_Project.query.filter_by(id=id).first()
         if project:
             #如果存在上级项目
+            
+            #项目本身有负责人
+            if project.manager_id:
+                role = OA_UserRole.query.filter_by(user_id=project.manager_id).first().oa_userrole_ibfk_2
+                last_level = role.role_level #取得用户权限等级
+                if int(last_level)>int(level):
+                    return str(project.id)+"."+str(Approval_type_PRJ)
+                else:
+                    if project.p_project_id:
+                        return getLastId(project.p_project_id,Approval_type_PRJ,level)
+                    elif project.p_org_id:
+                        return getLastId(project.p_org_id,Approval_type_ORG,level)
+                
+            #项目本身没有负责人,
             if project.p_project_id:
                 #获取上级项目manager级别
                 last_project = OA_Project.query.filter_by(id=project.p_project_id).first()
                 role = OA_UserRole.query.filter_by(user_id=last_project.manager_id).first().oa_userrole_ibfk_2
                 last_level = role.role_level #取得用户权限等级
                 if int(last_level)>int(level):
-                    return project.id+"."+Approval_type_PRJ
+                    return str(project.id)+"."+str(Approval_type_PRJ)
                 else:
                     return getLastId(project.p_project_id,Approval_type_PRJ,level)
                     
             #如果存在上级部门
-            else:
-                #获取上级部门manager级别
+            #获取上级部门manager级别
+            if project.p_org_id:
                 last_org = OA_Org.query.filter_by(id=project.p_org_id).first()
                 role = OA_UserRole.query.filter_by(user_id=last_org.manager).first().oa_userrole_ibfk_2
                 last_level = role.role_level #取得用户权限等级

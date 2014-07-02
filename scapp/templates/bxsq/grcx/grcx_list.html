@@ -70,14 +70,14 @@
 							{%- else %}
 								{%- if obj.is_refuse == '1' %}
 									<td>被拒绝</td>
-									<td></td>
+									<td><input type='button' class='btn btn-danger btn-mini' value='查看' onclick="iframe('xzfy/check_xzfy/{{obj.id}}')"/></td>
 								{%- else %}
 									{%- if obj.is_retreat == '1' %}
 										{%- if obj.approval == obj.project_id %}
 											<td>被退回</td>
 											<td><input type='button' class='btn btn-danger btn-mini' value='编辑' onclick="iframe('xzfy/edit_xzfy/{{obj.id}}')"/></td>	
 										{%- else %}
-											<td>{{obj.approval}}审批</td>
+											<td>{{obj.approval_name}}审批</td>
 											<td><input type='button' class='btn btn-danger btn-mini' value='查看' onclick="iframe('xzfy/check_xzfy/{{obj.id}}')"/></td>
 										{%- endif %}
 									{%- else %}
@@ -85,7 +85,7 @@
 											<td>新申请</td>
 											<td><input type='button' class='btn btn-danger btn-mini' value='编辑' onclick="iframe('xzfy/edit_xzfy/{{obj.id}}')"/></td>	
 										{%- else %}
-											<td>{{obj.approval}}审批</td>
+											<td>{{obj.approval_name}}审批</td>
 											<td><input type='button' class='btn btn-danger btn-mini' value='查看' onclick="iframe('xzfy/check_xzfy/{{obj.id}}')"/></td>
 										{%- endif %}
 									{%- endif %}
