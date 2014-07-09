@@ -3,7 +3,7 @@ from scapp.config import PER_PAGE
 from scapp.config import logger
 import scapp.helpers as helpers
 from scapp import db,app
-from scapp.models import OA_Project,OA_Customer,OA_Org,OA_User,OA_UserRole
+from scapp.models import OA_Project,OA_Customer,OA_Org,OA_User,OA_UserRole,OA_ProjectGroup
 from flask import request,redirect,render_template,flash
 
 # 项目管理
@@ -105,3 +105,52 @@ def edit_project(id):
         user = OA_User.query.filter("id!=1").all()
         return render_template('System/project/edit_project.html',orgs=orgs,user=user,customers=customers,projects=projects,project=project)
 
+
+# 项目组管理
+@app.route('/System/group', methods=['GET'])
+def group():
+    user = OA_User.query.order_by("id").all()
+    return render_template("System/project/group.html",user=user)
+
+#点击树生成右边列表
+@app.route('/System/get_project_group/<type>/<int:p_id>', methods=['GET'])
+def get_project_group(type,p_id):
+    docs = OA_ProjectGroup.query.filter_by(type=type,project_id=p_id).all()
+    for dos in docs:
+        dos.real_name=dos.oa_project_group_ibfk_1.real_name
+    return helpers.show_result_content(docs) # 返回json
+
+#点击添加，生成默认以选中用户列表
+@app.route('/System/get_user/<type>/<int:p_id>', methods=['GET'])
+def get_user(type,p_id):
+    docs = OA_ProjectGroup.query.filter_by(type=type,project_id=p_id).all()
+    users= OA_User.query.order_by("id").all()
+    for user in users:
+        ifequal = 'false'
+        for dos in docs:
+            if dos.user_id==user.id:
+                ifequal ='true'
+        if ifequal=='true':
+            user.checked = 'checked'
+        else:
+            user.checked = 'unchecked'
+    return helpers.show_result_content(users) # 返回json
+
+@app.route('/System/add/<type>/<int:p_id>/<value>', methods=['GET'])
+def add(type,p_id,value):
+    try:
+        OA_ProjectGroup.query.filter_by(type=type,project_id=p_id).delete()
+        ids = value.split(".")
+        for i in ids:
+            OA_ProjectGroup(p_id, type,i).add()
+        user = OA_User.query.order_by("id").all()
+        db.session.commit()
+        # 消息闪现
+        flash('保存成功','success')
+    except:
+        # 回滚
+        db.session.rollback()
+        logger.exception('exception')
+        # 消息闪现
+        flash('保存失败','error')
+    return render_template("System/project/group.html",user=user)

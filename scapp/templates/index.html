@@ -159,6 +159,11 @@
 								<a href="javascript:void(0);">项目管理</a>
 							</li>
 							{%- endif %}
+							{%- if obj.privilege_access_value == "xmzgl" and obj.privilege_operation != "0" %}
+							<li onclick="leftmenu(this);changeiframe('System/group')" id="xmzgl">
+								<a href="javascript:void(0);">项目组管理</a>
+							</li>
+							{%- endif %}
 							{%- if obj.privilege_access_value == "yhgl" and obj.privilege_operation != "0" %}			
 							<li onclick="leftmenu(this);changeiframe('System/user/1')" id="yhgl" >
 								<a href="javascript:void(0);">用户管理</a>
