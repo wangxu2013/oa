@@ -90,6 +90,14 @@ def xxgl():
     privileges = OA_Privilege.query.filter_by(privilege_master="OA_Role",privilege_master_id=role.id,privilege_access="OA_Menu").all()
     return render_template("index.html",menu = 'xxgl',role=role,privileges=privileges)
 
+# 文档管理
+@app.route('/Wdgl', methods=['GET'])
+@login_required
+def Wdgl():
+    role = OA_UserRole.query.filter_by(user_id=current_user.id).first().oa_userrole_ibfk_2
+    privileges = OA_Privilege.query.filter_by(privilege_master="OA_Role",privilege_master_id=role.id,privilege_access="OA_Menu").all()
+    return render_template("index.html",menu = 'Wdgl',role=role,privileges=privileges)
+
 # 系统管理
 @app.route('/xtgl', methods=['GET'])
 @login_required
