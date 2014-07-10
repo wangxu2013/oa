@@ -95,13 +95,13 @@ def fysp_list(page):
         data = OA_Reimbursement.query.filter(sql).paginate(page, per_page = PER_PAGE)
         for obj in data.items:
             if str(obj.approval_type)=='3':
-                obj.approval='财务'
+                obj.approval_name='财务'
             if str(obj.approval_type)=='1':
                 tt = OA_Org.query.filter_by(id=obj.approval).first()
-                obj.approval=tt.name
+                obj.approval_name=tt.name
             if str(obj.approval_type)=='2':
                 tt = OA_Project.query.filter_by(id=obj.approval).first()
-                obj.approval=tt.project_name
+                obj.approval_name=tt.project_name
     else:
         data=0
     return render_template("bxsq/fysp/fysp_list.html",data=data,beg_date=beg_date,end_date=end_date,
