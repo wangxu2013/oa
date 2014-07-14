@@ -108,18 +108,22 @@
 							    </li>
 							</li>  
 							{%- endif %}
+							{%- if obj.privilege_access_value == "wdgl" and obj.privilege_operation != "0" %}
+							    <li onclick="leftmenu(this);changeiframe('wdgl/wdgl')" id="wdgl">
+								<a href="javascript:void(0);">文档管理</a>
+							    </li>
+							</li>  
+							{%- endif %}
 						{%- endfor %}
 					</ul>
-					<ul class="nav nav-list 
-							{%- if menu != "Wdgl"%}
-								hidden
-							{%- endif %}
+					<!-- <ul class="nav nav-list 
+		
 							" id="Wdgl">
 						<li class="nav-header">文档管理</li>						
 						<li onclick="leftmenu(this);changeiframe('wdgl/wdgl')" id="wdgl" class="active">
 							<a href="javascript:void(0);">文档管理</a>
 						</li>
-					</ul>
+					</ul> -->
 					
 					<ul class="nav nav-list 
 							{%- if menu != "xtgl"%}
