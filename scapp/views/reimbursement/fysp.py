@@ -182,7 +182,8 @@ def approve(user_id,expense_id,result,reason):
                     if org:
                         if org.pId: 
                             #审批通过进入上级部门审批
-                            reimbursement.approval=project.p_project_id
+                            reimbursement.approval=org.pId
+                            reimbursement.approval_type = 1
                         else:
                             #审批通过进入财务审批
                             reimbursement.approval_type=3
