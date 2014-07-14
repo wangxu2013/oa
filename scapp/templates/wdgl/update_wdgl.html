@@ -56,31 +56,18 @@
 		</div>		
 		<div class="row-fluid">
 			<i class="icon-bookmark"></i><span class="titletip">部门信息</span>			
-			<form method="POST" enctype="multipart/form-data" 
-				action="/wdgl/new_doc/{{type}}/{{p_id}}">	
+			<form method="POST"	action="/wdgl/update_git_doc/{{doc.id}}">	
 				<input type="hidden" name="liulanValue" id="liulanValue" value="">
 				<input type="hidden" name="downValue" id="downValue" value="">
 				<div style="border:1px solid #94c1dc;">				
 					<table class="table-list">								
 						<tr>
-							<td class="table-label">信息名称<font class="red">*</font></td>
+							<td class="table-label">文件名称<font class="red">*</font></td>
 							<td colspan="3">
 								<span id="name">	
-									<input type="text" name="name" onchange="spryMaxLength(this,32)"/>
-									<span class="textfieldRequiredMsg">不能为空</span>
-									<span class="errorInfo">字符数不得大于32</span>
+									<input type="text" name="name" onchange="spryMaxLength(this,32)" value="{{doc.name}}" readonly="true"/>
 								</span>
 							</td>										
-						</tr>
-						<tr>
-							<td class="table-label">附件</td>
-							<td colspan="3">
-								<span id="attachment">	
-									<input type="file" name="attachment" onchange="spryMaxLength(this,128)"/>
-									<span class="errorInfo">文件名不得大于128字符</span>
-								</span>
-								<!--<input type="file" id="attachment" name="attachment"/>-->
-							</td>
 						</tr>	
 						<tr>
 							<td class="table-label">用户权限</td>
@@ -104,12 +91,25 @@
 							</tr>
 						</thead>
 						<tbody class="center" id="userId">		
-								{%- for obj in user %}										
+								{%- for obj in data %}										
 							<tr>
 								<td>{{obj.id}}</td>										
 								<td>{{obj.real_name}}</td>
-								<td><input type="checkBox" name="liulan" id="liulan" value="{{obj.id}}"/></td>
-								<td><input type="checkBox" name="download" id="download" value="{{obj.id}}"/></td>							
+								{%- if obj.privilege_master_id!=''%}
+									{%- if obj.privilege_operation=='1'%}
+										<td><input type="checkBox" name="liulan" id="liulan" value="{{obj.id}}" checked="checked"/></td>
+										<td><input type="checkBox" name="download" id="download" value="{{obj.id}}"/></td>	
+									{%-elif obj.privilege_operation=='2'%}
+										<td><input type="checkBox" name="liulan" id="liulan" value="{{obj.id}}" checked="checked"/></td>
+										<td><input type="checkBox" name="download" id="download" value="{{obj.id}}" checked="checked"/></td>
+									{%-else%}
+										<td><input type="checkBox" name="liulan" id="liulan" value="{{obj.id}}" /></td>
+										<td><input type="checkBox" name="download" id="download" value="{{obj.id}}"/></td>
+									{%-endif%}
+								{%-else%}
+									<td><input type="checkBox" name="liulan" id="liulan" value="{{obj.id}}" /></td>
+									<td><input type="checkBox" name="download" id="download" value="{{obj.id}}"/></td>
+								{%-endif%}						
 							</tr>
 						{%- endfor %}			
 						</tbody>

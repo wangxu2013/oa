@@ -11,7 +11,7 @@ from flask.ext.login import current_user
 from scapp.config import UPLOAD_FOLDER_REL
 from scapp.config import UPLOAD_FOLDER_ABS
 
-from scapp.models import OA_Project,OA_Reason,OA_Org,OA_User,OA_UserRole,OA_Reimbursement
+from scapp.models import OA_Project,OA_Reason,OA_Org,OA_User,OA_UserRole,OA_Reimbursement,OA_Privilege,OA_View_Doc_Privilege
 from scapp.logic import recursion
 from scapp.models import OA_Doc
 
@@ -54,10 +54,21 @@ def doc_tree(id):
 
 @app.route('/wdgl/get_project_docs/<type>/<int:p_id>', methods=['GET'])
 def get_project_docs(type,p_id):
+    # sql = "select a.id,a.name,a.attachment,b.privilege_operation from oa_doc a,oa_privilege b where "
+    # sql += " a.id = b.privilege_access_value"
+    # sql +=" and b.privilege_master_id="+str(current_user.id)
+    # if type == "OA_Org":
+    #     sql+=" and a.org_id = "+str(p_id)
+    #     docs = db.session.execute(sql).fetchall()
+    # else:
+    #     sql+=" and a.project_id = "+str(p_id)
+    #     docs = db.session.execute(sql).fetchall()
     if type == "OA_Org":
-        docs = OA_Doc.query.filter_by(org_id=p_id).all()
+        # docs = OA_Doc.query.filter_by(org_id=p_id).all()
+        docs = OA_View_Doc_Privilege.query.filter_by(org_id=p_id,privilege_master_id=current_user.id).all()
     else:
-        docs = OA_Doc.query.filter_by(project_id=p_id).all()
+        # docs = OA_Doc.query.filter_by(project_id=p_id).all()
+        docs = OA_View_Doc_Privilege.query.filter_by(project_id=p_id,privilege_master_id=current_user.id).all()
     return helpers.show_result_content(docs) # 返回json
 
 # 下载
@@ -77,6 +88,9 @@ def download(id):
 def new_doc(type,p_id):
     if request.method == 'POST':
         try:
+            liulanValue = request.form['liulanValue']
+            downValue = request.form['downValue']
+
             # 先获取上传文件
             f = request.files['attachment']
             fname = f.filename
@@ -84,12 +98,21 @@ def new_doc(type,p_id):
             if not os.path.exists(os.path.join(UPLOAD_FOLDER_ABS,dir)):
                 os.mkdir(os.path.join(UPLOAD_FOLDER_ABS,dir))
             f.save(os.path.join(UPLOAD_FOLDER_ABS,'%s\\%s' % (dir,fname)))
-
             if type == "OA_Org":
-                OA_Doc(request.form['name'],None,p_id,fname).add()
+                oa_doc = OA_Doc(request.form['name'],None,p_id,fname)    
             else:
-                OA_Doc(request.form['name'],p_id,None,fname).add()
-
+                oa_doc = OA_Doc(request.form['name'],p_id,None,fname)
+            oa_doc.add()
+            db.session.flush()
+            if downValue is not '0': 
+                downValue = downValue.split('.')   
+                for down in downValue:
+                    OA_Privilege("OA_User",down,"OA_Doc",oa_doc.id,2).add()
+                if liulanValue is not '0': 
+                    liulanValue = liulanValue.split('.') 
+                    for liulan in liulanValue:
+                        if liulan  not in downValue:
+                            OA_Privilege("OA_User",liulan,"OA_Doc",oa_doc.id,1).add()
             # 事务提交
             db.session.commit()
             # 消息闪现
@@ -103,12 +126,51 @@ def new_doc(type,p_id):
             
         return render_template("wdgl/wdgl.html")
     else:
-        print type
-        return render_template("wdgl/new_wdgl.html",type=type,p_id=p_id)
+        user= OA_User.query.order_by("id").all()
+        return render_template("wdgl/new_wdgl.html",type=type,p_id=p_id,user=user)
 
 @app.route('/wdgl/edit_doc/<int:id>', methods=['GET','POST'])
 def edit_doc(id):
     doc = OA_Doc.query.filter_by(id=id).first()
-    
-    
+    return render_template("wdgl/wdgl.html")
+
+#进入文件权限更新页面
+@app.route('/wdgl/update_doc/<int:docId>', methods=['GET','POST'])
+def update_doc(docId):
+    user= OA_User.query.order_by("id").all()
+    sql="SELECT a.id,a.real_name,b.privilege_operation FROM  oa_user a LEFT JOIN oa_privilege b"
+    sql+=" on a.id = b.privilege_master_id AND b.privilege_master = 'OA_User' AND b.privilege_access='OA_Doc'"
+    sql+=" and b.privilege_access_value="+str(docId)
+    data = db.session.execute(sql).fetchall() 
+    doc = OA_Doc.query.filter_by(id=docId).first()
+    return render_template("wdgl/update_wdgl.html",data=data,doc=doc)   
+
+#权限更新提交
+@app.route('/wdgl/update_git_doc/<int:docId>', methods=['GET','POST'])
+def update_git_doc(docId):
+    try:
+        OA_Privilege.query.filter_by(privilege_master="OA_User",privilege_access="OA_Doc",privilege_access_value=docId).delete()
+        db.session.flush()
+        liulanValue = request.form['liulanValue']
+        downValue = request.form['downValue']
+        if downValue is not '0': 
+            downValue = downValue.split('.')   
+            for down in downValue:
+                OA_Privilege("OA_User",down,"OA_Doc",docId,2).add()
+            if liulanValue is not '0': 
+                liulanValue = liulanValue.split('.') 
+                for liulan in liulanValue:
+                    if liulan  not in downValue:
+                        OA_Privilege("OA_User",liulan,"OA_Doc",docId,1).add()
+        # 事务提交
+        db.session.commit()
+        # 消息闪现
+        flash('保存成功','success')
+    except:
+        # 回滚
+        db.session.rollback()
+        logger.exception('exception')
+        # 消息闪现
+        flash('保存失败','error')
+        
     return render_template("wdgl/wdgl.html")
