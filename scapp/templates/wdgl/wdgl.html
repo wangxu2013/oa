@@ -32,12 +32,18 @@
 		    //表格赋值
 		    for(var i = 0;i<objs.length;i++){
 		        content += "<tr class='num'>" +
+		        				"<td><input type='radio' name='radio' value='"+objs[i].id+"'"+
+		        				"/></td>"+
 		                        "<td>"+objs[i].id+"</td>"+
 		                        "<td>"+objs[i].name+"</td>"+
-		                        "<td>"+objs[i].attachment+"</td>"+										
-		                        "<td>"+
-		                        "<input type='button' class='btn btn-danger btn-mini' onclick=download('"+objs[i].id+"') value='下载' />"+
-		                        "</td>"+
+		                        "<td>"+objs[i].attachment+"</td>"+							
+		                        "<td>"
+		                         if(objs[i].privilege_operation!=1){
+		                         	content +="<input type='button' class='btn btn-danger btn-mini' onclick=download('"+objs[i].id+"') value='下载' />"
+		                        }else{
+		                        	content +="<input type='button' class='btn btn-danger btn-mini'  value='无权限' />"
+		                        }
+		                        content +="</td>"+
 		                    "</tr>";
 		    }
 		    $("table tbody").html(content);
@@ -61,6 +67,22 @@
 		
 		function jump(){
 			if(p_id!=0){
+				iframe(posturl);
+			}
+		}
+		function update(){
+			var chkObjs = document.getElementsByName("radio"); 
+			var chk=""
+			for(var i=0;i<chkObjs.length;i++){
+				if(chkObjs[i].checked){ 
+					chk = chkObjs[i].value; 
+					break; 
+				}
+			}
+			if(chk==""){
+				alert("请先选择文档");
+			}else{
+				posturl = "wdgl/update_doc/"+chk;
 				iframe(posturl);
 			}
 		}
@@ -110,11 +132,14 @@
 			<!--<div class="box-content">  -->
 				<div style="margin-bottom:5px;">
 					<a type="button" class="btn btn-info" href="#" onclick="jump();">新增</a>
+					<a type="button" class="btn btn-info" href="#" onclick="update();">更新</a>
+					<a type="button" class="btn btn-info" href="#" onclick="update();">版本更新</a>
 				</div>
 				<div style="border:1px solid #94c1dc;">				
 					<table class="table-list" cellspacing="10">
 						<thead>
 							<tr>
+								<th width="10%"></th>
 								<th width="10%">编号</th>
 								<th width="30%">名称</th>	
 								<th width="30%">文件名</th>			
