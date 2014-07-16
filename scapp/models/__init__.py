@@ -14,3 +14,4 @@ from scapp.models.system_usage.oa_reason import OA_Reason
 from scapp.models.reimbursement.oa_reimbursement import OA_Reimbursement
 from scapp.models.reimbursement.oa_view_doc_privilege import OA_View_Doc_Privilege
 from scapp.models.reimbursement.oa_doc import OA_Doc
+from scapp.models.reimbursement.oa_doc_version import OA_Doc_Version

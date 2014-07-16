@@ -13,7 +13,21 @@
 	<style type="text/css">
 		
 	</style>
-	
+	<script src="/static/js/factory.js"></script>
+	<script type="text/javascript">
+		function disableUserCB(json){
+			var objs = $.evalJSON(json);
+			alert(objs.info);
+			if(objs.result=="Success"){
+				location.reload();
+			}
+		}
+		function disableUser(type,user_id){
+			var get = crud.dom.factory("GET");
+		    var url = "/System/disable_user/"+type+"/"+user_id;
+		    get.doGet(url,disableUserCB);
+		}
+	</script>
 	
 </head>
 
@@ -66,7 +80,11 @@
 								<td>未激活</td>
 							{%- endif %}
 							<td>
-								<input type="button" class="btn btn-warning btn-mini" value="禁用"/>
+							{%- if obj.active == '1' %}
+								<input type="button" class="btn btn-warning btn-mini" value="禁用" onclick="disableUser(0,{{obj.id}})"/>
+							{%- else %}
+								<input type="button" class="btn btn-warning btn-mini" value="激活" onclick="disableUser(1,{{obj.id}})"/>
+							{%- endif %}
 								<input type="button" class="btn btn-warning btn-mini" value="密码重置"/>
 							</td>
 						</tr>	
@@ -92,6 +110,7 @@
 	</div><!--/content -->
 	
 	<script src="/static/js/jquery-1.7.2.min.js"></script>
+	<script src="/static/js/jquery.json-2.4.min.js"></script>
 	<script src="/static/js/bootstrap.min.js"></script>
 	<script src="/static/js/script.js"></script>
 	

@@ -2,6 +2,7 @@
 from scapp import db
 from scapp.config import PER_PAGE
 from scapp.config import logger
+import scapp.helpers as helpers
 import datetime
 
 from flask import Module, session, request, render_template, redirect, url_for, flash
@@ -97,6 +98,24 @@ def edit_user(id):
 
 		return redirect('System/user/1')
 
+# 禁用用户
+@app.route('/System/disable_user/<type>/<int:id>', methods=['GET'])
+def disable_user(type,id):
+    try:
+        user = OA_User.query.filter_by(id=id).first()
+        user.active = type
+        
+        # 事务提交
+        db.session.commit()
+        # 消息闪现
+        return helpers.show_result_success('保存成功')
+    except:
+        # 回滚
+        db.session.rollback()
+        logger.exception('exception')
+        return helpers.show_result_fail('保存失败')
+    
+    
 # 角色权限管理
 @app.route('/System/jsqxgl/<int:page>', methods=['GET'])
 def System_jsqxgl(page):
