@@ -16,12 +16,29 @@
 	<script type="text/javascript">
 		function FileUpload_onselect()
 	    {
-	        var path;
-	        path=document.forms[0].FileUpload.value;      //C:\Documents and Settings\hud\桌面\AddFile.jpg
-	        if(path){
-	        	alert("修改文档后，系统将为您保留最近的5个版本");
-	        }
+			var f = document.getElementById("attachment").files;
+			if(f){ 
+		        //大小 字节  
+		        //alert(f[0].size);  
+		        if(f[0].size > 2000000){
+		        	alert("文件大小不能大于2M");
+		        	emptyFile();
+		        }
+			}
 	    }
+		
+		function emptyFile(){  
+		   var $file=$(":file");  //获得file  
+		   $file.each(            //循环file(数组)  
+		    function(e){  
+		       if($(this).val()!=""){    //当file有地址才进行清空  
+		          var item="file";
+		          var cfile=$(this).clone();  //复制当前file  
+		          $(this).remove();     //移除当前file  
+		          cfile.appendTo("#"+item);  //把复制的file添加到目标td中  
+		       }  
+		    });  
+		}  
 	</script>
 </head>
 
@@ -48,7 +65,7 @@
 							<td class="table-label">附件</td>
 							<td colspan="3">
 								<span id="file">	
-									<input type="file" name="attachment" onchange="return FileUpload_onselect()" />
+									<input type="file" id="attachment" name="attachment" onchange="return FileUpload_onselect()" />
 									<span class="textfieldRequiredMsg">不能为空</span>
 								</span>	
 							</td>
