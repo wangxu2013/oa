@@ -25,6 +25,9 @@
 		function download(id){
 			window.open('/wdgl/download/'+id)
 		}
+		function doc_delete(id){
+			iframe('wdgl/delete/'+id)
+		}
 	    //回调
 	    function getAllDocCallback(json){
 	    	var objs = $.evalJSON(json);
@@ -38,10 +41,18 @@
 		                        "<td>"+objs[i].name+"</td>"+
 		                        "<td>"+objs[i].attachment+"</td>"+							
 		                        "<td>"
-		                         if(objs[i].privilege_operation!=1){
-		                         	content +="<input type='button' class='btn btn-danger btn-mini' onclick=download('"+objs[i].id+"') value='下载' />"
-		                        }else{
-		                        	content +="<input type='button' class='btn btn-danger btn-mini'  value='无权限' />"
+		                        if(objs[i].create_user == {{current_user.id}}){
+		                        	content +="<input type='button' class='btn btn-danger btn-mini' onclick=browse('"+objs[i].id+"') value='浏览' />"
+		                        	content +="<input type='button' class='btn btn-danger btn-mini' onclick=download('"+objs[i].id+"') value='下载' />"
+		                        	content +="<input type='button' class='btn btn-danger btn-mini' onclick=doc_delete('"+objs[i].id+"') value='删除' />"
+		                        }
+		                        else{
+		                        	if(parseInt(parseInt(objs[i].privilege_operation)&1)!=0){
+			                         	content +="<input type='button' class='btn btn-danger btn-mini' onclick=browse('"+objs[i].id+"') value='浏览' />"
+			                        }
+									if(parseInt(parseInt(objs[i].privilege_operation)&2)!=0){
+			                         	content +="<input type='button' class='btn btn-danger btn-mini' onclick=download('"+objs[i].id+"') value='下载' />"
+			                        }
 		                        }
 		                        content +="</td>"+
 		                    "</tr>";
@@ -65,12 +76,14 @@
 		    
 		};
 		
-		function jump(){
+		//跳转到新增
+		function new_doc(){
 			if(p_id!=0){
 				iframe(posturl);
 			}
 		}
-		function update(){
+		//跳转到修改
+		function edit_doc(){
 			var chkObjs = document.getElementsByName("radio"); 
 			var chk=""
 			for(var i=0;i<chkObjs.length;i++){
@@ -80,9 +93,9 @@
 				}
 			}
 			if(chk==""){
-				alert("请先选择文档");
+				alert("请先在列表中勾选要修改的文档");
 			}else{
-				posturl = "wdgl/update_doc/"+chk;
+				posturl = "wdgl/edit_doc/"+chk;
 				iframe(posturl);
 			}
 		}
@@ -125,15 +138,14 @@
 		{%- endwith %}
 		<div class="row-fluid">	
 			<div class="span4">		
-				<i class="icon-bookmark"></i><span class="titletip">部门列表</span>			
+				<i class="icon-bookmark"></i><span class="titletip">部门/项目列表</span>			
 				<ul id="tree" class="ztree" style="height:450px;overflow:auto;border:1px solid #94c1dc;"></ul>	
 			</div>
 			<div class="span8" style="margin-top:25px;">
 			<!--<div class="box-content">  -->
 				<div style="margin-bottom:5px;">
-					<a type="button" class="btn btn-info" href="#" onclick="jump();">新增</a>
-					<a type="button" class="btn btn-info" href="#" onclick="update();">更新</a>
-					<a type="button" class="btn btn-info" href="#" onclick="update();">版本更新</a>
+					<a type="button" class="btn btn-info" href="#" onclick="new_doc();">新增</a>
+					<a type="button" class="btn btn-info" href="#" onclick="edit_doc();">修改</a>
 				</div>
 				<div style="border:1px solid #94c1dc;">				
 					<table class="table-list" cellspacing="10">

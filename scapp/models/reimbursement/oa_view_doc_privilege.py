@@ -12,14 +12,16 @@ class OA_View_Doc_Privilege(db.Model):
     attachment = db.Column(db.String)#路径
     project_id = db.Column(db.Integer)#初始所属项目编号
     org_id = db.Column(db.Integer)#初始所属部门编号
+    create_user = db.Column(db.Integer)
     privilege_operation = db.Column(db.String)
     privilege_master_id = db.Column(db.Integer)
     
-    def __init__(self, name,attachment,project_id,org_id,privilege_operation,privilege_master_id):
+    def __init__(self, name,attachment,project_id,org_id,create_user,privilege_operation,privilege_master_id):
         self.name = name
         self.attachment = attachment
         self.project_id = project_id
         self.org_id = org_id
+        self.create_user=create_user
         self.privilege_operation = privilege_operation
         self.privilege_master_id = privilege_master_id
 
