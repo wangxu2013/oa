@@ -29,9 +29,9 @@ def show_result_content(obj):
     return json.dumps(obj, cls=AlchemyEncoder,ensure_ascii = False) #json文本
 
 # 返回成功提示
-def show_result_success():
-    return json.dumps({'result':'Success'})
+def show_result_success(info):
+    return json.dumps({'result':'Success','info':info})
 
 # 返回失败提示
-def show_result_fail():
-    return json.dumps({'result':'Failed'})
+def show_result_fail(info):
+    return json.dumps({'result':'Failed','info':info})
