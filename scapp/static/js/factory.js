@@ -4,7 +4,6 @@
 var crud = crud || {};
 crud.dom = crud.dom || {};
 var wsHost = "http://oa.cardpay-sh.com"
-//var wsHost = "http://192.168.0.250:8080"
 
 //带auth的GET
 crud.dom.GETAuth = function() {
