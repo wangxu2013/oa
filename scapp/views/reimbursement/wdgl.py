@@ -61,30 +61,35 @@ def get_project_docs(type,p_id):
         docs = OA_View_Doc_Privilege.query.filter("project_id="+str(p_id)+" and (privilege_master_id="+str(current_user.id)+" or create_user="+str(current_user.id)+")").all()
     return helpers.show_result_content(docs) # 返回json
 
-# 下载
-@app.route('/wdgl/download/<int:id>', methods=['GET'])
-def wdgl_download(id):
-    oa_doc = OA_Doc.query.filter_by(id=id).first()
-    #获取已有的版本
-    doc_versions = OA_Doc_Version.query.filter_by(doc_id=id).order_by("version").all()
-    max_doc=doc_versions[len(doc_versions)-1]
-    if oa_doc.org_id:
-        dir_version = "OA_Org" + "_" +str(oa_doc.org_id)+"/"+str(id)+"_"+str(max_doc.version)
-    else:
-        dir_version = "OA_Project" + "_" +str(oa_doc.project_id)+"/"+str(id)+"_"+str(max_doc.version)
-        
-    return redirect(url_for('static', filename='upload/'+ dir_version + '/' + oa_doc.attachment), code=301)
+@app.route('/wdgl/get_doc_version/<int:id>', methods=['GET'])
+def get_doc_version(id):
+    doc = OA_Doc.query.filter_by(id=id).first()
+    doc_version = OA_Doc_Version.query.filter_by(doc_id=id).order_by("version").all()
+    for obj in doc_version:
+        obj.create_user = doc.create_user
+    return helpers.show_result_content(doc_version) # 返回json
 
 # 下载
+@app.route('/wdgl/download/<int:version>/<int:id>', methods=['GET'])
+def wdgl_download(version,id):
+    oa_doc = OA_Doc.query.filter_by(id=id).first()
+    if version == 0:
+        doc_versions = OA_Doc_Version.query.filter_by(doc_id=id).all()
+        version = doc_versions[len(doc_versions)-1].version
+    if oa_doc.org_id:
+        dir_version = "OA_Org" + "_" +str(oa_doc.org_id)+"/"+str(id)+"_"+str(version)
+    else:
+        dir_version = "OA_Project" + "_" +str(oa_doc.project_id)+"/"+str(id)+"_"+str(version)
+    
+    doc_version = OA_Doc_Version.query.filter_by(doc_id=id,version=version).first()
+    return redirect(url_for('static', filename='upload/'+ dir_version + '/' + doc_version.attachment), code=301)
+
+# 删除
 @app.route('/wdgl/delete/<int:id>', methods=['GET'])
 def wdgl_delete(id):
     try:
         oa_doc = OA_Doc.query.filter_by(id=id).first()
-        if oa_doc.org_id:
-            dir = "OA_Org" + "_" +str(oa_doc.org_id)
-        else:
-            dir = "OA_Project" + "_" +str(oa_doc.project_id)
-            
+        doc_versions = OA_Doc_Version.query.filter_by(doc_id=id).all()
         #删除db
         OA_Doc.query.filter_by(id=id).delete()
         db.session.flush()
@@ -92,7 +97,12 @@ def wdgl_delete(id):
         OA_Privilege.query.filter_by(privilege_access="OA_Doc",privilege_access_value=id).delete()
         db.session.flush()
         #删文件
-        shutil.rmtree(os.path.join(UPLOAD_FOLDER_ABS,dir))
+        for obj in doc_versions:
+            if oa_doc.org_id:
+                dir_version = "OA_Org" + "_" +str(oa_doc.org_id)+"/"+str(id)+"_"+str(obj.version)
+            else:
+                dir_version = "OA_Project" + "_" +str(oa_doc.project_id)+"/"+str(id)+"_"+str(obj.version)
+            shutil.rmtree(os.path.join(UPLOAD_FOLDER_ABS,dir_version))
         
         # 事务提交
         db.session.commit()
@@ -133,14 +143,11 @@ def new_doc(type,p_id):
             if not os.path.exists(os.path.join(UPLOAD_FOLDER_ABS,dir)):
                 os.mkdir(os.path.join(UPLOAD_FOLDER_ABS,dir))
             #创建版本子文件夹
-            dir_version = type + "_" +str(p_id)+"\\"+str(oa_doc.id)+"_1"
+            dir_version = type + "_" +str(p_id)+"/"+str(oa_doc.id)+"_1"
             if not os.path.exists(os.path.join(UPLOAD_FOLDER_ABS,dir_version)):
                 os.mkdir(os.path.join(UPLOAD_FOLDER_ABS,dir_version))
             #上传
-            f.save(os.path.join(UPLOAD_FOLDER_ABS,'%s\\%s' % (dir_version,fname)))
-            
-            #copy文件
-            #shutil.copyfile(os.path.join(UPLOAD_FOLDER_ABS,'%s\\%s' % (dir,fname)),os.path.join(UPLOAD_FOLDER_ABS,'%s\\%s' % (dir,str(oa_doc.id)+'_1\\'+fname)))
+            f.save(os.path.join(UPLOAD_FOLDER_ABS,'%s/%s' % (dir_version,fname)))
             
             #存权限
             user_id_ls = request.form.getlist("user_id")
@@ -204,23 +211,22 @@ def edit_doc(docId):
                 #操作硬盘
                 #创建版本子文件夹
                 if oa_doc.org_id:
-                    dir_version = "OA_Org" + "_" +str(oa_doc.org_id)+"\\"+str(oa_doc.id)+"_"+str(cur_version)
+                    dir_version = "OA_Org" + "_" +str(oa_doc.org_id)+"/"+str(oa_doc.id)+"_"+str(cur_version)
                 else:
-                    dir_version = "OA_Project" + "_" +str(oa_doc.project_id)+"\\"+str(oa_doc.id)+"_"+str(cur_version)
+                    dir_version = "OA_Project" + "_" +str(oa_doc.project_id)+"/"+str(oa_doc.id)+"_"+str(cur_version)
                 if not os.path.exists(os.path.join(UPLOAD_FOLDER_ABS,dir_version)):
                     os.mkdir(os.path.join(UPLOAD_FOLDER_ABS,dir_version))
                 #上传
-                f.save(os.path.join(UPLOAD_FOLDER_ABS,'%s\\%s' % (dir_version,fname)))
-                #copy文件
-                #shutil.copyfile(os.path.join(UPLOAD_FOLDER_ABS,'%s\\%s' % (dir,fname)),os.path.join(UPLOAD_FOLDER_ABS,'%s\\%s' % (dir,str(oa_doc.id)+'_'+str(cur_version)+'\\'+fname)))
+                f.save(os.path.join(UPLOAD_FOLDER_ABS,'%s/%s' % (dir_version,fname)))
                 
                 #更新版本子表
                 if len(doc_versions) == 5:#之前已有5个版本
-                    #删除最老的版本记录
-                    OA_Doc_Version.query.filter_by(doc_id=docId,version=min_doc.version).delete()
                     #删除最老的
                     min_doc = doc_versions[0]
-                    shutil.rmtree(os.path.join(UPLOAD_FOLDER_ABS,'%s\\%s' % ("OA_Org" + "_" +str(oa_doc.org_id)+"\\",str(oa_doc.id)+'_'+str(min_doc.version))))
+                    #删除最老的版本记录
+                    OA_Doc_Version.query.filter_by(doc_id=docId,version=min_doc.version).delete()
+                    
+                    shutil.rmtree(os.path.join(UPLOAD_FOLDER_ABS,'%s/%s' % ("OA_Org" + "_" +str(oa_doc.org_id),str(oa_doc.id)+'_'+str(min_doc.version))))
                     
             else:#不更新文件
                 oa_doc.name=request.form['name']
