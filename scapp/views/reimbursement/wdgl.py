@@ -39,7 +39,7 @@ def doc_tree(id):
     for json_obj in orgs_json_obj:
         json_obj['type'] = "OA_Org"
         json_obj['icon'] = "/static/css/zTreeStyle/img/diy/1_open.png"
-        projects = OA_Project.query.filter_by(p_org_id=json_obj["id"]).all()
+        projects = OA_Project.query.filter("p_org_id="+str(json_obj["id"])+" and treeType<>2").all()
         if projects:
             for pro_obj in projects:
                 sql = "FIND_IN_SET(id ,getChildProjectLst('"+str(pro_obj.id)+"'))"
@@ -50,7 +50,6 @@ def doc_tree(id):
                     objP.icon = "/static/css/zTreeStyle/img/diy/2.png"
                     
             json_obj['children'] = json.loads(helpers.show_result_content(projects))
-        
     return json.dumps(orgs_json_obj)# 返回json
 
 @app.route('/wdgl/get_project_docs/<type>/<int:p_id>', methods=['GET'])

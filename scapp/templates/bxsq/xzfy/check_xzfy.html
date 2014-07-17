@@ -140,7 +140,7 @@
 					<td class="table-label">金额<font class="red">*</font></td>
 					<td>
 						<span id="amount">
-							<input type="text" name="amount" value="{{reimbursement.amount}}" disabled/>
+							<input type="text" name="amount" value="{{reimbursement.amount}}" onKeyUp="value=value.replace(/[^\d\.]/g,'')" disabled/>元
 							<span class="textfieldRequiredMsg">不能为空</span>
 						</span>						
 					</td>
