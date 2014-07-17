@@ -25,6 +25,7 @@ def new_xzfy():
             approval_type=""
             if str(level)=='5':
                 approval_type=Approval_type_CAIWU
+                approval = 1
             elif str(level)=='6':
                 approval=request.form['project_id']
                 approval_type=Approval_type_PRJ
@@ -129,8 +130,7 @@ def getLastId(id,approval_type,level):
                     if int(last_level)>int(level):
                         return str(project.p_org_id)+"."+str(Approval_type_ORG)
                     else:
-                        if last_org.pId:
-                            return getLastId(last_org.pId,Approval_type_ORG,level)
+                        return getLastId(last_org.id,Approval_type_ORG,level)
                 else:
                     role = OA_UserRole.query.filter_by(user_id=project.manager_id).first().oa_userrole_ibfk_2
                     last_level = role.role_level #取得用户权限等级
@@ -147,13 +147,14 @@ def getLastId(id,approval_type,level):
     else:
         org = OA_Org.query.filter_by(id=id).first()
         if org:
-            #如果存在上级部门
-            if org.pId:
-                #获取上级部门manager级别
-                last_org = OA_Org.query.filter_by(id=org.pId).first()
-                role = OA_UserRole.query.filter_by(user_id=last_org.manager).first().oa_userrole_ibfk_2
-                last_level = role.role_level #取得用户权限等级
-                if int(last_level)>int(level):
-                    return str(org.pId)+"."+str(Approval_type_ORG)
+            #获取部门manager级别
+            last_org = OA_Org.query.filter_by(id=org.id).first()
+            role = OA_UserRole.query.filter_by(user_id=org.manager).first().oa_userrole_ibfk_2
+            last_level = role.role_level #取得用户权限等级
+            if int(last_level)>int(level):
+                return str(org.id)+"."+str(Approval_type_ORG)
+            else:
+                if org.pId:
+                    return getLastId(org.pId,Approval_type_ORG,level)
                 else:
-                    return getLastId(last_org.id,Approval_type_ORG,level)
+                    return str(org.id)+"."+str(Approval_type_CAIWU)

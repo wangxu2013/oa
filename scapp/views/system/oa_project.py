@@ -41,7 +41,7 @@ def new_project():
             OA_Project(request.form['project_num'],request.form['project_name'],
                        request.form['contract_num'],request.form['project_describe'],
                        p_org_id,p_project_id,
-                       request.form['customer_id']).add()
+                       request.form['customer_id'],request.form['treeType']).add()
             db.session.commit()
             # 消息闪现
             flash('保存成功','success')
@@ -84,7 +84,7 @@ def edit_project(id):
             project.customer_id = request.form['customer_id']
             project.manager_id = request.form['manager_id']
             project.amount = request.form['amount']
-            
+            project.treeType = request.form['treeType']
             db.session.commit()
             # 消息闪现
             flash('保存成功','success')
