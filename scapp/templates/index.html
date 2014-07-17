@@ -56,12 +56,16 @@
 							{%- endif %}
 							onclick="iframe('xtgl')"><a href="javascript:void(0);">系统管理</a></li>
 						{%- endif %}
-					{%- endfor %}
-						<!-- <li 
+						
+						{%- if obj.privilege_access_value == "Wdgl" and obj.privilege_operation != "0" %}
+						<li 
 							{%- if menu == "Wdgl"%}
 								class="active"
 							{%- endif %}
-							onclick="iframe('Wdgl')"><a href="javascript:void(0);">文档管理</a></li> -->
+							onclick="iframe('Wdgl')"><a href="javascript:void(0);">文档管理</a></li>
+						{%- endif %}
+					{%- endfor %}
+						
 					</ul>
 				</div><!--/.nav-collapse -->
 			</div><!--/.container-fluid -->
@@ -108,22 +112,22 @@
 							    </li>
 							</li>  
 							{%- endif %}
-							{%- if obj.privilege_access_value == "wdgl" and obj.privilege_operation != "0" %}
-							    <li onclick="leftmenu(this);changeiframe('wdgl/wdgl')" id="wdgl">
+						{%- endfor %}
+					</ul>
+					<ul class="nav nav-list "
+							{%- if menu != "Wdgl" %}
+								hidden
+							{%- endif %}
+							 id="">
+						<li class="nav-header">文档管理</li>		
+						{%- for obj in privileges %}
+							{%- if obj.privilege_access_value == "wdgl" and obj.privilege_operation != "0" %}				
+							<li onclick="leftmenu(this);changeiframe('wdgl/wdgl')" id="wdgl" class="active">
 								<a href="javascript:void(0);">文档管理</a>
-							    </li>
-							</li>  
+							</li>
 							{%- endif %}
 						{%- endfor %}
 					</ul>
-					<!-- <ul class="nav nav-list 
-		
-							" id="Wdgl">
-						<li class="nav-header">文档管理</li>						
-						<li onclick="leftmenu(this);changeiframe('wdgl/wdgl')" id="wdgl" class="active">
-							<a href="javascript:void(0);">文档管理</a>
-						</li>
-					</ul> -->
 					
 					<ul class="nav nav-list 
 							{%- if menu != "xtgl"%}

@@ -13,7 +13,33 @@
 	<!-- ************************验证样式************************-->
 	<script src="/static/SpryAssets/SpryValidationTextField.js" type="text/javascript"></script>
 	<link href="/static/SpryAssets/SpryValidationTextField.css" rel="stylesheet" type="text/css">
-	
+	<script type="text/javascript">
+		function FileUpload_onselect()
+	    {
+			var f = document.getElementById("attachment").files;
+			if(f){ 
+		        //大小 字节  
+		        //alert(f[0].size);  
+		        if(f[0].size > 2000000){
+		        	alert("文件大小不能大于2M");
+		        	emptyFile();
+		        }
+			}
+	    }
+		
+		function emptyFile(){  
+		   var $file=$(":file");  //获得file  
+		   $file.each(            //循环file(数组)  
+		    function(e){  
+		       if($(this).val()!=""){    //当file有地址才进行清空  
+		          var item="file";
+		          var cfile=$(this).clone();  //复制当前file  
+		          $(this).remove();     //移除当前file  
+		          cfile.appendTo("#"+item);  //把复制的file添加到目标td中  
+		       }  
+		    });  
+		}  
+	</script>
 </head>
 
 <body>	
@@ -22,90 +48,86 @@
 			<i class="icon-home"></i><a href="#">文档管理</a>/<a href="#">文档管理</a>
 		</div>		
 		<div class="row-fluid">
-			<i class="icon-bookmark"></i><span class="titletip">部门信息</span>			
-			<form method="POST" action="/System/edit_jggl/{{obj.id}}">
-				<div style="border:1px solid #94c1dc;">
-					<table class="table-list">
+			<i class="icon-bookmark"></i><span class="titletip">文档信息</span>			
+			<form method="POST" enctype="multipart/form-data" 
+				action="/wdgl/edit_doc/{{doc.id}}">	
+				<div style="border:1px solid #94c1dc;">				
+					<table class="table-list">								
 						<tr>
-							<td class="table-label">部门名称<font class="red">*</font></td>	
-							<td>
-								<span id="spry_jgmc">
-									<input type="text" name="name" value={{obj.name}} />
-									<span class="textfieldRequiredMsg">部门名称不能为空</span>
-								</span>
-							</td>						
-						</tr>
-						<tr>
-							<td class="table-label">负责人<font class="red">*</font></td>
-							<td>
-								<input type="hidden" id="A_manager" name="manager" value="{{obj.manager}}"/>
-								<input type="text" id="A_manager_name" value="{{obj.oa_org_ibfk_2.real_name}}" readonly/>
-								<input type="button" value="搜索" class="btn" onclick="$('#A_xdyss').show();"/>
-								<span id="A_manager_name_spay">
-									<input type="hidden" id="yzA" value="{{obj.oa_org_ibfk_2.real_name}}"/>
+							<td class="table-label">信息名称<font class="red">*</font></td>
+							<td colspan="3">
+								<span id="name">	
+									<input type="text" name="name" value="{{doc.name}}" onchange="spryMaxLength(this,32)"/>
 									<span class="textfieldRequiredMsg">不能为空</span>
-								</span>							
-								<div class="display-div" id="A_xdyss" style="margin-top:-100px"><!--onmouseleave="setTimeout(function(){$('.display-div').hide();},3000)"-->
-									<i class="icon-bookmark"></i><span class="titletip">搜索</span>
-									<div style="border:1px solid #94c1dc;">
-										<table class="table-list">
-											<tr>	
-												<td class="table-label">用户名称</td>
-												<td><input type="text" onchange="search(this)"/></td>	
-											</tr>
-										</table>
-									</div>																		
-									<input type="button" value="关闭" class="btn btn-info btn-mini pull-right" onclick="$('.display-div').hide();"/>
-									<input type="button" value="搜索" class="btn btn-info btn-mini pull-right"/><br/>
-									<i class="icon-bookmark"></i><span class="titletip">用户列表</span>
-									<div style="border:1px solid #94c1dc;">
-										<table class="table-list">
-											<thead>
-												<tr>
-													<th>选择</th>	
-													<th>用户编号</th>												
-													<th>用户名称</th>												
-												</tr>
-											</thead>
-											<tbody class="center">
-												{%- for obj in user %}
-												<tr>
-													<td><input type="radio" name="xdy" onclick="get_name(this,'A_manager_name','A_manager');" onblur="hiddenInput('yzA',this)"/></td>	
-													<td>{{obj.id}}</td>												
-													<td name="search">{{obj.real_name}}</td>											
-												</tr>		
-												{%- endfor %}									
-											</tbody>
-										</table>
-									</div>
-								</div>
-							</td>
-							<td class="table-label">审批金额<font class="red">*</font></td>	
-							<td>
-								<span id="spry_jgmc2">
-									{%- if obj.amount %}
-										<input type="text" name="amount" value="{{obj.amount}}" />
-									{%- else %}
-										<input type="text" name="amount" />
-									{%- endif %}
-									<span class="textfieldRequiredMsg">不能为空</span>
+									<span class="errorInfo">字符数不得大于32</span>
 								</span>
+							</td>	
+							<td class="table-label">附件</td>
+							<td colspan="3">
+								<span id="file">	
+									<input type="file" id="attachment" name="attachment" onchange="return FileUpload_onselect()" />
+									<span class="textfieldRequiredMsg">不能为空</span>
+								</span>	
 							</td>
-						</tr>	
-						<tr>
-							<td class="table-label">是否财务部<font class="red">*</font></td>	
-							<td>
-								<select name="is_caiwu">
-									<option value="0">否</option>
-									<option value="1">是</option>
-								</select>
-							</td>
-						</tr>							
+						</tr>						
 					</table>
 				</div>
-				<span class="point">*为必填字段</span><br/>
-				<input type="submit" class="btn btn-info" value="提交" style="margin:0;"/>
+				<div id="userForm">	
+					<i class="icon-bookmark"></i><span class="titletip">用户权限</span>
+					<div style="border:1px solid #94c1dc;">
+						<table class="table-list">
+							<tr>
+								<th style="width:260px">用户编号</th>												
+								<th style="width:260px">用户名称</th>	
+								<th style="width:260px">浏览权限&nbsp;<input type="checkBox" style="margin-top:-4px;" onclick="selectAll(this,1)"/></th>	
+								<th>下载权限&nbsp;<input type="checkBox" style="margin-top:-4px;" onclick="selectAll(this,2)"/></th>											
+							</tr>
+						</table>					
+					</div>
+					<div style="border:1px solid #94c1dc;border-top:0;height:285px;overflow:auto;">
+						<table class="table-list">
+							<tbody class="center" id="userId">
+								{%- for obj in user_doc_privilege %}										
+									<tr>
+										<td style="width:268px"><input type="hidden" name="user_id" value="{{obj.id}}">{{obj.id}}</td>										
+										<td style="width:268px">{{obj.real_name}}</td>
+										{%- if obj.privilege_operation %}
+										<td style="width:268px">
+											<script>
+											var privilege_operation = {{obj.privilege_operation}}
+											if(parseInt(parseInt(privilege_operation)&1) !=0){
+												document.write("<input type='checkBox' name='privilege_{{obj.id}}' value='1' checked/>");
+											}else{
+												document.write("<input type='checkBox' name='privilege_{{obj.id}}' value='1'/>");
+											}
+											</script>
+										</td>
+										<td>
+											<script>
+											var privilege_operation = {{obj.privilege_operation}}
+											if(parseInt(parseInt(privilege_operation)&2) !=0){
+												document.write("<input type='checkBox' name='privilege_{{obj.id}}' value='2' checked/>");
+											}else{
+												document.write("<input type='checkBox' name='privilege_{{obj.id}}' value='2'/>");
+											}
+											</script>
+										</td>
+										{%- else %}
+										<td style="width:268px"><input type="checkBox" name="privilege_{{obj.id}}" value="1"/></td>
+										<td><input type="checkBox" name="privilege_{{obj.id}}" value="2"/></td>
+										{%- endif %}
+									</tr>
+								{%- endfor %}
+							</tbody>
+						</table>
+					</div>
+				</div>	
+				<div style="margin-top:-20px;">
+					<span class="point">*为必填字段</span><br/>
+					<input type="submit" value="提交" class="btn btn-info" style="margin:0px;"/>
+				</div>
 			</form>
+			
 		</div><!--/row-fluid -->
 	</div><!--/content -->
 
@@ -114,8 +136,16 @@
 	<script src="/static/js/script.js"></script>
 	<script src="/static/js/system.js"></script>
 	<script type="text/javascript">
-		var sprytextfield = new Spry.Widget.ValidationTextField("spry_jgmc", "none", {validateOn:["blur"]});
-		var sprytextfield2 = new Spry.Widget.ValidationTextField("spry_jgmc2", "none", {validateOn:["blur"]});
+		var sprytextfield1 = new Spry.Widget.ValidationTextField("name", "none");
+		var sprytextfield2 = new Spry.Widget.ValidationTextField("file", "none");
+		function selectAll(obj,num){
+			if($(obj).attr("checked")=="checked"){
+				$("input[value="+num+"]").attr("checked","checked")
+			}
+			else{
+				$("input[value="+num+"]").removeAttr("checked")
+			}
+		}
 	</script>
 </body>
 </html>

@@ -13,6 +13,7 @@
 	<link rel="stylesheet" href="/static/css/zTreeStyle/zTreeStyle.css" type="text/css">
 	<style type="text/css">
 		input[type=text]{width:85%;}
+		
 	</style>
 	<script src="/static/js/jquery-1.7.2.min.js"></script>
 	<script src="/static/js/bootstrap.min.js"></script>
@@ -22,8 +23,11 @@
 	<script src="/static/js/system.js" type="text/javascript"></script>
 	<script src="/static/js/script.js"></script>
 	<SCRIPT type="text/javascript">
-		function download(id){
-			window.open('/wdgl/download/'+id)
+		function download(version,id){
+			window.open('/wdgl/download/'+version+'/'+id)
+		}
+		function doc_delete(id){
+			iframe('wdgl/delete/'+id)
 		}
 	    //回调
 	    function getAllDocCallback(json){
@@ -38,15 +42,23 @@
 		                        "<td>"+objs[i].name+"</td>"+
 		                        "<td>"+objs[i].attachment+"</td>"+							
 		                        "<td>"
-		                         if(objs[i].privilege_operation!=1){
-		                         	content +="<input type='button' class='btn btn-danger btn-mini' onclick=download('"+objs[i].id+"') value='下载' />"
-		                        }else{
-		                        	content +="<input type='button' class='btn btn-danger btn-mini'  value='无权限' />"
+		                        if(objs[i].create_user == {{current_user.id}}){
+		                        	content +="<input type='button' class='btn btn-danger btn-mini' onclick=browse('"+objs[i].id+"') value='浏览' />"
+		                        	content +="<input type='button' class='btn btn-danger btn-mini' onclick=download(0,'"+objs[i].id+"') value='下载' />"
+		                        	content +="<input type='button' class='btn btn-danger btn-mini' onclick=doc_delete('"+objs[i].id+"') value='删除' />"
+		                        }
+		                        else{
+		                        	if(parseInt(parseInt(objs[i].privilege_operation)&1)!=0){
+			                         	content +="<input type='button' class='btn btn-danger btn-mini' onclick=browse('"+objs[i].id+"') value='浏览' />"
+			                        }
+									if(parseInt(parseInt(objs[i].privilege_operation)&2)!=0){
+			                         	content +="<input type='button' class='btn btn-danger btn-mini' onclick=download('"+objs[i].id+"') value='下载' />"
+			                        }
 		                        }
 		                        content +="</td>"+
 		                    "</tr>";
 		    }
-		    $("table tbody").html(content);
+		    $("#body1").html(content);
 		    Frame();
 	    }
 	    
@@ -65,12 +77,14 @@
 		    
 		};
 		
-		function jump(){
+		//跳转到新增
+		function new_doc(){
 			if(p_id!=0){
 				iframe(posturl);
 			}
 		}
-		function update(){
+		//跳转到修改
+		function edit_doc(){
 			var chkObjs = document.getElementsByName("radio"); 
 			var chk=""
 			for(var i=0;i<chkObjs.length;i++){
@@ -80,9 +94,9 @@
 				}
 			}
 			if(chk==""){
-				alert("请先选择文档");
+				alert("请先在列表中勾选要修改的文档");
 			}else{
-				posturl = "wdgl/update_doc/"+chk;
+				posturl = "wdgl/edit_doc/"+chk;
 				iframe(posturl);
 			}
 		}
@@ -125,15 +139,14 @@
 		{%- endwith %}
 		<div class="row-fluid">	
 			<div class="span4">		
-				<i class="icon-bookmark"></i><span class="titletip">部门列表</span>			
+				<i class="icon-bookmark"></i><span class="titletip">部门/项目列表</span>			
 				<ul id="tree" class="ztree" style="height:450px;overflow:auto;border:1px solid #94c1dc;"></ul>	
 			</div>
 			<div class="span8" style="margin-top:25px;">
-			<!--<div class="box-content">  -->
+				
 				<div style="margin-bottom:5px;">
-					<a type="button" class="btn btn-info" href="#" onclick="jump();">新增</a>
-					<a type="button" class="btn btn-info" href="#" onclick="update();">更新</a>
-					<a type="button" class="btn btn-info" href="#" onclick="update();">版本更新</a>
+					<a type="button" class="btn btn-info" href="#" onclick="new_doc();">新增</a>
+					<a type="button" class="btn btn-info" href="#" onclick="edit_doc();">修改</a>
 				</div>
 				<div style="border:1px solid #94c1dc;">				
 					<table class="table-list" cellspacing="10">
@@ -146,13 +159,66 @@
 								<th width="20%">操作</th>
 							</tr>
 						</thead>
-						<tbody class="center">
-																			
+						<tbody id="body1" class="center">
+							<!-- <tr>
+								<td>1</td>
+								<td>2</td>
+								<td>3</td>	
+								<td>4</td>			
+								<td><input type="button" value="浏览" onclick="show()"/></td>
+							</tr>	 -->										
 						</tbody>
 					</table>
 				</div>
-			</div>		
+			</div>
 		</div>
+		<div id="text" class="display-div" style="margin-top:-400px;">
+			<input type="button" value="关闭" class="btn btn-info btn-mini" onclick="$('#text').hide();" style="margin-top:0;float:right"/><br/>
+			<div style="border:1px solid #94c1dc;margin-top:8px;">				
+				<table class="table-list" cellspacing="10">
+					<thead>
+						<tr>
+							<th width="10%">版本号</th>	
+							<th width="40%">文件名</th>			
+							<th width="10%">操作</th>
+						</tr>
+					</thead>
+					<tbody id="body2" class="center">										
+					</tbody>
+				</table>
+			</div>
+		</div>
+		
 	</div><!--/content -->
+	<script type="text/javascript">
+		function getDocVersionCallback(json){
+			var objs = $.evalJSON(json);
+	    	var content = "";
+		    //表格赋值
+		    for(var i = 0;i<objs.length;i++){
+		        content += "<tr>" +
+		                        "<td>"+objs[i].version+"</td>"+
+		                        "<td>"+objs[i].attachment+"</td>"+						
+		                        "<td>"
+		                        if(objs[i].create_user == {{current_user.id}}){
+		                        	content +="<input type='button' class='btn btn-danger btn-mini' onclick=download("+objs[i].version+",'"+objs[i].doc_id+"') value='下载' />"
+		                        }
+		                        else{
+									if(parseInt(parseInt(objs[i].privilege_operation)&2)!=0){
+			                         	content +="<input type='button' class='btn btn-danger btn-mini' onclick=download("+objs[i].version+",'"+objs[i].doc_id+"') value='下载' />"
+			                        }
+		                        }
+		                        content +="</td>"+
+		                    "</tr>";
+		    }
+		    $("#body2").html(content);
+		    $("#text").show();
+		}
+		function browse(id){
+			var get = crud.dom.factory("GET");
+		    var url = "/wdgl/get_doc_version/"+id;
+		    get.doGet(url,getDocVersionCallback);
+		}
+	</script>
 </body>
 </html>
