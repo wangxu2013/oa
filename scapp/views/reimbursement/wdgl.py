@@ -116,6 +116,14 @@ def wdgl_delete(id):
         
     return render_template("wdgl/wdgl.html")
 
+@app.route('/wdgl/check_new_privilege/<type>/<int:p_id>', methods=['GET'])
+def check_new_privilege(type,p_id):
+    prv = OA_ProjectGroup.query.filter_by(type=type,project_id=p_id,user_id=current_user.id).all()
+    if prv:
+        return helpers.show_result_success("Success")
+    else:
+        return helpers.show_result_fail("Failed")
+    
 @app.route('/wdgl/new_doc/<type>/<int:p_id>', methods=['GET','POST'])
 def new_doc(type,p_id):
     if request.method == 'POST':
