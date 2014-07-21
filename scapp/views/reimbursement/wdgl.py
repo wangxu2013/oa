@@ -1,6 +1,7 @@
 # coding:utf-8
 import os
 from scapp import db
+from scapp.config import PER_PAGE
 from scapp.config import logger
 import scapp.helpers as helpers
 import datetime
@@ -17,6 +18,7 @@ from scapp.models import OA_Doc,OA_Doc_Version
 
 from scapp import app
 import shutil
+
 
 # 机构管理
 @app.route('/wdgl/wdgl', methods=['GET'])
@@ -55,9 +57,9 @@ def doc_tree(id):
 @app.route('/wdgl/get_project_docs/<type>/<int:p_id>', methods=['GET'])
 def get_project_docs(type,p_id):
     if type == "OA_Org":
-        docs = OA_View_Doc_Privilege.query.filter("org_id="+str(p_id)+" and (privilege_master_id="+str(current_user.id)+" or create_user="+str(current_user.id)+")").all()
+        docs = OA_View_Doc_Privilege.query.filter("org_id="+str(p_id)+" and privilege_master_id="+str(current_user.id)+" LIMIT 0,10").all()
     else:
-        docs = OA_View_Doc_Privilege.query.filter("project_id="+str(p_id)+" and (privilege_master_id="+str(current_user.id)+" or create_user="+str(current_user.id)+")").all()
+        docs = OA_View_Doc_Privilege.query.filter("project_id="+str(p_id)+" and privilege_master_id="+str(current_user.id)+" LIMIT 0,10").all()
     return helpers.show_result_content(docs) # 返回json
 
 @app.route('/wdgl/get_doc_version/<int:id>', methods=['GET'])
@@ -179,7 +181,7 @@ def new_doc(type,p_id):
             
         return render_template("wdgl/wdgl.html")
     else:
-        user= OA_User.query.filter("active='1' and id<>1").order_by("id").all()
+        user= OA_User.query.filter("active='1'").order_by("id").all()
         user_group = OA_User.query.filter("id in (select user_id from oa_project_group where type='"+type+"' and project_id="+str(p_id)+")").all()
         return render_template("wdgl/new_wdgl.html",type=type,p_id=p_id,user=user,user_group=user_group)
 
@@ -263,3 +265,27 @@ def edit_doc(docId):
             flash('保存失败','error')
             
         return render_template("wdgl/wdgl.html")
+
+# #分页查询
+@app.route('/wdgl/information/<type>/<int:p_id>/<int:page>', methods=['GET'])
+def information(type,p_id,page):
+    page_count = str((page-1)*PER_PAGE)+","+str(page*PER_PAGE)
+    docs = ""
+    if type == "OA_Org":
+        docs = OA_View_Doc_Privilege.query.filter("org_id="+str(p_id)+" and (privilege_master_id="+str(current_user.id)+") LIMIT "+page_count).all()
+        lenth = len(OA_View_Doc_Privilege.query.filter("org_id="+str(p_id)+" and (privilege_master_id="+str(current_user.id)+")").all())
+        if int(lenth%10)==0:
+            pages = lenth/10
+        else:
+            pages = lenth/10+1
+    else:
+        docs = OA_View_Doc_Privilege.query.filter("project_id="+str(p_id)+" and (privilege_master_id="+str(current_user.id)+") LIMIT "+page_count).all()
+        lenth = len(OA_View_Doc_Privilege.query.filter("project_id="+str(p_id)+" and (privilege_master_id="+str(current_user.id)+")").all())
+        if int(lenth%10)==0:
+            pages = lenth/10
+        else:
+            pages = lenth/10+1
+    for doc in docs:
+        doc.pages =pages
+        doc.page = page
+    return helpers.show_result_content(docs)

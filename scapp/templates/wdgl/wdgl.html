@@ -42,24 +42,19 @@
 		                        "<td>"+objs[i].name+"</td>"+
 		                        "<td>"+objs[i].attachment+"</td>"+							
 		                        "<td>"
-		                        if(objs[i].create_user == {{current_user.id}}){
-		                        	content +="<input type='button' class='btn btn-danger btn-mini' onclick=browse('"+objs[i].id+"') value='浏览' />"
-		                        	content +="<input type='button' class='btn btn-danger btn-mini' onclick=download(0,'"+objs[i].id+"') value='下载' />"
-		                        	content +="<input type='button' class='btn btn-danger btn-mini' onclick=doc_delete('"+objs[i].id+"') value='删除' />"
+								if(parseInt(parseInt(objs[i].privilege_operation)&2)!=0){
+		                         	content +="<input type='button' class='btn btn-danger btn-mini' onclick=download('"+objs[i].id+"') value='下载' />"
 		                        }
-		                        else{
-		                        	if(parseInt(parseInt(objs[i].privilege_operation)&1)!=0){
-			                         	content +="<input type='button' class='btn btn-danger btn-mini' onclick=browse('"+objs[i].id+"') value='浏览' />"
-			                        }
-									if(parseInt(parseInt(objs[i].privilege_operation)&2)!=0){
-			                         	content +="<input type='button' class='btn btn-danger btn-mini' onclick=download('"+objs[i].id+"') value='下载' />"
-			                        }
+		                        if(objs[i].create_user == {{current_user.id}}){
+		                        	content +="<input type='button' class='btn btn-danger btn-mini' onclick=doc_delete('"+objs[i].id+"') value='删除' />"
 		                        }
 		                        content +="</td>"+
 		                    "</tr>";
 		    }
 		    $("#body1").html(content);
 		    Frame();
+		    //分页
+		    information(1);
 	    }
 	    
 		//树节点单击回调
@@ -73,8 +68,8 @@
 			posturl = "wdgl/new_doc/"+type+"/"+p_id;
 		    var get = crud.dom.factory("GET");
 		    var url = "/wdgl/get_project_docs/"+treeNode.type+"/"+treeNode.id;
-		    get.doGet(url,getAllDocCallback);
-		    
+		    get.doGet(url,getAllDocCallback);	    
+
 		};
 		
 		function check_new_privilegeCB(json){
@@ -144,7 +139,55 @@
 			$.fn.zTree.init($("#tree"), setting);		
 					 	
 		});
-		//-->
+
+		function information(page){
+			$.ajax({
+				url:"/wdgl/information/"+type+"/"+p_id+"/"+page,
+				type: "GET",
+				async : false,
+				success : function(resp, options) {
+					 objs = eval('(' + resp + ')');	 
+					 //表格赋值
+				    content ="";
+				    if(objs[0].page!=1){
+				    	content+="<span style='CURSOR: pointer' onclick='information(1)'>&lt;&lt;</span>"
+				    }else{
+				    	content+="<span style='CURSOR: pointer'>&lt;&lt;</span>"
+				    }
+				    content+="&#160;第&#160;<font color='#0088cc'>"+objs[0].page+"</font>&#160;页&#160;"
+				    content+="&#160;共&#160;<font color='#0088cc'>"+objs[0].pages+"</font>&#160;页&#160;"
+				    if(objs[0].page!=objs[0].pages){
+				    	page = objs[0].page+1
+				    	content+="<span style='CURSOR: pointer' onclick='information("+page+")'>&gt;&gt;</span>"
+				    }else{
+				    	content+="<span style='CURSOR: pointer'>&gt;&gt;</span>"
+				    }
+					$("#page-div").html(content);
+
+					content1 ="";
+					for(var i = 0;i<objs.length;i++){
+			        content1 += "<tr class='num'>" +
+			        				"<td><input type='radio' name='radio' value='"+objs[i].id+"'"+
+			        				"/></td>"+
+			                        "<td>"+objs[i].id+"</td>"+
+			                        "<td>"+objs[i].name+"</td>"+
+			                        "<td>"+objs[i].attachment+"</td>"+							
+			                        "<td>"
+									if(parseInt(parseInt(objs[i].privilege_operation)&2)!=0){
+			                         	content1 +="<input type='button' class='btn btn-danger btn-mini' onclick=download('"+objs[i].id+"') value='下载' />"
+			                        }
+			                        if(objs[i].create_user == {{current_user.id}}){
+			                        	content1 +="<input type='button' class='btn btn-danger btn-mini' onclick=doc_delete('"+objs[i].id+"') value='删除' />"
+			                        }
+			                        content1 +="</td>"+
+			                    "</tr>";
+				    }
+				    $("#body1").html("");
+				    $("#body1").html(content1);
+				}
+				})	
+	
+		}
 	</SCRIPT>	
 </head>
 
@@ -213,7 +256,8 @@
 				</table>
 			</div>
 		</div>
-		
+		<div class="page-div" id="page-div">
+			</div>
 	</div><!--/content -->
 	<script type="text/javascript">
 		function getDocVersionCallback(json){
@@ -227,7 +271,7 @@
 		                        "<td>"
 		                        if(objs[i].create_user == {{current_user.id}}){
 		                        	content +="<input type='button' class='btn btn-danger btn-mini' onclick=download("+objs[i].version+",'"+objs[i].doc_id+"') value='下载' />"
-		                        }
+		                        }	
 		                        else{
 									if(parseInt(parseInt(objs[i].privilege_operation)&2)!=0){
 			                         	content +="<input type='button' class='btn btn-danger btn-mini' onclick=download("+objs[i].version+",'"+objs[i].doc_id+"') value='下载' />"
