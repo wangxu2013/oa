@@ -36,7 +36,7 @@
 		    //表格赋值
 		    for(var i = 0;i<objs.length;i++){
 		        content += "<tr class='num'>" +
-		        				"<td><input type='radio' name='radio' value='"+objs[i].id+"'"+
+		        				"<td><input type='radio' name='radio' value='"+objs[i].id+"_"+objs[i].create_user+"'"+
 		        				"/></td>"+
 		                        "<td>"+objs[i].id+"</td>"+
 		                        "<td>"+objs[i].name+"</td>"+
@@ -77,10 +77,29 @@
 		    
 		};
 		
+		function check_new_privilegeCB(json){
+			var obj = $.evalJSON(json);
+			if(obj.result == "Success"){
+				iframe(posturl);
+			}
+			else{
+				alert("您无权限在此项目或部门下新增文档");
+				return;
+			}
+		}
 		//跳转到新增
 		function new_doc(){
 			if(p_id!=0){
-				iframe(posturl);
+				//管理员可任意发布
+				var cur_user_id = {{current_user.id}}
+				if(cur_user_id == 1){
+					iframe(posturl);
+				}
+				else{
+					var get = crud.dom.factory("GET");
+				    var url = "/wdgl/check_new_privilege/"+type+"/"+p_id;
+				    get.doGet(url,check_new_privilegeCB);
+				}
 			}
 		}
 		//跳转到修改
@@ -96,8 +115,14 @@
 			if(chk==""){
 				alert("请先在列表中勾选要修改的文档");
 			}else{
-				posturl = "wdgl/edit_doc/"+chk;
-				iframe(posturl);
+				posturl = "wdgl/edit_doc/"+chk.split("_")[0];
+				if(chk.split("_")[1] != {{current_user.id}}){
+					alert("您没有该文档的修改权限");
+					return;
+				}
+				else{
+					iframe(posturl);
+				}
 			}
 		}
 		

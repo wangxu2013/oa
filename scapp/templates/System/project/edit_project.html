@@ -119,6 +119,17 @@
 							{%- endfor %}
 						</select>										
 					</td>
+					<td>
+						<select name="treeType" style="width:270px;">
+							{%- if project.treeType==1 %}
+								<option value="1" selected>树中显示</option>
+								<option value="2">树中隐藏</option>
+							{%-else%}
+								<option value="1">树中显示</option>
+								<option value="2" selected>树中隐藏</option>
+							{%-endif%}
+						</select>										
+					</td>
 				</tr>
 				<tr>	
 					<td class="table-label">负责人<font class="red">*</font></td>
