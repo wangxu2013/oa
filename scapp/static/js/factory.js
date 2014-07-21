@@ -3,7 +3,8 @@
  */
 var crud = crud || {};
 crud.dom = crud.dom || {};
-var wsHost = "http://oa.cardpay-sh.com"
+// var wsHost = "http://oa.cardpay-sh.com"
+var wsHost = "http://localhost:8888"
 
 //带auth的GET
 crud.dom.GETAuth = function() {
@@ -37,7 +38,7 @@ crud.dom.GET = function() {
             type : "GET",
             timeout : 5000,
             dataType : 'text',
-            crossDomain:true,
+            // crossDomain:true,
             success : function(json) {
                 //回调
                 callback(json);
