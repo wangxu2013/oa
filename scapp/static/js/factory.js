@@ -3,14 +3,15 @@
  */
 var crud = crud || {};
 crud.dom = crud.dom || {};
-var wsHost = "http://oa.cardpay-sh.com"
+//var wsHost = "http://oa.cardpay-sh.com"
 //var wsHost = "http://localhost:8888"
 
 //带auth的GET
 crud.dom.GETAuth = function() {
     this.doGetAuth = function(url,auth,callback) {
         $.ajax({
-            url : wsHost + url,
+            //url : wsHost + url,
+            url : url,
             type : "GET",
             timeout : 5000,
             dataType : 'text',
@@ -34,7 +35,8 @@ crud.dom.GETAuth = function() {
 crud.dom.GET = function() {
     this.doGet = function(url, callback) {
         $.ajax({
-            url : wsHost + url,
+        	//url : wsHost + url,
+            url : url,
             type : "GET",
             timeout : 5000,
             dataType : 'text',
@@ -55,7 +57,8 @@ crud.dom.GET = function() {
 crud.dom.POST = function() {
     this.doPost = function(url,data,callback) {
         $.ajax({
-            url : wsHost + url,
+        	//url : wsHost + url,
+            url : url,
             type : "POST",
             timeout : 5000,
             data: data,
@@ -77,7 +80,8 @@ crud.dom.POST = function() {
 crud.dom.PUT = function() {
     this.doPut = function(url,data,callback) {
         $.ajax({
-            url : wsHost + url,
+        	//url : wsHost + url,
+            url : url,
             type : "PUT",
             timeout : 5000,
             data: data,
@@ -99,7 +103,8 @@ crud.dom.PUT = function() {
 crud.dom.DELETE = function() {
     this.doDelete = function(url,data,callback) {
         $.ajax({
-            url : wsHost + url,
+        	//url : wsHost + url,
+            url : url,
             type : "DELETE",
             timeout : 5000,
             data: data,
