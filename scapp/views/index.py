@@ -88,7 +88,7 @@ def welcome():
 def xxgl():
     role = OA_UserRole.query.filter_by(user_id=current_user.id).first().oa_userrole_ibfk_2
     privileges = OA_Privilege.query.filter_by(privilege_master="OA_Role",privilege_master_id=role.id,privilege_access="OA_Menu").all()
-    return render_template("index.html",menu = 'xxgl',role=role,privileges=privileges)
+    return render_template("index.html",menu = 'xxgl',role=role,privileges=privileges,userId=current_user.id)
 
 # 文档管理
 @app.route('/Wdgl', methods=['GET'])
@@ -187,6 +187,5 @@ def getCount():
         sql+=")"
         sql+=" GROUP BY create_user"
         data = db.session.execute("select a.create_user,(select real_name from oa_user b where b.id=a.create_user) as real_name,sum(a.amount) as amount from oa_reimbursement a where "+sql).fetchall()
-        print "select a.create_user,(select real_name from oa_user b where b.id=a.create_user) as real_name,sum(a.amount) as amount from oa_reimbursement a where "+sql
         count_2=len(data)
     return count_2
