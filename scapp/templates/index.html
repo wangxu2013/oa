@@ -113,6 +113,11 @@
 							</li>  
 							{%- endif %}
 						{%- endfor %}
+							{%- if userId==2%}
+								<li onclick="leftmenu(this);changeiframe('fysp/fyzf_search')" id="fyzf">
+									<a href="javascript:void(0);">费用支付</a>
+								</li>
+							{%- endif %}
 					</ul>
 					<ul class="nav nav-list "
 							{%- if menu != "Wdgl" %}
