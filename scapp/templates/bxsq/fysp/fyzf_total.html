@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>	
+	<meta charset="utf-8">
+	<title>OA管理系统</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="Charisma, a fully featured, responsive, HTML5, Bootstrap admin template.">
+	<meta name="author" content="Muhammad Usman">
+
+	<!-- The styles -->
+	<link href="/static/css/bootstrap.css" rel="stylesheet">
+	<link href="/static/css/main.css" rel="stylesheet">
+	<link href="/static/css/datepicker.css" rel="stylesheet">
+	<!-- ************************验证样式************************-->
+	<script src="/static/SpryAssets/SpryValidationTextField.js" type="text/javascript"></script>
+	<link href="/static/SpryAssets/SpryValidationTextField.css" rel="stylesheet" type="text/css">
+	<!--<script src="../../static/SpryAssets/SpryValidationSelect.js" type="text/javascript"></script>
+	<link href="../../static/SpryAssets/SpryValidationSelect.css" rel="stylesheet" type="text/css" />-->
+	<style type="text/css">
+		.table-list .table-label{width:140px;}
+	</style>
+	
+</head>
+
+<body onload="datepicker();setTimeOut();">
+	<form class="content" id="tests" method="post" action="/fysp/fysp_list/1">	
+		<div class="well place">			
+			<i class="icon-home"></i><a href="#">报销申请</a>/<a href="/fysp/fysp_search">费用支付</a>
+		</div>	
+			<input type="hidden" value="{{org_id}}" name="org_id"/>
+			<input type="hidden" value="{{project_id}}" name="project_id"/>
+		{%- with messages = get_flashed_messages(with_categories=true) %}
+		  	{%- if messages %}
+	    	{%- for category, message in messages %}
+	    	<div class="alert alert-{{category}}">
+	      		{{message}}
+	      	</div>
+	    	{%- endfor %}
+		  	{%- endif %}
+		{%- endwith %}
+		<div class="row-fluid">			
+			<i class="icon-bookmark"></i><span class="titletip">待支付列表</span>
+			
+			<div style="border:1px solid #94c1dc;">				
+				<table class="table-list" cellspacing="10" id="uesr-list">
+					<thead>
+						<tr>
+							<th>申请人</th>
+							<th>总金额</th>
+							<th>笔数</th>							
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody class="center">						
+						{%- for obj in data %}					
+						<tr>
+							<td>{{obj.real_name}}</td>
+							<td>{{obj.amount}}</td>	
+							<td>{{obj.count}}</td>
+							<td><input type='button' class='btn btn-danger btn-mini' value='详细' onclick="submitForm({{obj.create_user}})"/></td>
+						</tr>	
+					{%- endfor %}	
+					</tbody>
+				</table>
+			</div>		
+	</form>	
+
+	<script src="/static/js/jquery-1.7.2.min.js"></script>
+	<script src="/static/js/bootstrap.min.js"></script>
+	<script src="/static/js/script.js"></script>
+	<script src="/static/js/bootstrap-datepicker.js"></script>
+	<script type="text/javascript">
+
+
+	function submitForm(create_user){
+	    document.getElementById("tests").action = "/fysp/fyzf_list/1/"+create_user;
+	    document.getElementById("tests").submit();
+	}
+	</script>
+</body>
+</html>

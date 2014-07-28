@@ -23,7 +23,7 @@
 </head>
 
 <body onload="datepicker();setTimeOut();">
-	<form class="content" id="fybx" method="POST" action="/fysp/fysp_check/{{reimbursement.id}}/{{parentPage}}/{{create_user}}" >	
+	<form class="content" id="fybx" method="POST" action="/fysp/fyzf_check/{{reimbursement.id}}/{{parentPage}}/{{create_user}}" >	
 		<i class="icon-bookmark"></i><span class="titletip">付款搜索</span>
 		<div style="border:1px solid #94c1dc;">		
 		<!--**********************个人类***********************-->
@@ -211,14 +211,8 @@
 					<td class="table-label">审批决定<font class="red">*</font></td>
 					<td width="35%">
 						<select name="decision" onchange="setTextarea()" id="decision">
-							<option value="1">通过</option>
-							<option value="2">拒绝</option>
-							<option value="3">退回</option>
+							<option value="1">付款</option>
 						</select>
-					</td>	
-					<td class="table-label">拒绝或退回原因</td>
-					<td>
-						<textarea name="fail_reason" class="tbInput" disabled id="jjyy"></textarea>
 					</td>										
 				</tr>	
 			</table>					
