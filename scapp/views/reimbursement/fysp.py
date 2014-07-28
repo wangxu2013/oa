@@ -94,7 +94,7 @@ def fysp_total():
         data = db.session.execute("select a.create_user,count(*) as count ,(select real_name from oa_user b where b.id=a.create_user) as real_name,sum(a.amount) as amount from oa_reimbursement a where "+sql).fetchall()
     
     else:
-        data=0
+        data=""
     return render_template("bxsq/fysp/fysp_total.html",data=data,org_id=org_id,project_id=project_id)
 
 

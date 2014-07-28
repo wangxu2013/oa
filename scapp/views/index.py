@@ -187,6 +187,5 @@ def getCount():
         sql+=")"
         sql+=" GROUP BY create_user"
         data = db.session.execute("select a.create_user,(select real_name from oa_user b where b.id=a.create_user) as real_name,sum(a.amount) as amount from oa_reimbursement a where "+sql).fetchall()
-        print "select a.create_user,(select real_name from oa_user b where b.id=a.create_user) as real_name,sum(a.amount) as amount from oa_reimbursement a where "+sql
         count_2=len(data)
     return count_2
