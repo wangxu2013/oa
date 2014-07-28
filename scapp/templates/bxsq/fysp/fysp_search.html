@@ -21,7 +21,7 @@
 </head>
 
 <body onload="datepicker();">	
-	<form class="content" method="POST" action="/fysp/fysp_list/1">
+	<form class="content" method="POST" action="/fysp/fysp_total">
 		<div class="well place">			
 			<i class="icon-home"></i><a href="#">报销管理</a>/<a href="#">费用审批</a>
 		</div>		
@@ -38,14 +38,7 @@
 			<i class="icon-bookmark"></i><span class="titletip">费用搜索</span>
 			<div>
 				<div style="border:1px solid #94c1dc;">
-					<table class="table-list">
-						<tr>
-							<td class="table-label">费用开始时间</td>
-							<td><input type="text" class="datepicker" name="beg_date" value="{{beg_date}}" data-date-format="yyyy-mm-dd" readonly/></td>
-							<td class="table-label">费用结束时间</td>
-							<td><input type="text" class="datepicker" name="end_date" data-date-format="yyyy-mm-dd" readonly/></td>
-						</tr>
-						
+					<table class="table-list">						
 						<tr>
 							<td class="table-label">负责部门</td>
 							<td colspan="1">
@@ -74,53 +67,6 @@
 								</select>
 							</td>	
 						</tr>
-						<!-- <tr>
-							<td class="table-label">员工</th>
-							<td>
-								<input type="hidden" id="yunying_manager1" name="person"/>
-								<input type="text" id="yunying_manager_name1" readonly/>
-								<input type="button" value="搜索" class="btn" onclick="$('#yunying_xdyss1').show();"/>
-								<span id="pgrA">
-									<input type="hidden" id="yz_yunying1" value=""/>
-								</span>							
-								<div class="display-div" id="yunying_xdyss1" style="margin-top:-100px;">
-									<i class="icon-bookmark"></i><span class="titletip">员工搜索</span>
-									<div style="border:1px solid #94c1dc;">
-										<table class="table-list">
-											<tr>	
-												<td class="table-label">员工名称</td>
-												<td><input type="text" onchange="search(this)"/></td>	
-											</tr>
-										</table>
-									</div>																		
-									<input type="button" value="关闭" class="btn btn-info btn-mini pull-right" onclick="$('.display-div').hide();"/>
-									<input type="button" value="搜索" class="btn btn-info btn-mini pull-right"/><br/>
-									<i class="icon-bookmark"></i><span class="titletip">员工列表</span>
-									<div style="border:1px solid #94c1dc;">
-										<table class="table-list">
-											<thead>
-												<tr>
-													<th>选择</th>	
-													<th>员工编号</th>												
-													<th>员工名称</th>												
-												</tr>
-											</thead>
-											<tbody class="center">	
-											{%- for obj in user %}										
-												<tr>
-													{%- if obj.id!=1%}
-														<td><input type="radio" name="xdy" onclick="get_name(this,'yunying_manager_name1','yunying_manager1');" onblur="hiddenInput('yz_yunying1',this)"/></td>	
-														<td>{{obj.id}}</td>										
-														<td name="search">{{obj.real_name}}</td>
-													{%-endif %}							
-												</tr>	
-											{%- endfor %}							
-											</tbody>
-										</table>
-									</div>
-								</div>
-							</td>
-						</tr> -->
 					</table>
 				</div>
 				<input type="submit" class="btn btn-info" value="搜索"/>										

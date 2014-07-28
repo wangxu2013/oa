@@ -23,12 +23,10 @@
 </head>
 
 <body onload="datepicker();setTimeOut();">
-	<form class="content" id="tests" method="post" action="/fysp/fysp_list/{{data.page}}">	
+	<form class="content" id="tests" method="post" action="/fysp/fysp_list/{{data.page}}/{{userId}}">	
 		<div class="well place">			
 			<i class="icon-home"></i><a href="#">报销申请</a>/<a href="/fysp/fysp_search">费用审核</a>
 		</div>	
-			<input type="hidden" value="{{beg_date}}" name="beg_date"/>
-			<input type="hidden" value="{{end_date}}" name="end_date"/>
 			<input type="hidden" value="{{org_id}}" name="org_id"/>
 			<input type="hidden" value="{{project_id}}" name="project_id"/>
 		{%- with messages = get_flashed_messages(with_categories=true) %}
@@ -80,14 +78,14 @@
 			</div>
 			<div class="page-div">
 					{%- if data.has_prev %}
-						<span style="CURSOR: pointer" onclick="submitForm('tests','/fysp/fysp_list/{{data.prev_num}}')">&lt;&lt;</span>
+						<span style="CURSOR: pointer" onclick="submitForm('tests','/fysp/fysp_list/{{data.prev_num}}/{{userId}}')">&lt;&lt;</span>
 					{%- else %}
 						<span style="CURSOR: pointer">&lt;&lt;</span>
 					{%- endif %}
 					&#160;第&#160;<font color="#0088cc">{{data.page}}</font>&#160;页&#160;
 					&#160;共&#160;<font color="#0088cc">{{data.pages}}</font>&#160;页&#160;
 					{%- if data.has_next %}
-						<span style="CURSOR: pointer" onclick="submitForm('tests','/fysp/fysp_list/{{data.next_num}}')">&gt;&gt;</span>
+						<span style="CURSOR: pointer" onclick="submitForm('tests','/fysp/fysp_list/{{data.next_num}}/{{userId}}')">&gt;&gt;</span>
 					{%- else %}
 						<span style="CURSOR: pointer">&gt;&gt;</span>
 					{%- endif %}
@@ -121,7 +119,7 @@
 			$('#text',window.parent.document).show();
 			var html="<div class=topDiv ><input type='button' class='btn btn-info btn-mini pull-right' value='关闭' onclick='$(\"#text\",window.parent.document).hide();'/><br/>"
 			if(name=="sp"){
-				$('#text',window.parent.document).html(html+"<iframe src='fysp/fysp_check/"+id+"/"+page+"' width=100% height=90% frameborder=0></iframe></div>");	
+				$('#text',window.parent.document).html(html+"<iframe src='fysp/fysp_check/"+id+"/"+page+"/{{userId}}' width=100% height=90% frameborder=0></iframe></div>");	
 				
 	
 			}
