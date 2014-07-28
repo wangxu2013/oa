@@ -112,12 +112,6 @@
 							    </li>
 							</li>  
 							{%- endif %}
-							{%- if obj.privilege_access_value == "wdgl" and obj.privilege_operation != "0" %}
-							    <li onclick="leftmenu(this);changeiframe('wdgl/wdgl')" id="wdgl">
-								<a href="javascript:void(0);">文档管理</a>
-							    </li>
-							</li>  
-							{%- endif %}
 						{%- endfor %}
 							{%- if userId==2%}
 								<li onclick="leftmenu(this);changeiframe('fysp/fyzf_search')" id="fyzf">
