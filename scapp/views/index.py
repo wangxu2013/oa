@@ -146,8 +146,11 @@ def change_password(id):
 def getCount():
     count_2=0
     #查询待审批
-    sql =" is_paid=0 "
+    sql =" is_paid=0 and is_refuse=0 "
+    if current_user.id is not 15:
+        sql+=" and approval_type!=4 "
     orgAll = OA_Org.query.filter_by(manager=current_user.id).all()
+    sql+=" and ("
     if len(orgAll)>0:
         appreval ="("
         #判断是否含有财务部门
@@ -159,14 +162,14 @@ def getCount():
         if len(appreval)>1:
             appreval=appreval[0:len(appreval)-1]
         appreval+=")"
-        sql += "and (approval in "+appreval
+        sql += " (approval in "+appreval
         #含财务部门
         if type=='2':
             sql += " or approval_type = 3)"
         else:
             sql += " and approval_type=1)"
     else:
-       sql +="and approval is null" 
+       sql +=" approval is null" 
     da = OA_Project.query.filter_by(manager_id=current_user.id).all()
     if len(da)>0:
         app ="("
@@ -179,5 +182,11 @@ def getCount():
     if len(orgAll)<1 and len(da)<1:
         count_2=0
     else:
-        count_2 = len(OA_Reimbursement.query.filter(sql).all())
+        if current_user.id==15:
+            sql +=" or (approval_type=4 and is_paid=0)"
+        sql+=")"
+        sql+=" GROUP BY create_user"
+        data = db.session.execute("select a.create_user,(select real_name from oa_user b where b.id=a.create_user) as real_name,sum(a.amount) as amount from oa_reimbursement a where "+sql).fetchall()
+        print "select a.create_user,(select real_name from oa_user b where b.id=a.create_user) as real_name,sum(a.amount) as amount from oa_reimbursement a where "+sql
+        count_2=len(data)
     return count_2

@@ -35,8 +35,10 @@ def new_xzfy():
                     app = string.split('.')
                     approval=app[0]
                     approval_type=app[1]
-            OA_Reimbursement(approval,approval_type,request.form['project_id'],request.form['org_id'],
-                             request.form['amount'],request.form['describe'],request.form['reason'],
+            amount = request.form.getlist("amount")
+            for i in range(len(amount)): 
+                OA_Reimbursement(approval,approval_type,request.form['project_id'],request.form['org_id'],
+                             amount[i],request.form.getlist("describe")[i],request.form.getlist("reason")[i],
                              request.form['start_date'],request.form['end_date'],
                              '0','0','','0',None).add()
                          
