@@ -39,12 +39,13 @@
 		  	{%- endif %}
 		{%- endwith %}
 		<div class="row-fluid">			
-			<i class="icon-bookmark"></i><span class="titletip">待审批列表</span>
-			
+			<i class="icon-bookmark"></i><span class="titletip">待支付列表</span>
+			<div><input type='button' class='btn btn-danger btn-mini' value='批量支付' onclick="pay({{data.page}},{{data.items[0].create_user}})"/></div>
 			<div style="border:1px solid #94c1dc;">				
 				<table class="table-list" cellspacing="10" id="uesr-list">
 					<thead>
 						<tr>
+							<th><input type="button" class="btn btn-info btn-mini" value="反选" style="margin:0;" onclick="ChkAllClick()"/></th>
 							<th>费用所属单位</th>
 							<th>申请人</th>
 							<th>项目</th>
@@ -58,6 +59,7 @@
 					<tbody class="center">						
 						{%- for obj in data.items %}					
 						<tr>
+							<td><input type="checkbox" onclick="changeColor(this)" name="checkbox" value="{{obj.id}}"/></td>
 							<td>{{obj.oa_reimbursement_ibfk_3.name}}</td>
 							<td>{{obj.oa_reimbursement_ibfk_2.real_name}}</td>
 							<td>{{obj.oa_reimbursement_ibfk_1.project_name}}</td>
@@ -70,7 +72,7 @@
 							{%- else %}
 								<td>新申请</td>
 							{%- endif %}
-							<td><input type='button' class='btn btn-danger btn-mini' value='审批' onclick="showList('sp',{{obj.id}},{{data.page}})"/></td>
+							<td><input type='button' class='btn btn-danger btn-mini' value='支付' onclick="showList('sp',{{obj.id}},{{data.page}})"/></td>
 						</tr>	
 					{%- endfor %}	
 					</tbody>
@@ -119,10 +121,27 @@
 			$('#text',window.parent.document).show();
 			var html="<div class=topDiv ><input type='button' class='btn btn-info btn-mini pull-right' value='关闭' onclick='$(\"#text\",window.parent.document).hide();'/><br/>"
 			if(name=="sp"){
-				$('#text',window.parent.document).html(html+"<iframe src='fysp/fyzf_check/"+id+"/"+page+"/{{userId}}' width=100% height=90% frameborder=0></iframe></div>");	
-				
-	
+				$('#text',window.parent.document).html(html+"<iframe src='fysp/fyzf_check/"+id+"/"+page+"/{{userId}}' width=100% height=90% frameborder=0></iframe></div>");
 			}
+		}
+		function pay(page,userId){
+			obj = document.getElementsByName("checkbox"); 
+			var value=""
+		 	for (var i=0;i<obj.length;i++ ){
+		 		if(obj[i].checked){
+		 			value=value+obj[i].value+"."
+		 		}
+		 	}
+		 	if(value==""){
+		 		alert("请选择记录");
+		 		return;
+		 	}
+		 	value=value.substring(0,value.length-1);
+		 	if(confirm("你确定一起支付吗？")){
+		 		document.getElementById("tests").action = "/fysp/fyzf_pay/"+value+"/"+page+"/"+userId;
+	    		document.getElementById("tests").submit();
+		 	}
+
 		}
 	function submitForm(formId,action){
 	    document.getElementById(formId).action = action;
