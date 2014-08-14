@@ -349,7 +349,6 @@ def fyzf_list(page,userId):
     return render_template("bxsq/fysp/fyzf_list.html",data=data,org_id=org_id,project_id=project_id,userId=userId)
 
 #费用支付
-#费用审批
 @app.route('/fysp/fyzf_check/<id>/<page>/<create_user>',methods=['GET','POST'])
 def fyzf_check(id,page,create_user):
     if request.method=='POST':
@@ -370,3 +369,51 @@ def fyzf_check(id,page,create_user):
         project = OA_Project.query.order_by("id").all()
         reimbursement = OA_Reimbursement.query.filter_by(id=id).first()
         return render_template("bxsq/fysp/checkzf_bxsq.html",reimbursement=reimbursement,project=project,userId=current_user.id,create_user=create_user,parentPage=int(page))
+
+#费用批量支付
+@app.route('/fysp/fyzf_pay/<id>/<int:page>/<userId>',methods=['GET','POST'])
+def fyzf_pay(id,page,userId):
+    if request.method=='POST':  
+        try:
+            if "." in id:
+                value=id.split(".")
+                for obj in value:
+                    reimbursement = OA_Reimbursement.query.filter_by(id=obj).first()  
+                    reimbursement.is_paid=1
+            else:
+                value=id
+                reimbursement = OA_Reimbursement.query.filter_by(id=value).first()  
+                reimbursement.is_paid=1
+            db.session.commit()
+            # 消息闪现
+            flash('支付成功','success')
+        except:
+            # 回滚
+            db.session.rollback()
+            logger.exception('exception')
+            # 消息闪现
+            flash('支付失败','error')
+    #搜索条件
+        org_id="-1"
+        project_id="-1"
+        #POST时有搜索条件
+        if request.method == 'POST':
+            if request.form['org_id']:
+                org_id = request.form['org_id']
+                project_id = request.form['project_id']
+        
+        sql =" is_refuse=0 and is_paid =0 and approval_type=4 and create_user="+str(userId)
+
+        if float(org_id) > -1:
+            if float(project_id) != -1:
+                sql+=" and (org_id="+org_id+" and project_id="+project_id+")"
+            else:
+                sql+=" and org_id="+org_id
+        else:
+            if float(project_id) != -1:
+                sql+=" and project_id="+project_id
+        try:
+            data = OA_Reimbursement.query.filter(sql).paginate(page, per_page = PER_PAGE) 
+        except:
+            data = OA_Reimbursement.query.filter(sql).paginate(page-1, per_page = PER_PAGE) 
+        return render_template("bxsq/fysp/fyzf_list.html",data=data,org_id=org_id,project_id=project_id,userId=userId)
