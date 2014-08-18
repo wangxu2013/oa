@@ -97,6 +97,22 @@ def Wdgl():
     role = OA_UserRole.query.filter_by(user_id=current_user.id).first().oa_userrole_ibfk_2
     privileges = OA_Privilege.query.filter_by(privilege_master="OA_Role",privilege_master_id=role.id,privilege_access="OA_Menu").all()
     return render_template("index.html",menu = 'Wdgl',role=role,privileges=privileges)
+	
+# 统计报表
+@app.route('/Xmgl', methods=['GET'])
+@login_required
+def Xmgl():
+    role = OA_UserRole.query.filter_by(user_id=current_user.id).first().oa_userrole_ibfk_2
+    privileges = OA_Privilege.query.filter_by(privilege_master="OA_Role",privilege_master_id=role.id,privilege_access="OA_Menu").all()
+    return render_template("index.html",menu = 'Xmgl',role=role,privileges=privileges)
+	
+# 统计报表
+@app.route('/Tjbb', methods=['GET'])
+@login_required
+def Tjbb():
+    role = OA_UserRole.query.filter_by(user_id=current_user.id).first().oa_userrole_ibfk_2
+    privileges = OA_Privilege.query.filter_by(privilege_master="OA_Role",privilege_master_id=role.id,privilege_access="OA_Menu").all()
+    return render_template("index.html",menu = 'Tjbb',role=role,privileges=privileges)
 
 # 系统管理
 @app.route('/xtgl', methods=['GET'])
@@ -189,3 +205,99 @@ def getCount():
         data = db.session.execute("select a.create_user,(select real_name from oa_user b where b.id=a.create_user) as real_name,sum(a.amount) as amount from oa_reimbursement a where "+sql).fetchall()
         count_2=len(data)
     return count_2
+		
+# 项目管理-个人项目
+@app.route('/xmgl/grxm', methods=['GET'])
+def grxm():
+    return render_template("xmgl/grxm.html")	
+	
+# 项目管理-项目信息
+@app.route('/xmgl/xmxx', methods=['GET'])
+def xmxx():
+    return render_template("xmgl/xmxx.html")
+		
+# 项目管理-任务板
+@app.route('/xmgl/rwb', methods=['GET'])
+def rwb():
+    return render_template("xmgl/rwb.html")
+	
+# 项目管理-新增任务
+@app.route('/xmgl/new_rw', methods=['GET'])
+def new_rw():
+    return render_template("xmgl/new_rw.html")
+	
+# 项目管理-编辑任务
+@app.route('/xmgl/edit_rw', methods=['GET'])
+def edit_rw():
+    return render_template("xmgl/edit_rw.html")
+	
+# 项目管理-添加组员
+@app.route('/xmgl/add_zy', methods=['GET'])
+def add_zy():
+    return render_template("xmgl/add_zy.html")
+	
+# 项目管理-未完成任务
+@app.route('/xmgl/unfinish', methods=['GET'])
+def unfinish():
+    return render_template("xmgl/unfinish.html")
+	
+# 项目管理-已完成任务
+@app.route('/xmgl/finish', methods=['GET'])
+def finish():
+    return render_template("xmgl/finish.html")
+	
+# 项目管理-今日任务
+@app.route('/xmgl/today', methods=['GET'])
+def today():
+    return render_template("xmgl/today.html")
+	
+	
+# 统计报表-年度费用统计搜索
+@app.route('/tjbb/ndfytj_search', methods=['GET'])
+def ndfytj_search():
+    return render_template("tjbb/ndfytj_search.html")
+	
+# 统计报表-年度费用统计
+@app.route('/tjbb/ndfytj', methods=['GET'])
+def ndfytj():
+    return render_template("tjbb/ndfytj.html")
+	
+# 统计报表-月度部门费用开支情况搜索
+@app.route('/tjbb/ydbmtj_search', methods=['GET'])
+def ydbmtj_search():
+    return render_template("tjbb/ydbmtj_search.html")
+	
+# 统计报表-月度部门费用开支情况
+@app.route('/tjbb/ydbmtj', methods=['GET'])
+def ydbmtj():
+    return render_template("tjbb/ydbmtj.html")	
+	
+# 统计报表-月度公司费用开支情况搜索
+@app.route('/tjbb/ydgstj_search', methods=['GET'])
+def ydgstj_search():
+    return render_template("tjbb/ydgstj_search.html")
+	
+# 统计报表-月度公司费用开支情况
+@app.route('/tjbb/ydgstj', methods=['GET'])
+def ydgstj():
+    return render_template("tjbb/ydgstj.html")
+	
+# 统计报表-季度部门费用开支情况搜索
+@app.route('/tjbb/jdbmtj_search', methods=['GET'])
+def jdbmtj_search():
+    return render_template("tjbb/jdbmtj_search.html")
+	
+# 统计报表-季度部门费用开支情况
+@app.route('/tjbb/jdbmtj', methods=['GET'])
+def jdbmtj():
+    return render_template("tjbb/jdbmtj.html")	
+	
+# 统计报表-季度公司费用开支情况搜索
+@app.route('/tjbb/jdgstj_search', methods=['GET'])
+def jdgstj_search():
+    return render_template("tjbb/jdgstj_search.html")
+	
+# 统计报表-季度公司费用开支情况
+@app.route('/tjbb/jdgstj', methods=['GET'])
+def jdgstj():
+    return render_template("tjbb/jdgstj.html")

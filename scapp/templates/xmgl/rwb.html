@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>	
+	<meta charset="utf-8">
+	<title>OA管理系统</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="Charisma, a fully featured, responsive, HTML5, Bootstrap admin template.">
+	<meta name="author" content="Muhammad Usman">
+
+	<!-- The styles -->
+	<link href="/static/css/bootstrap.css" rel="stylesheet">
+	<link href="/static/css/main.css" rel="stylesheet">
+	<link href="../../static/css/jquery-ui-1.8.21.custom.css" rel="stylesheet">
+	
+	<style type="text/css">
+		.worktype{font-size:15px;font-weight:bold;margin-left:15px;font-family:"Microsoft YaHei";}
+		.sidebar-nav{height:440px;padding-left:0;padding-right:0;}
+		.task a{color:#000;}
+		.task{width:100%;margin:5px 0;height:390px;overflow-y:auto;overflow-x:hidden;font-family:"Microsoft YaHei";}
+		.task li{width:100%;background:white;border:1px solid #e3e3e3;list-style:none;margin-left:-1px;margin-top:5px;}
+		.task li:hover{cursor:pointer;}
+		.task div{display:inline-block;margin:15px;}
+		.list-style{height:75px;width:10px;background:#d9d9d9;display:inline-block;}
+		.label{font-weight:normal;margin:10px 5px 0 28px;text-shadow:none}
+		.finish{color:gray;text-decoration:line-through;}		
+	</style>
+	
+</head>
+
+<body>
+	<form id="content" class="content" method="POST">	
+		<div class="well place">			
+			<i class="icon-home"></i><a href="#">项目管理</a>/<a href="#">个人项目</a>/<a href="#">XMCI</a>
+		</div>		
+		<div class="back">
+			<input type="button" value="返回" class="btn btn-info" onclick="iframe('xmgl/xmxx')"/>
+		</div>
+		<i class="icon-bookmark"></i><span class="titletip">任务板</span><br/>	
+		<div class="row-fluid">	
+			<div class="span4">				
+				<div class="well sidebar-nav" style="padding-top:10px;margin-bottom:0px;">
+					<span class="worktype">未完成 · 2</span>
+					<br/>
+					<ul class="task">
+						<li>
+							<div>
+								<input type="checkbox"/>&nbsp;
+								<a href="#" onclick="iframe('xmgl/edit_rw')">
+									数值转换金额大写（0.65报错）修改数值转换金额大写（0.65报错）修改
+								</a><br/>
+								<span style="marin-top:0;">
+									<i class="icon-calendar icon-white"></i>
+									<span class="date">2014-09-13</span>
+								</span>
+							</div>
+						</li>
+						<li>
+							<div>
+								<input type="checkbox"/>&nbsp;
+								<a href="#" onclick="iframe('xmgl/edit_rw')">
+									数值转换金额大写（0.65报错）修改
+								</a><br/>
+								<span style="marin-top:0;">
+									<i class="icon-calendar icon-white"></i>
+									<span class="date">2014-09-13</span>
+								</span>
+							</div>
+						</li>
+					</ul>
+				</div><!--/.well -->						
+			</div><!--/span-->
+			<div class="span4">				
+				<div class="well sidebar-nav" style="padding-top:10px;margin-bottom:0px;">				
+					<span class="worktype">进行中 · 1</span><br/>
+					<ul class="task">
+						<li>
+							<div>
+								<input type="checkbox"/>&nbsp;
+								<a href="#" onclick="iframe('xmgl/edit_rw')">
+									数值转换金额大写（0.65报错）修改
+								</a><br/>
+								<span style="marin-top:0;">
+									<i class="icon-calendar icon-white"></i>
+									<span class="date">2014-08-15</span>
+								</span>
+							</div>
+						</li>
+					</ul>
+				</div><!--/.well -->						
+			</div><!--/span-->
+			<div class="span4">				
+				<div class="well sidebar-nav" style="padding-top:10px;margin-bottom:0px;">				
+					<span class="worktype">已完成 · 1</span><br/>
+					<ul class="task">
+						<li>
+							<div>
+								<input type="checkbox" checked/>&nbsp;
+								<a href="#" onclick="iframe('xmgl/edit_rw')">
+									<span class="finish">数值转换金额大写（0.65报错）修改数值转换金额大写</span>
+								</a><br/>
+								<span class="label">
+									<i class="icon-calendar icon-white"></i>&nbsp;
+									2014-05-08
+								</span>
+							</div>
+						</li>
+					</ul>
+				</div><!--/.well -->						
+			</div><!--/span-->
+			
+		</div><!--/row-fluid -->
+	</form>	
+
+	<script src="/static/js/jquery-1.7.2.min.js"></script>
+	<script src="/static/js/bootstrap.min.js"></script>
+	<script src="/static/js/script.js"></script>
+	<script src="/static/js/bootstrap-datepicker.js"></script>
+	<script src="../../static/js/jquery-ui-1.8.21.custom.min.js"></script>
+	<script type="text/javascript">			
+		$(document).ready(function(){
+			$(".date").each(function(){//判断任务是否逾期
+				var time=this.innerHTML;
+				var nian=time.split('-')[0];
+				var yue=time.split('-')[1];
+				var ri=time.split('-')[2];
+				if(parseInt(nian)>parseInt(year)){
+					$(this).parent().attr("class","label label-info")
+				}
+				else if(parseInt(nian)==parseInt(year)){
+					if(parseInt(yue)>parseInt(month)){
+						$(this).parent().attr("class","label label-info")
+					}
+					else if(parseInt(yue)==parseInt(month)){
+						if(parseInt(ri)>parseInt(day)){
+							$(this).parent().attr("class","label label-info")
+						}
+						else if(parseInt(ri)==parseInt(day)){
+							$(this).parent().attr("class","label label-warning")
+						}
+						else{
+							$(this).parent().attr("class","label label-important")
+						}
+					}
+					else{
+						$(this).parent().attr("class","label label-important")
+					}
+				}
+				else{
+					$(this).parent().attr("class","label label-important")
+				}
+			});
+		});
+	</script>	
+</body>
+</html>

@@ -67,13 +67,13 @@
 							<td>{{obj.create_date}}</td>
 							
 							{%- if obj.is_paid == '1' %}
-								<td>已付款</td>
+								<td><span class="label label-success">已付款</span></td>
 							{%- else %}
 								{%- if obj.is_refuse == '1' %}
-									<td>被拒绝</td>
+									<td><span class="label label-important">被拒绝</span></td>
 								{%- else %}
 									{%- if obj.is_retreat == '1' %}
-										<td>被退回</td>
+										<td><span class="label label-warning">被退回</span></td>
 									{%- else %}
 										<td>审批中</td>
 									{%- endif %}

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>	
+	<meta charset="utf-8">
+	<title>OA管理系统</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="Charisma, a fully featured, responsive, HTML5, Bootstrap admin template.">
+	<meta name="author" content="Muhammad Usman">
+
+	<!-- The styles -->
+	<link href="/static/css/bootstrap.css" rel="stylesheet">
+	<link href="/static/css/main.css" rel="stylesheet">
+	<style type="text/css">
+		.work{padding:0;margin:0;margin-top:10px;}
+		.work li{list-style:none;border:1px solid #e0e0e0;font-family:"Microsoft YaHei";padding:10px;font-size:15px;border-radius:5px;margin-bottom:10px;text-decoration:line-through;}
+		.work li:hover{background:#eeeeee;}
+		.work .worker{color:gray;}
+		input[type=checkbox]{margin-top:0;}
+	</style>
+	
+</head>
+
+<body>	
+	<div class="content" action="/xmgl/xmxx">
+		<div class="well place">			
+			<i class="icon-home"></i><a href="#">项目管理</a>/<a href="#">个人项目</a>/<a href="#">XMCI</a>
+		</div>	
+		<div class="back">
+			<input type="button" value="返回" class="btn btn-info" onclick="iframe('xmgl/xmxx')"/>
+		</div>
+		<div class="row-fluid">
+			<i class="icon-bookmark"></i><span class="titletip">已完成任务</span>	
+			<ul class="work">
+				<li>
+					<input type="checkbox" checked />
+					数值转换金额大写（0.65报错）修改数值转换金额大写（0.65报错）修改
+					<span tyle="marin-top:0;">
+						<i class="icon-calendar icon-white"></i>
+						<span class="date">2014-08-15</span>
+					</span>
+					<span class="worker pull-right">#admin&nbsp;&nbsp;</span>
+				</li>
+				<li>
+					<input type="checkbox" checked />
+					数值转换金额大写（0.65报错）修改
+					<span tyle="marin-top:0;">
+						<i class="icon-calendar icon-white"></i>
+						<span class="date">2014-08-15</span>
+					</span>
+					<span class="worker pull-right">#admin&nbsp;&nbsp;</span>
+				</li>
+			<ul>
+		</div><!--/row-fluid -->
+	</div><!--/content -->
+	
+	<script src="/static/js/jquery-1.7.2.min.js"></script>
+	<script src="/static/js/jquery.json-2.4.min.js"></script>
+	<script src="/static/js/bootstrap.min.js"></script>
+	<script src="/static/js/script.js"></script>
+	<script type="text/javascript">			
+		$(document).ready(function(){
+			$(".date").each(function(){//判断任务是否逾期
+				var time=this.innerHTML;
+				var nian=time.split('-')[0];
+				var yue=time.split('-')[1];
+				var ri=time.split('-')[2];
+				if(parseInt(nian)>parseInt(year)){
+					$(this).parent().attr("class","label label-info pull-right")
+				}
+				else if(parseInt(nian)==parseInt(year)){
+					if(parseInt(yue)>parseInt(month)){
+						$(this).parent().attr("class","label label-info pull-right")
+					}
+					else if(parseInt(yue)==parseInt(month)){
+						if(parseInt(ri)>parseInt(day)){
+							$(this).parent().attr("class","label label-info pull-right")
+						}
+						else if(parseInt(ri)==parseInt(day)){
+							$(this).parent().attr("class","label label-warning pull-right")
+						}
+						else{
+							$(this).parent().attr("class","label label-important pull-right")
+						}
+					}
+					else{
+						$(this).parent().attr("class","label label-important pull-right")
+					}
+				}
+				else{
+					$(this).parent().attr("class","label label-important pull-right")
+				}
+			});
+		});
+	</script>
+</body>
+</html>
