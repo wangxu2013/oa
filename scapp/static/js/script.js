@@ -17,19 +17,17 @@ function creattime(i){
         {i="0"+i};
     return i;
 }
-
+var date=new Date();
+var year=date.getFullYear();
+var month=creattime(date.getMonth()+1);
+var day=creattime(date.getDate()); 
 //日历
 function datepicker(){
     $('.datepicker').datepicker();
     //给空的datepicker一个默认当天值
     $('.datepicker').each(function(){
         if(this.value==""){
-            var date=new Date();
-            var nian=date.getFullYear();
-            var month=creattime(date.getMonth()+1);
-            var day=creattime(date.getDate()); 
-            
-            this.value=nian+"-"+month+"-"+day;
+            this.value=year+"-"+month+"-"+day;
         }
     });
     // if($('.datepicker').val()==""){
@@ -133,13 +131,9 @@ function setTimeOut(){
  */
 function showdate()
 {
-    var date=new Date();
-    var month=creattime(date.getMonth()+1);
-    var da=creattime(date.getDate());
-    var day=date.getDay();
-    var nian=date.getFullYear();
+    var day1=date.getDay();
     var txt;
-    switch(day)
+    switch(day1)
     {
         case 1:
             txt="一"
@@ -165,7 +159,7 @@ function showdate()
         default:
             sj.innerHTML="出错了"
     }
-    document.getElementById('date').innerHTML=nian+"年"+month+"月"+da+"日&nbsp;&nbsp;&nbsp;星期"+txt
+    document.getElementById('date').innerHTML=year+"年"+month+"月"+day+"日&nbsp;&nbsp;&nbsp;星期"+txt
 }
 
 //tab标签页

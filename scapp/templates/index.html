@@ -65,7 +65,16 @@
 							onclick="iframe('Wdgl')"><a href="javascript:void(0);">文档管理</a></li>
 						{%- endif %}
 					{%- endfor %}
-						
+						<li 
+							{%- if menu == "Xmgl"%}
+								class="active"
+							{%- endif %}
+							onclick="iframe('Xmgl')"><a href="javascript:void(0);">项目管理</a></li>
+						<li 
+							{%- if menu == "Tjbb"%}
+								class="active"
+							{%- endif %}
+							onclick="iframe('Tjbb')"><a href="javascript:void(0);">统计报表</a></li>
 					</ul>
 				</div><!--/.nav-collapse -->
 			</div><!--/.container-fluid -->
@@ -133,7 +142,6 @@
 							{%- endif %}
 						{%- endfor %}
 					</ul>
-					
 					<ul class="nav nav-list 
 							{%- if menu != "xtgl"%}
 								hidden
@@ -189,6 +197,38 @@
 							{%- endif %}
 						{%- endfor %}
 					</ul>
+					<ul class="nav nav-list "
+							{%- if menu != "Xmgl" %}
+								hidden
+							{%- endif %}
+							 id="">
+						<li class="nav-header">项目管理</li>				
+							<li onclick="leftmenu(this);changeiframe('xmgl/grxm')" id="grxm" class="active">
+								<a href="javascript:void(0);">个人项目</a>
+							</li>
+					</ul>
+					<ul class="nav nav-list "
+							{%- if menu != "Tjbb" %}
+								hidden
+							{%- endif %}
+							 id="">
+						<li class="nav-header">统计报表</li>				
+							<li onclick="leftmenu(this);changeiframe('tjbb/ndfytj_search')" id="ndfytj" class="active">
+								<a href="javascript:void(0);">年度费用统计</a>
+							</li>
+							<li onclick="leftmenu(this);changeiframe('tjbb/ydbmtj_search')" id="ydbmtj">
+								<a href="javascript:void(0);">部门费用开支(月)</a>
+							</li>
+							<li onclick="leftmenu(this);changeiframe('tjbb/ydgstj_search')" id="ydgstj">
+								<a href="javascript:void(0);">公司费用开支(月)</a>
+							</li>
+							<li onclick="leftmenu(this);changeiframe('tjbb/jdbmtj_search')" id="jdbmtj">
+								<a href="javascript:void(0);">部门费用开支(季)</a>
+							</li>
+							<li onclick="leftmenu(this);changeiframe('tjbb/jdgstj_search')" id="jdgstj">
+								<a href="javascript:void(0);">公司费用开支(季)</a>
+							</li>
+					</ul>
 				</div><!--/.well -->					
 			</div><!--/span-->
 <!--**************************************************content***********************************************-->
@@ -201,7 +241,11 @@
 					{%- elif menu == "Wdgl" %}
 						src="wdgl/wdgl"
 					{%- elif menu == "xtgl" %}
-						src="System/reason/1"
+						src="System/reason/1"						
+					{%- elif menu == "Xmgl" %}
+						src="xmgl/grxm"
+					{%- elif menu == "Tjbb" %}
+						src="tjbb/ndfytj_search"
 					{%- endif %}
 				width="100%;" id="content_frame" name="content_frame" marginheight="0" marginwidth="0" height="100%" onload="resizeFrame('content_frame')"></iframe>
 			</div><!--/span-->
