@@ -11,6 +11,7 @@ from scapp.models.system_usage.oa_job import OA_Job
 from scapp.models.system_usage.oa_menu import OA_Menu
 from scapp.models.system_usage.oa_privilege import OA_Privilege
 from scapp.models.system_usage.oa_reason import OA_Reason
+from scapp.models.system_usage.oa_email_url import OA_Email_Url
 from scapp.models.reimbursement.oa_reimbursement import OA_Reimbursement
 from scapp.models.reimbursement.oa_view_doc_privilege import OA_View_Doc_Privilege
 from scapp.models.reimbursement.oa_doc import OA_Doc

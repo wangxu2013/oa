@@ -75,7 +75,16 @@
 				<div id="content">
 					<div class="well place">			
 						<i class="icon-home"></i><a href="#">首页</a>
-					</div>		
+					</div>
+					{%- with messages = get_flashed_messages(with_categories=true) %}
+					  	{%- if messages %}
+				    	{%- for category, message in messages %}
+				    	<div class="alert alert-{{category}}">
+				      		{{message}}
+				      	</div>
+				    	{%- endfor %}
+					  	{%- endif %}
+					{%- endwith %}		
 					<div class="row-fluid">
 						<i class="icon-bookmark"></i><span class="titletip">待办事项</span>
 						<div style="border:1px solid #94c1dc;">

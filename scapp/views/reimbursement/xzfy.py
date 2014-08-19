@@ -13,6 +13,8 @@ from scapp.models import OA_Project,OA_Reason,OA_Org,OA_UserRole,OA_Reimbursemen
 
 from scapp import app
 
+from scapp.views.reimbursement.fysp import SendMail
+
 # 新增费用
 @app.route('/xzfy/new_xzfy', methods=['GET','POST'])
 def new_xzfy():
@@ -36,13 +38,21 @@ def new_xzfy():
                     approval=app[0]
                     approval_type=app[1]
             amount = request.form.getlist("amount")
+            reimbursement_list = []
             for i in range(len(amount)): 
-                OA_Reimbursement(approval,approval_type,request.form['project_id'],request.form['org_id'],
+                reimbursement = OA_Reimbursement(approval,approval_type,request.form['project_id'],request.form['org_id'],
                              amount[i],request.form.getlist("describe")[i],request.form.getlist("reason")[i],
                              request.form['start_date'],request.form['end_date'],
-                             '0','0','','0',None).add()
+                             '0','0','','0',None)
+                reimbursement.add()
+                db.session.flush()
+                reimbursement_list.append(reimbursement.id)
                          
             db.session.commit()
+            for i in reimbursement_list:
+                reimbursement = OA_Reimbursement.query.filter_by(id=i).first()
+                #邮件通知
+                SendMail(reimbursement)
             # 消息闪现
             flash('保存成功','success')
         except:
@@ -92,6 +102,8 @@ def edit_xzfy(id):
             reimbursement.end_date = request.form['end_date']
             
             db.session.commit()
+            #邮件通知
+            SendMail(reimbursement)
             # 消息闪现
             flash('保存成功','success')
         except:

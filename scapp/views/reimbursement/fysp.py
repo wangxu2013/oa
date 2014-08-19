@@ -1,17 +1,28 @@
 # coding:utf-8
 from scapp import db
-from scapp.config import PER_PAGE
+from scapp.config import PER_PAGE,EMAIL_SERVER,EMAIL_SEND
 from scapp.config import logger
 from scapp.config import Approval_type_ORG,Approval_type_PRJ,Approval_type_CAIWU
 import scapp.helpers as helpers
 import datetime,time
 
 from flask import Module, session, request, render_template, redirect, url_for, flash
-from flask.ext.login import current_user
+from flask.ext.login import login_user,current_user
 
-from scapp.models import OA_Project,OA_Reason,OA_Org,OA_User,OA_UserRole,OA_Reimbursement
+from scapp.models import OA_Project,OA_Reason,OA_Org,OA_User,OA_UserRole,OA_Reimbursement,OA_Email_Url
 
 from scapp import app
+
+
+from flask.ext.mail import Mail
+ 
+from flask.ext.mail import Message
+ 
+from threading import Thread
+import uuid
+
+
+
 
 #费用审批搜索
 @app.route('/fysp/fysp_search',methods=['GET'])
@@ -41,6 +52,7 @@ def fysp_total():
             project_id = request.form['project_id']
     
     sql =" is_refuse=0 and is_paid =0 "
+    #财务总监
     if current_user.id is not 15:
         sql+=" and approval_type!=4 "
     orgAll = OA_Org.query.filter_by(manager=current_user.id).all()
@@ -109,8 +121,8 @@ def fysp_list(page,userId):
             project_id = request.form['project_id']
     
     sql =" is_refuse=0 and is_paid =0 and create_user="+str(userId)
-    if current_user.id is not 15:
-        sql+=" and approval_type!=4 "
+    # if current_user.id is not 15:
+    sql+=" and approval_type!=4 "
     orgAll = OA_Org.query.filter_by(manager=current_user.id).all()
     sql+=" and ("
     if org_id == "-1":
@@ -256,6 +268,9 @@ def approve(user_id,expense_id,result,reason):
                                 else:
                                     reimbursement.approval=project.p_org_id
                             reimbursement.approval_type = 1
+            if reimbursement.approval_type is not 4:
+                #邮件通知
+                SendMail(reimbursement)
         #拒绝
         if result=='2':
             reimbursement.is_refuse = '1'
@@ -266,6 +281,9 @@ def approve(user_id,expense_id,result,reason):
             reimbursement.approval=reimbursement.project_id
             reimbursement.approval_type= '2'
             reimbursement.fail_reason = reason
+        email_url = OA_Email_Url.query.filter_by(manager=current_user.id,list_id=reimbursement.id).first()
+        if email_url:
+            OA_Email_Url.query.filter_by(manager=current_user.id,list_id=reimbursement.id).delete()
         db.session.commit()
         # 消息闪现
         flash('保存成功','success')
@@ -417,3 +435,87 @@ def fyzf_pay(id,page,userId):
         except:
             data = OA_Reimbursement.query.filter(sql).paginate(page-1, per_page = PER_PAGE) 
         return render_template("bxsq/fysp/fyzf_list.html",data=data,org_id=org_id,project_id=project_id,userId=userId)
+
+
+#邮件发送
+def SendMail(reimbursement):
+        #获取邮件地址
+        manager_id = ""
+        if str(reimbursement.approval_type)=='1':
+           org = OA_Org.query.filter_by(id=reimbursement.approval).first()
+           manager_id = org.manager
+        elif str(reimbursement.approval_type)=='2':
+           pro = OA_Project.query.filter_by(id=reimbursement.approval).first()
+           manager_id = pro.manager_id
+        else:
+            org = OA_Org.query.filter_by(is_caiwu='1').first()
+            manager_id = org.manager
+        user = OA_User.query.filter_by(id=manager_id).first()
+        email = user.email
+        if not email:
+            return ""
+        #创建uuid
+        uu = uuid.uuid1()
+        url = EMAIL_SERVER+"/fysp/email_return/"+str(uu)
+        msg = Message('OA报销审批提醒',sender=EMAIL_SEND,recipients=[email])
+        msg.body = "text body"
+        msg.html = "<div style='border:0px solid #94c1dc;margin-bottom:10px;width:90%;'><table style='border-collapse:collapse;font-family:'Microsoft YaHei';width:100%;'>\
+                    <thead><tr style='background:#afd5eb;'><th style='border:1px solid #FFF;padding:10px;'>费用所属单位</th>\
+                    <th style='border:1px solid #FFF;'>申请人</th>\
+                    <th style='border:1px solid #FFF;'>项目</th>\
+                    <th style='border:1px solid #FFF;'>金额</th>\
+                    <th style='border:1px solid #FFF;'>报销事由</th></tr></thead>\
+                    <tbody><tr style='text-align:center;background:#efefef;'>\
+                    <td style='border:1px solid #FFF;color:#333333;padding:5px;'>"+reimbursement.oa_reimbursement_ibfk_3.name+"</td>\
+                    <td style='border:1px solid #FFF;color:#333333;'>"+reimbursement.oa_reimbursement_ibfk_3.name+"</td>\
+                    <td style='border:1px solid #FFF;color:#333333;'>"+reimbursement.oa_reimbursement_ibfk_2.real_name+"</td>\
+                    <td style='border:1px solid #FFF;color:red;font-weight:bold;'>"+reimbursement.amount+"</td>\
+                    <td style='border:1px solid #FFF;color:#333333;'>"+reimbursement.oa_reimbursement_ibfk_5.reason_name+"</td></tr></tbody></table></div>\
+                    <div><a href='"+url+"' style='font-family:'Microsoft YaHei';color:#0088cc;text-decoration:none;'>点击查看详情</a></div>"
+        thr = Thread(target=send_async_email,args=[app,msg,reimbursement.id,manager_id,uu])
+        thr.start()
+        return "OK"
+
+def send_async_email(app,msg,list_id,manager_id,uu):
+        with app.app_context():
+                try:  
+                    OA_Email_Url(list_id,manager_id,uu).add()
+                    db.session.commit()
+                    mail = Mail(app)
+                    mail.send(msg)
+                except:
+                    # 回滚
+                    db.session.rollback()
+                    logger.exception('exception') 
+
+#邮件链接
+@app.route('/fysp/email_return/<random_uuid>',methods=['GET','POST'])
+def email_return(random_uuid):
+    email = OA_Email_Url.query.filter_by(random_uuid=random_uuid).first()
+    if email:
+        #自动登录
+        user = OA_User.query.filter_by(id=email.manager).first()
+        login_user(user)
+        project = OA_Project.query.order_by("id").all()
+        reimbursement = OA_Reimbursement.query.filter_by(id=email.list_id).first()
+        return render_template("bxsq/fysp/email_bxsq.html",reimbursement=reimbursement,project=project)
+    else:
+        return redirect("/login")
+
+#邮件提交
+@app.route('/fysp/email_check/<id>',methods=['GET','POST'])
+def email_check(id):
+    if request.method=='POST':
+        try:
+            result = request.form['decision']
+            fail_reason=""
+            if str(result) is not '1':
+                fail_reason = request.form['fail_reason']
+            
+            db.session.commit()
+            #审批流程
+            approve(current_user.id,id,result,fail_reason)
+        except:
+            db.session.rollback()
+            logger.exception('exception') 
+    return redirect("/welcome")
