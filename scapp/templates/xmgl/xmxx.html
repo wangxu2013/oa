@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>	
+	<meta charset="utf-8">
+	<title>OA管理系统</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="Charisma, a fully featured, responsive, HTML5, Bootstrap admin template.">
+	<meta name="author" content="Muhammad Usman">
+
+	<!-- The styles -->
+	<link href="/static/css/bootstrap.css" rel="stylesheet">
+	<link href="/static/css/main.css" rel="stylesheet">
+	<link href="/static/css/datepicker.css" rel="stylesheet">
+	<!-- ************************验证样式************************-->
+	<script src="/static/SpryAssets/SpryValidationTextField.js" type="text/javascript"></script>
+	<link href="/static/SpryAssets/SpryValidationTextField.css" rel="stylesheet" type="text/css">
+	<style type="text/css">
+		a{font-family:"Microsoft YaHei";}
+		a:hover{text-decoration:none;}
+		.span3,.span7{margin:20px 20px 0 0;}
+		.tip-info{border:1px solid #dedede;border-radius:5px;padding:10px;margin-bottom:20px;box-shadow:2px 2px 5px #dedede;}
+		.tip-head{font-size:17px;font-weight:bold;color:#808080;font-family:"Microsoft YaHei";}
+		.tip-add{font-size:15px;color:#808080;text-decoration:none;font-family:"Microsoft YaHei";}
+		.tip-hover{font-size:15px;color:#0088cc;text-decoration:none;font-family:"Microsoft YaHei";}
+		.nothing{text-align:center;font-family:"Microsoft YaHei";color:#a6a6a6;height:150px;margin-top:50px;}
+		blockquote{font-size:16px;font-family:"Microsoft YaHei";color:#a6a6a6;}
+		blockquote a{color:#000;}
+		blockquote .total{color:#808080;font-size:30px;cursor:pointer;}
+		blockquote .finish{color:#4bd649;font-size:30px;cursor:pointer;}
+		blockquote .today{color:#ed5955;font-size:30px;cursor:pointer;}
+		input[type=checkbox]{margin:0 10px 0 0;}
+		
+		.Alpha{width:100%;height:100%;position:fixed;top:0;background:rgba(0,0,0,0.5);display:none;}
+		.Alpha form{background:#fff;width:40%;margin:100px auto;padding:10px 20px;border-radius:10px;box-shadow:0px 0px 5px #fff;}
+		.Alpha form p{color:gray;font-size:17px;font-family:"Microsoft YaHei";}
+		.Alpha .title{color:#75b155;font-size:17px;line-height:40px;border-bottom:1px solid #a4c98f;margin-bottom:20px;text-align:left;}
+		.Alpha .close{float:right;margin-top:8px;}
+		.Alpha span{color:#707070;line-height:50px;font-size:16px;}
+		.Alpha input[type=text]{font-family:"Microsoft YaHei";width:95%;height:30px;}
+		.Alpha textarea{font-family:"Microsoft YaHei";width:95%;height:80px;}
+	</style>
+	
+</head>
+
+<body >
+	<div class="content">
+		<div class="well place">			
+			<i class="icon-home"></i><a href="#">项目管理</a>/<a href="#">个人项目</a>/<a href="#">XMCI</a>
+		</div>						
+		<i class="icon-bookmark"></i><span class="titletip">XMCI</span><br/>	
+		<div class="span7">
+			<!--****************************任务板*************************************-->
+			<div class="tip-info">
+				<span class="tip-head">任务板</span>	
+				<span class="badge badge-info">2</span>	
+				<div class="pull-right">
+					<a onmouseover="hover(this)" onmouseout="away(this)" href="#" onclick="iframe('xmgl/new_rw')">
+						<img src="../static/img/add.jpg" />
+						<span class="tip-add">创建任务</span>	
+					</a>
+				</div>							
+				<hr/>		
+				<div class="nothing" style="display:none;">						
+					<img src="/static/img/renwu.jpg"/><br/>						
+					目前还没有任务
+				</div><!--没有任务时显示-->
+				<blockquote>
+					<input type="checkbox" onclick="check(this)"/>
+					<a href="#" onclick="iframe('xmgl/edit_rw')">数值转换金额大写（0.65报错）修改数值转换金额大写（0.65报错）修改</a>
+					<span style="marin-top:0;">
+						<i class="icon-calendar icon-white"></i>
+						<span class="date">2014-08-20</span>
+					</span>
+				</blockquote>
+				<blockquote>
+					<input type="checkbox" onclick="check(this)"/>
+					<a href="#" onclick="iframe('xmgl/edit_rw')">数值转换金额大写（0.65报错）修改</a>
+					<span style="marin-top:0;">
+						<i class="icon-calendar icon-white"></i>
+						<span class="date">2014-08-15</span>
+					</span>
+				</blockquote>
+				<blockquote>
+					<input type="checkbox" onclick="check(this)"/>
+					<a href="#" onclick="iframe('xmgl/edit_rw')">数值转换金额大写（0.65报错）修改</a>
+					<span style="marin-top:0;">
+						<i class="icon-calendar icon-white"></i>
+						<span class="date">2014-08-13</span>
+					</span>
+				</blockquote>
+				<hr/>
+				<a href="#" onclick="iframe('xmgl/rwb')">进入任务板</a>
+			</div>
+		</div>
+		<div class="span3">
+			<div class="tip-info">
+				<span class="tip-head">项目组成员</span>
+				<div class="pull-right">
+					<a onmouseover="hover(this)" onmouseout="away(this)" href="#" onclick="iframe('xmgl/add_zy')">
+						<img src="../static/img/add.jpg" />
+						<span class="tip-add">添加组员</span>	
+					</a>
+				</div>							
+				<hr/>						
+				<blockquote>
+					<input type="checkbox" onclick="check(this)"/>
+					<a>admin</a>
+				</blockquote>
+				<blockquote>
+					<input type="checkbox" onclick="check(this)"/>
+					<a>组员1</a>
+				</blockquote>
+				<blockquote>
+					<input type="checkbox" onclick="check(this)"/>
+					<a>组员2</a>
+				</blockquote>
+			</div>
+		</div>
+		<div class="span3">
+				<div class="tip-info">
+					<span class="tip-head">项目任务统计</span>						
+					<hr/>						
+					<blockquote>
+						任务总数&nbsp;&nbsp;<span class="total" onclick="iframe('xmgl/unfinish')">57</span>
+					</blockquote>
+					<blockquote>
+						已完成任务&nbsp;&nbsp;<span class="finish" onclick="iframe('xmgl/finish')">56</span>
+					</blockquote>
+					<blockquote>
+						今日待完成任务&nbsp;&nbsp;<span class="today" onclick="iframe('xmgl/today')">0</span>
+					</blockquote>
+				</div>
+			</div>
+		<div class="Alpha" id="new">
+			<form>
+				<img src="/static/img/close.png" class="close" onclick="$(this).parent().parent().hide();"/>
+				<p class="title">新建项目</p>
+				<p>项目信息</p>
+				<input type="text" placeholder="项目名称"/><br/>
+				<textarea placeholder="项目简介（可选）"></textarea><br/>
+				<input type="button" class="btn btn-info" value="创建" style="display:block;margin:20px auto;width:30%;font-family:'Microsoft YaHei';"/>
+			</form>
+		</div>
+		<div style="clear:both;"></div>
+	</div>
+	<script src="/static/js/jquery-1.7.2.min.js"></script>
+	<script src="/static/js/bootstrap.min.js"></script>
+	<script src="/static/js/script.js"></script>
+	<script src="/static/js/bootstrap-datepicker.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$(".date").each(function(){//判断任务是否逾期
+				var time=this.innerHTML;
+				var nian=time.split('-')[0];
+				var yue=time.split('-')[1];
+				var ri=time.split('-')[2];
+				if(parseInt(nian)>parseInt(year)){
+					$(this).parent().attr("class","label label-info")
+				}
+				else if(parseInt(nian)==parseInt(year)){
+					if(parseInt(yue)>parseInt(month)){
+						$(this).parent().attr("class","label label-info")
+					}
+					else if(parseInt(yue)==parseInt(month)){
+						if(parseInt(ri)>parseInt(day)){
+							$(this).parent().attr("class","label label-info")
+						}
+						else if(parseInt(ri)==parseInt(day)){
+							$(this).parent().attr("class","label label-warning")
+						}
+						else{
+							$(this).parent().attr("class","label label-important")
+						}
+					}
+					else{
+						$(this).parent().attr("class","label label-important")
+					}
+				}
+				else{
+					$(this).parent().attr("class","label label-important")
+				}
+			});
+		});
+		function hover(obj){
+			$(obj).find('img').attr('src','../static/img/addBlue.jpg')
+			$(obj).find('span').attr('class','tip-hover')
+		}
+		function away(obj){
+			$(obj).find('img').attr('src','../static/img/add.jpg')
+			$(obj).find('span').attr('class','tip-add')
+		}
+		function check(obj){
+			if($(obj).attr("checked")=="checked"){
+				$(obj).parent().find("a").css("text-decoration","line-through")
+			}
+			else{
+				$(obj).parent().find("a").css("text-decoration","none")
+			}
+		}	
+
+	</script>
+</body>
+</html>

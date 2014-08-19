@@ -1,0 +1,84 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>	
+	<meta charset="utf-8">
+	<link href="/static/css/bootstrap.css" rel="stylesheet">
+	<link href="/static/css/main.css" rel="stylesheet">
+	<script type="text/javascript" src="/static/ofc2/json2.js"></script>
+	<script type="text/javascript" src="/static/ofc2/swfobject.js"></script>
+</head>
+<body>
+	<div class="content" style="border:none;">	
+		<div class="well place">			
+			<i class="icon-home"></i><a href="#">统计报表</a>/<a href="#">年度费用统计</a>
+		</div>	
+		<div id="my_chart"></div>
+	</div>
+</body>
+<script type="text/javascript">
+	swfobject.embedSWF("/static/ofc2/open-flash-chart.swf", "my_chart",
+	  "100%", "450", "9.0.0", "expressInstall.swf",
+	  {"get-data":"getDemoData"});
+	function getDemoData(){
+		var barData=
+
+	{
+	  "title":{
+		"text":  "2014年度费用统计",
+		"style": "{font-size: 20px; color:#0000ff; font-family: Verdana; text-align: center;}"
+	  },
+
+	  "y_legend":{
+		"text": "Open Flash Chart",
+		"style": "{color: #736AFF; font-size: 12px;}"
+	  },
+	  "elements":[
+		{
+		  "type":      "bar_3d",
+		  "alpha":     0.5,
+		  "colour":    "#9933CC",
+		  "text--":      "Page views",
+		  "font-size--": 10,
+		  "values" :   [{"top":9,"colour":"#66b032","tip":"#top#<br>hello"},
+						{"top":6,"colour":"#d0ea2b","tip":"#top#<br>hello"},
+						{"top":8,"colour":"#fefe33","tip":"#top#<br>hello"},
+						{"top":9,"colour":"#fabc02","tip":"#top#<br>hello"},
+						{"top":6,"colour":"#fb9902","tip":"#top#<br>hello"},
+						{"top":7,"colour":"#fd5308","tip":"#top#<br>hello"},
+						{"top":5,"colour":"#fe2712","tip":"#top#<br>hello"},
+						{"top":9,"colour":"#a7194b","tip":"#top#<br>hello"},
+						{"top":7,"colour":"#8601af","tip":"#top#<br>hello"},
+						{"top":6,"colour":"#3d01a4","tip":"#top#<br>hello"},
+						{"top":8,"colour":"#4b4bfc","tip":"#top#<br>hello"},                    
+						{"top":9,"colour":"#0247fe","tip":"#top#<br>hello"} 
+						]
+		}
+	  ],
+
+	  "x_axis":{
+		"stroke":       1,
+		"tick_height":  10,
+		"labels": {
+		  "labels": ["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"]
+		},
+		"3d":         5
+	   },
+
+	  "y_axis":{
+		"stroke":      4,
+		"tick_length": 3,
+		"offset":      0,
+		"max":         20
+	  },
+	  "bg_colour":"#ffffff"
+
+	/* &x_axis_steps=2& */
+
+	}
+
+	;
+	   return JSON.stringify(barData);
+	}
+
+</script>
+</html>
