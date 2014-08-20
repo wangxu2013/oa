@@ -6,8 +6,8 @@
 .place a{margin:0 5px;}
 .titletip{color:#003366;font-weight:bold;font-size:14px;}
 .table-list{width:100%;background:#efefef;}
-.table-list th{background:#afd5eb;border:1px solid #ffffff;font-weight:normal;padding:5px;}
-.table-list td{border:1px solid #ffffff;font-size:13px;}
+.table-list th{background:#afd5eb;border:1px solid #ffffff;font-weight:normal;padding:5px;font-family:"Microsoft YaHei";}
+.table-list td{border:1px solid #ffffff;font-size:13px;font-family:"Microsoft YaHei";}
 //.table-list a{color:#0f806c;}
 .table-list .table-label{background:#afd5eb;width:120px;padding:5px;font-size:14px;}
 .table-list .center{text-align:center;}
@@ -59,7 +59,10 @@ label{display:inline;}
 .je{font-family: Times New Roman;font-weight: bold;font-size:13px;}
 .red{color:#CC3333;font-weight:bold;}
 
-.topDiv{background:white;width:60%;padding:15px;margin:0 auto;margin-top:70px;height:415px;}
+.topDiv{background:white;width:60%;padding:15px;margin:0 auto;margin-top:70px;height:430px;border-radius: 10px;}
 .topDiv .table-list th{padding:5px 0;}
+.topDiv .close{float:right;margin-top:8px;}
 
 .back{margin-top:-65px;margin-right:10px;margin-bottom:20px;text-align:right;}
+
+.content{margin:15px;}

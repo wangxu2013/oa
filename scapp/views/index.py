@@ -210,6 +210,16 @@ def getCount():
 @app.route('/xmgl/grxm', methods=['GET'])
 def grxm():
     return render_template("xmgl/grxm.html")	
+
+# 项目管理-新增项目
+@app.route('/xmgl/new_xm', methods=['GET'])
+def new_xm():
+    return render_template("xmgl/new_xm.html")  
+
+# 项目管理-编辑项目
+@app.route('/xmgl/edit_xm', methods=['GET'])
+def edit_xm():
+    return render_template("xmgl/edit_xm.html")
 	
 # 项目管理-项目信息
 @app.route('/xmgl/xmxx', methods=['GET'])
