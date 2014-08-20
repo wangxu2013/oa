@@ -40,7 +40,9 @@
 		{%- endwith %}
 		<div class="row-fluid">			
 			<i class="icon-bookmark"></i><span class="titletip">待支付列表</span>
-			<div><input type='button' class='btn btn-danger btn-mini' value='批量支付' onclick="pay({{data.page}},{{data.items[0].create_user}})"/></div>
+			<div style="margin-bottom:10px;">
+				<input type='button' class='btn btn-success' value='批量支付' onclick="pay({{data.page}},{{data.items[0].create_user}})"/>
+			</div>
 			<div style="border:1px solid #94c1dc;">				
 				<table class="table-list" cellspacing="10" id="uesr-list">
 					<thead>
@@ -72,7 +74,7 @@
 							{%- else %}
 								<td><span class="label label-info">新申请</span></td>
 							{%- endif %}
-							<td><input type='button' class='btn btn-danger btn-mini' value='支付' onclick="showList('sp',{{obj.id}},{{data.page}})"/></td>
+							<td><input type='button' class='btn btn-success btn-mini' value='支付' onclick="showList('sp',{{obj.id}},{{data.page}})"/></td>
 						</tr>	
 					{%- endfor %}	
 					</tbody>

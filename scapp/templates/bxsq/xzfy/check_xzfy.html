@@ -110,7 +110,7 @@
 			<table class="table-list" id="table2">
 				<tr>
 					<td class="table-label">费用所属<font class="red">*</font></td>
-					<td colspan="1">
+					<td colspan="3">
 						<input type="hidden" id="project_id" name="project_id" value="{{reimbursement.project_id}}"/>
 						<input type="hidden" id="org_id" name="org_id" value="{{reimbursement.org_id}}"/>
 						<input type="text" id="belong_name" value="{{belong_name}}" readonly/>
@@ -145,7 +145,7 @@
 						</span>						
 					</td>
 					<td class="table-label">报销事由</td>
-					<td colspan="3">
+					<td>
 						<select name="reason" disabled>
 							{%- for obj in reasons %}
 								{%- if obj.id == reimbursement.reason %}

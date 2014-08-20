@@ -10,10 +10,14 @@
 	<!-- The styles -->
 	<link href="/static/css/bootstrap.css" rel="stylesheet">
 	<link href="/static/css/main.css" rel="stylesheet">	
+	
 	<style type="text/css">
 		html{overflow-y:scroll;}  
+		.span12 a{color:#808080}
 		.nav-list span{color:#0088cc;}
 		#date{line-height:25px;font-size:12px;color:gray;margin-top:-30px;}
+		.divNav{border:1px solid #dedede;border-radius:5px;box-shadow:2px 2px 5px #dedede;text-align:center;width:18%;display:inline-block;float:left;margin-right:1.5%;padding-top:20px;padding-bottom:20px;margin-bottom:15px;font:16px "Microsoft YaHei";}
+		.divNav img{height:60px;}
 	</style>
 </head>
 
@@ -35,7 +39,7 @@
 							</ul>
 						</li>
 					</ul>
-					<ul class="nav" id="topmenu">
+					<!-- <ul class="nav" id="topmenu">
 						{%- for obj in privileges %}
 							{%- if obj.privilege_access_value == "bxgl" and obj.privilege_operation != "0" %}
 								<li><a href="xxgl">报销管理</a></li>
@@ -47,16 +51,16 @@
 						<li><a href="Wdgl">文档管理</a></li>
 						<li><a href="Xmgl">项目管理</a></li>
 						<li><a href="Tjbb">统计报表</a></li>
-					</ul>
+					</ul> -->
 				</div><!--/.nav-collapse -->
 			</div><!--/.container-fluid -->
 		</div><!--/.navbar-inner -->		
 	</div><!--/.navbar -->
-	<div style="height:290px;overflow:hidden;">
+	<!-- <div style="height:290px;overflow:hidden;">
 		<img src="/static/img/welcome2.png" style="margin-top:-10px;"/>
-	</div>
+	</div> -->
 	
-	<div class="container-fluid" style="margin:10px auto 50px;">
+	<div class="container-fluid" style="margin:60px auto 50px;">
 		<div class="row-fluid">
 			<div class="span3">
 				
@@ -87,8 +91,46 @@
 						<i class="icon-home"></i><a href="#">首页</a>
 					</div>		
 					<div class="row-fluid">
+						<div class="span12">
+						{%- for obj in privileges %}
+							{%- if obj.privilege_access_value == "bxgl" and obj.privilege_operation != "0" %}
+							<a href="xxgl">
+								<div class="divNav">
+									<img src="/static/img/0_hover.png"/><br/>
+									报销管理
+								</div>
+							</a>
+							{%- endif %}
+							{%- if obj.privilege_access_value == "xtgl" and obj.privilege_operation != "0" %}
+							<a href="xtgl">
+								<div class="divNav">
+									<img src="/static/img/1_hover.png"/><br/>
+									系统管理
+								</div>
+							</a>
+							{%- endif %}
+						{%- endfor %}
+							<a href="Wdgl">
+								<div class="divNav">
+									<img src="/static/img/2_hover.png"/><br/>
+									文档管理
+								</div>
+							</a>
+							<a href="Xmgl">
+								<div class="divNav">
+									<img src="/static/img/3_hover.png"/><br/>
+									项目管理
+								</div>
+							</a>
+							<a href="Tjbb">
+								<div class="divNav">
+									<img src="/static/img/4_hover.png"/><br/>
+									统计报表
+								</div>
+							</a>
+						</div>
 						<i class="icon-bookmark"></i><span class="titletip">待办事项</span>
-						<div style="border:1px solid #94c1dc;">
+						<div class="divBorder">
 							<table class="table-list">
 								<thead>
 									<tr>
@@ -121,7 +163,7 @@
 						{%- if obj.privilege_access_value == "fytj" and obj.privilege_operation != "0" %}
 					<div class="row-fluid" >
 						<i class="icon-bookmark"></i><span class="titletip">统计</span>
-						<div style="border:1px solid #94c1dc;overflow:auto; height:100px;">
+						<div class="divBorder" style="overflow:auto; height:100px;">
 							<table class="table-list">
 								<thead>
 									<tr>
@@ -162,5 +204,8 @@
 	<script src="/static/js/jquery-1.7.2.min.js"></script>
 	<script src="/static/js/bootstrap.min.js"></script>
 	<script src="/static/js/script.js"></script>
+	<script type="text/javascript">
+	
+    </script>
 </body>
 </html>

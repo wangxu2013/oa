@@ -1,4 +1,8 @@
-﻿// 动态创建表单
+﻿$(document).ready(function(){
+		$('tr:odd').addClass('odd');
+		$('tr:even').addClass('even')
+	});
+// 动态创建表单
 function createForm(action,arr){
     var tmpForm = $("<form action='"+action+"' method='POST'></form>");
     for(var key in arr) {
@@ -53,7 +57,7 @@ function datepicker(){
 //iframe自适应高度用于iframe内部页面			
 function Frame(){
 	var content_iframe = $('#content_frame',window.parent.document);//获取iframeID
-    var height = parseInt($(".content").height())+20;//使iframe高度等于子网页高度	
+    var height = parseInt($(".content").height())+60;//使iframe高度等于子网页高度	
     content_iframe.height ( height < 500 ? 500 : height);
 }
 
@@ -61,10 +65,10 @@ function Frame(){
 function resizeFrame(id){
 	var height = $('#'+id).contents().find(".content").height();
     if(id=="content_frame"){        
-        $('#'+id).height( height < 500 ? 500 :height+40);
+        $('#'+id).height( height < 500 ? 500 :height+60);
     }
     else{
-        $('#'+id).height(height+20);
+        $('#'+id).height(height+60);
     }
     
     //if(id=='content_frame')

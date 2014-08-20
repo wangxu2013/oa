@@ -1,0 +1,63 @@
+@charset "UTF-8";
+* {margin: 0;padding: 0;list-style: none;}
+html,body {background: #FFFFFF;font: normal 15px "Microsoft YaHei";}
+
+.top {position: absolute;top: 0;left: 0;right: 0;height: 45px;background-color: #438eb9;color:#ADADAD;}
+/*顶部左侧logo*/
+.top_logo{display:inline;}
+.top_logo img{vertical-align:text-bottom;margin:0 10px 0 20px;}
+.top_logo span{color:#fff;font-size:16px;line-height:45px;}
+/*顶部右侧message*/
+.top_right{float: right;display:inline;}
+.message{width:70px;height:45px;display:inline;float:left;border-right:1px solid #dddddd;text-align:center;line-height:40px;cursor:pointer;}
+.grey{background:#555555}
+.red{background:#892e65}
+.green{background:#2e8965;}
+.grey:hover{background:#4b4b4b;}
+.red:hover{background:#762c59;}
+.green:hover{background:#2c7659;}
+.message img{height:15px;}
+.message span{width:20px;height:20px;display:inline-block;border-radius:50px;background:#a0a0a0;color:#fff;font-size:10px;font-weight:bold;text-align:center;line-height:20px;}
+
+.dropDown{display:inline;float:left;width:155px;height:45px;background:#62a8d1;margin-right:20px;cursor:pointer;}
+.dropDown img{border:2px solid #fff;width:35px;height:35px;border-radius:50px;}
+.dropDown div{display:inline-block;float:left;height:45px;}
+.dropDown div p{color:#fff;font-size:13px;line-height:18px;margin-top:5px;}
+.dropDown:hover{background:#579ec8;}
+/*下拉DIV样式*/
+.dropDownContent{position:absolute;right:315px;margin-top:-3px;z-index:99;box-shadow:0 0 10px gray;background:#fff;border:1px solid #bcd4e5;border-radius:5px;width:240px;height:275px;}
+.dropDownContent .up{position:relative;margin-top:-34px;margin-left:208px;height:10px;}
+.dropDownHeader{background:#ecf2f7;border-bottom:1px solid#bcd4e5;width:100%;height:40px;margin-top:-20px;color:#8090a0;line-height:40px;}
+.dropDownHeader img{height:10px;margin-right:5px;margin-left:15px;}
+.dropDownContent ul{margin:10px;width:220px;}
+.dropDownContent ul li{height:50px;}
+
+
+
+
+
+.top_op{display:inline-block;float:left;}
+.top_op ul li{float:left;padding:0 10px;line-height: 70px;}
+.top_op ul li img {vertical-align: text-top;}
+.top_close{display:inline-block;width: 80px;border-left: 1px solid #171717;float:left;}
+.top_close img{position: relative; left: 25px;}
+
+.bottom {position: absolute;left: 0;top: 70px;bottom: 0px;width: 100%;overflow: hidden;}
+.left{position: absolute;top:0;bottom: 0px;width: 60px;background: #044599;display:inline-block;float:left;}
+.left ul{margin:0;text-align:center;margin-top:55px;}
+.left ul li{width:60px;height:75px;line-height:75px;}
+.left .active{background:#fff;}
+
+.middle{position: absolute;	top:0;left:60px;bottom: 0px;width: 220px;background: #f2f2f2;display:inline-block;float:left;}
+.middle .titleDIV{height:60px;width:100%;}
+.middle .title{font-size:18px;color:#767578;margin:20px 0 -10px 15px;}
+.nav{position:absolute;top:60px;bottom:0;width:100%;overflow:auto;}
+.nav ul{margin-left:10px;}
+.nav ul li{height:30px;margin-left:30px;}
+.nav ul li img{margin-right:10px;margin-top:-2px;}
+.nav ul li span{line-height:30px;}
+.nav .nav_header{margin-left:0px;}
+.nav .nav_header img{margin-top:-5px;cursor:pointer}
+
+.right{position: absolute;top:0;left:280px;right:0px;bottom: 0px;display:inline-block;float:left;}
+.place{margin:25px 0 -10px 20px;color:#8a8a8a}
