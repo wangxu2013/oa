@@ -11,15 +11,12 @@
 	<link href="/static/css/bootstrap.css" rel="stylesheet">
 	<link href="/static/css/main.css" rel="stylesheet">
 	<link href="/static/css/datepicker.css" rel="stylesheet">
-	<!-- ************************验证样式************************-->
-	<script src="/static/SpryAssets/SpryValidationTextField.js" type="text/javascript"></script>
-	<link href="/static/SpryAssets/SpryValidationTextField.css" rel="stylesheet" type="text/css">
 	<style type="text/css">
 		
 		.table-list .table-label{width:140px;}
 		.box{background:#93aec2 url(/static/img/xm.png) no-repeat;width:219px;height:183px;margin:15px 15px 0 0;box-shadow:2px 2px 5px gray;border-radius:10px;border:5px solid #93aec2;display:inline-block;float:left;}
 		.box img{width:16px;position:absolute;margin-top:10px;display:none;cursor:pointer;}
-		.box .edit{margin-left:190px;}		
+		.box .edit{margin-left:170px;}		
 		.box .delete{margin-left:190px;}
 		.box p{text-align:center;font-family:"Microsoft YaHei";}
 		.box .title{font-size:20px;font-weight:bold;text-shadow:1px 1px 3px gray;color:white;padding-top:20px;cursor:pointer;}
@@ -29,16 +26,7 @@
 		.new img{margin-top:35px;}
 		.new p{color:#a4a4a4;font-size:20px;font-family:"Microsoft YaHei";}
 		
-		.Alpha{width:100%;height:100%;position:fixed;top:0;background:rgba(0,0,0,0.5);display:none;}
-		.Alpha form{background:#fff;width:40%;margin:70px auto;padding:10px 20px;border-radius:10px;box-shadow:0px 0px 5px #fff;}
-		.Alpha form p{color:gray;font-size:17px;font-family:"Microsoft YaHei";}
-		.Alpha .title{color:#75b155;font-size:17px;line-height:40px;border-bottom:1px solid #a4c98f;margin-bottom:20px;text-align:left;}
-		.Alpha .close{float:right;margin-top:8px;}
-		.Alpha span{color:#707070;line-height:50px;font-size:16px;}
-		.Alpha input[type=text]{font-family:"Microsoft YaHei";width:80%;height:30px;}
-		.Alpha textarea{font-family:"Microsoft YaHei";width:95%;height:80px;}
-		.Alpha .btn{display:block;margin:20px auto;width:30%;font-family:'Microsoft YaHei';}
-		.Alpha .textfieldRequiredMsg{font-size:14px;}
+		
 	</style>
 	
 </head>
@@ -53,41 +41,16 @@
 			<div class="row-fluid">			
 				<i class="icon-bookmark"></i><span class="titletip">项目列表</span><br/>
 				<div class="box">
-					<img src="/static/img/edit.png" class="edit" onclick="$('#edit').show();"/>
+					<img src="/static/img/edit.png" class="edit" onclick="showList('edit_xm')"/>
+					<img src="/static/img/delete.png" class="delete" onclick="show_confirm()"/>
 					<p class="title" onclick="iframe('xmgl/xmxx')">XMCI</p>	
 					<p class="describe">厦门进件</p>
 				</div>
-				<div class="new" onclick="$('#new').show();">
+				<div class="new" onclick="showList('new_xm')">
 					<img src="/static/img/new.png"/>
 					<p>新建项目</p>
 				</div>
 			</div><!--/row-fluid -->
-		</div>	
-		<div class="Alpha" id="edit">
-			<form>
-				<img src="/static/img/close.png" class="close" onclick="$(this).parent().parent().hide();"/>
-				<p class="title">编辑项目</p>
-				<p>项目信息</p>
-				<span id="name1">
-					<input type="text" placeholder="项目名称" value="XMCI"/>
-					<span class="textfieldRequiredMsg">不能为空</span>
-				</span><br/>
-				<textarea placeholder="项目简介（可选）">厦门进件</textarea><br/>
-				<input type="submit" class="btn btn-info" value="保存"/>
-			</form>
-		</div>
-		<div class="Alpha" id="new">
-			<form>
-				<img src="/static/img/close.png" class="close" onclick="$(this).parent().parent().hide();"/>
-				<p class="title">新建项目</p>
-				<p>项目信息</p>
-				<span id="name2">
-					<input type="text" placeholder="项目名称"/>
-					<span class="textfieldRequiredMsg">不能为空</span>
-				</span><br/>
-				<textarea placeholder="项目简介（可选）"></textarea><br/>
-				<input type="submit" class="btn btn-info" value="创建"/>
-			</form>
 		</div>
 	</div>
 	<script src="/static/js/jquery-1.7.2.min.js"></script>
@@ -95,8 +58,16 @@
 	<script src="/static/js/script.js"></script>
 	<script src="/static/js/bootstrap-datepicker.js"></script>
 	<script type="text/javascript">
-		var sprytextfield1 = new Spry.Widget.ValidationTextField("name1", "none");
-		var sprytextfield2 = new Spry.Widget.ValidationTextField("name2", "none");		
+		function showList(name){
+			$('#text',window.parent.document).show();
+			var html="<div class=topDiv ><img src='/static/img/close.png' class='close' onclick='$(\"#text\",window.parent.document).hide();'/><br/>"
+			if(name=="new_xm"){
+				$('#text',window.parent.document).html(html+"<iframe src='xmgl/new_xm' width=100% height=90% frameborder=0></iframe></div>");	
+			}
+			if(name=="edit_xm"){
+				$('#text',window.parent.document).html(html+"<iframe src='xmgl/edit_xm' width=100% height=90% frameborder=0></iframe></div>");	
+			}
+		}	
 		$(document).ready(function(){
 			$(".box").mouseover(function(){
 				$(this).css('margin-top','5px');
@@ -131,6 +102,15 @@
 				$(this).attr('src','/static/img/close.png')
 			});
 		});
+		function show_confirm(){
+			var r=confirm("您确定要关闭此项目？");
+			if (r==true){
+				alert("项目关闭成功！");
+			}
+			else{
+				
+			}
+		}
 	</script>
 </body>
 </html>

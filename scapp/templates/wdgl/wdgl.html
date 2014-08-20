@@ -174,7 +174,7 @@
 			                        "<td>"+objs[i].attachment+"</td>"+							
 			                        "<td>"
 									if(parseInt(parseInt(objs[i].privilege_operation)&2)!=0){
-			                         	content1 +="<input type='button' class='btn btn-danger btn-mini' onclick=download('"+objs[i].id+"') value='下载' />"
+			                         	content1 +="<input type='button' class='btn btn-success btn-mini' onclick=download('"+objs[i].id+"') value='下载' />"
 			                        }
 			                        if(objs[i].create_user == {{current_user.id}}){
 			                        	content1 +="<input type='button' class='btn btn-danger btn-mini' onclick=doc_delete('"+objs[i].id+"') value='删除' />"
@@ -238,6 +238,8 @@
 						</tbody>
 					</table>
 				</div>
+				<div class="page-div" id="page-div">
+				</div>
 			</div>
 		</div>
 		<div id="text" class="display-div" style="margin-top:-400px;">
@@ -255,9 +257,9 @@
 					</tbody>
 				</table>
 			</div>
+			
+			
 		</div>
-		<div class="page-div" id="page-div">
-			</div>
 	</div><!--/content -->
 	<script type="text/javascript">
 		function getDocVersionCallback(json){
@@ -270,11 +272,11 @@
 		                        "<td>"+objs[i].attachment+"</td>"+						
 		                        "<td>"
 		                        if(objs[i].create_user == {{current_user.id}}){
-		                        	content +="<input type='button' class='btn btn-danger btn-mini' onclick=download("+objs[i].version+",'"+objs[i].doc_id+"') value='下载' />"
+		                        	content +="<input type='button' class='btn btn-success btn-mini' onclick=download("+objs[i].version+",'"+objs[i].doc_id+"') value='下载' />"
 		                        }	
 		                        else{
 									if(parseInt(parseInt(objs[i].privilege_operation)&2)!=0){
-			                         	content +="<input type='button' class='btn btn-danger btn-mini' onclick=download("+objs[i].version+",'"+objs[i].doc_id+"') value='下载' />"
+			                         	content +="<input type='button' class='btn btn-success btn-mini' onclick=download("+objs[i].version+",'"+objs[i].doc_id+"') value='下载' />"
 			                        }
 		                        }
 		                        content +="</td>"+
