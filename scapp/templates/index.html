@@ -18,7 +18,8 @@
 		.bottom {position: absolute;left: 0;top: 40px;bottom: 35px;width: 100%;overflow: hidden;}
 		.left{position: absolute;top:0;bottom: 0px;width: 60px;background: #0088cc;display:inline-block;float:left;}
 		.left ul{margin:0;text-align:center;}
-		.left ul li{width:60px;height:75px;line-height:75px;}
+		.left ul li{width:60px;height:75px;line-height:75px;list-style:none;}
+		.left ul li img{width:33px;heihgt:33px;}
 		.left .active{background:#fff;}
 
 		.middle{position: absolute;	top:0;left:60px;bottom: 0px;width: 220px;background: #f2f2f2;display:inline-block;float:left;}
@@ -119,7 +120,7 @@
 						{%- else -%}
 							src="/static/img/0.png"
 						{%- endif %}
-						width="30" height="30"></a>						
+						></a>						
 				</li>
 				{%- endif %}								
 				{%- if obj.privilege_access_value == "xtgl" and obj.privilege_operation != "0" %}
@@ -133,8 +134,8 @@
 							src="/static/img/1_hover.png"
 						{%- else -%}
 							src="/static/img/1.png"
-						{%- endif %}
-					width="33" height="33"></a>						
+						{%- endif %}					
+					></a>						
 				</li>
 				{%- endif %}					
 				{%- if obj.privilege_access_value == "Wdgl" and obj.privilege_operation != "0" %}
@@ -149,7 +150,7 @@
 						{%- else -%}
 							src="/static/img/2.png"
 						{%- endif %}
-						width="33" height="33"></a>
+						></a>
 				</li>
 				{%- endif %}
 			{%- endfor %}
@@ -164,7 +165,7 @@
 						{%- else -%}
 							src="/static/img/3.png"
 						{%- endif %}
-					 width="33" height="33"></a>
+					></a>
 				</li>
 				<li title="统计报表"
 						{%- if menu == "Tjbb"%}
@@ -177,14 +178,14 @@
 						{%- else -%}
 							src="/static/img/4.png"
 						{%- endif %}
-					 width="33" height="33"></a>
+					></a>
 				</li>
 				<!-- <li title="文档管理" onclick="switchTab(this,4)">
 					<img alt="文档管理" title="统计报表" src="/static/img/4.png" width="33" height="33">
 				</li> -->
 			</ul>
 			<div style="position:absolute; bottom:0px; padding:10px;">
-				<a href="javascript:0;" onclick="showORhide()">
+				<a href="javascript:void(0);" onclick="showORhide()">
 					<img alt="显示/隐藏" title="显示/隐藏" src="../static/img/nav_hide.png" width="35" height="35" id="show_hide_btn">
 				</a>
 			</div>
@@ -240,11 +241,11 @@
 							</li>
 						{%- endif %}
 					</ul>
-					<ul class="nav nav-list "
+					<ul class="nav nav-list 
 						{%- if menu != "Wdgl" %}
 							hidden
 						{%- endif %}
-						 id="">
+						" id="Wdgl">
 					<div class="titleDIV">
 						<p class="title">文档管理</p>
 						<hr/>
@@ -316,11 +317,11 @@
 						{%- endif %}
 					{%- endfor %}
 					</ul>
-					<ul class="nav nav-list "
+					<ul class="nav nav-list 
 						{%- if menu != "Xmgl" %}
 							hidden
 						{%- endif %}
-						 id="">
+						" id="Xmgl">
 					
 						<div class="titleDIV">
 							<p class="title">项目管理</p>
@@ -330,11 +331,11 @@
 							<a href="javascript:void(0);">个人项目</a>
 						</li>
 					</ul>
-					<ul class="nav nav-list "
+					<ul class="nav nav-list 
 						{%- if menu != "Tjbb" %}
 							hidden
 						{%- endif %}
-						 id="">
+						" id="Tjbb">
 					
 						<div class="titleDIV">
 							<p class="title">统计报表</p>
