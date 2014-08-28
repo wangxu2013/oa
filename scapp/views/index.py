@@ -2,7 +2,7 @@
 
 from flask import Module,request, render_template,flash,redirect
 from flask.ext.login import login_user, logout_user, current_user, login_required
-from scapp.models import OA_Org,OA_Project
+from scapp.models import OA_Org,OA_Project,OA_Task_Main,OA_Task_User,OA_Task_Board
 from scapp.models import OA_User
 from scapp.models import OA_UserRole
 from scapp.models import OA_Reimbursement
@@ -11,9 +11,10 @@ from scapp.logic.reimbursement import costs_statistics
 from scapp.config import logger
 from scapp import app
 from scapp import db
+from scapp.tools.flash_pic import flash_pic
 
 import hashlib
-
+import datetime
 #get md5 of a input string  
 def GetStringMD5(str):  
     m = hashlib.md5()
@@ -207,34 +208,145 @@ def getCount():
     return count_2
 		
 # 项目管理-个人项目
-@app.route('/xmgl/grxm', methods=['GET'])
+@app.route('/xmgl/grxm', methods=['GET','POST'])
 def grxm():
-    return render_template("xmgl/grxm.html")	
+    data = OA_Task_User.query.filter_by(user_id=current_user.id).order_by("id desc").all()
+    return render_template("xmgl/grxm.html",data=data,user_id=current_user.id)	
 
-# 项目管理-新增项目
+# 项目管理-新增页面
 @app.route('/xmgl/new_xm', methods=['GET'])
 def new_xm():
     return render_template("xmgl/new_xm.html")  
 
+# 项目管理-新增
+@app.route('/xmgl/create', methods=['POST'])
+def create():
+    try:
+        task_name = request.form['task_name']
+        task_content = request.form['task_content']
+        main = OA_Task_Main(task_name,task_content)
+        main.add()
+        db.session.flush()
+        OA_Task_User(current_user.id,main.id).add()
+        # 事务提交
+        db.session.commit()
+    except:
+        # 回滚
+        db.session.rollback()
+        logger.exception('exception')
+    return ""
+
 # 项目管理-编辑项目
-@app.route('/xmgl/edit_xm', methods=['GET'])
-def edit_xm():
-    return render_template("xmgl/edit_xm.html")
+@app.route('/xmgl/edit_xm/<int:id>', methods=['GET'])
+def edit_xm(id):
+    data = OA_Task_Main.query.filter_by(id=id).first()
+    return render_template("xmgl/edit_xm.html",data=data)
+
+# 项目管理-编辑
+@app.route('/xmgl/edit', methods=['POST'])
+def edit():
+    try:
+        task_id = request.form['task_id']
+        task_name = request.form['task_name']
+        task_content = request.form['task_content']
+        data = OA_Task_Main.query.filter_by(id=task_id).first()
+        data.subject= task_name
+        data.content= task_content
+        # 事务提交
+        db.session.commit()
+    except:
+        # 回滚
+        db.session.rollback()
+        logger.exception('exception')
+    return ""
+
+# 项目管理-关闭
+@app.route('/xmgl/close/<int:id>', methods=['POST'])
+def close(id):
+    try:
+        data = OA_Task_Main.query.filter_by(id=id).first()
+        data.delete= 1
+        # 事务提交
+        db.session.commit()
+        # flash('关闭成功！','success')
+    except:
+        # 回滚
+        db.session.rollback()
+        logger.exception('exception')
+        # flash('关闭失败！','false')
+    return redirect("/xmgl/grxm")
 	
 # 项目管理-项目信息
-@app.route('/xmgl/xmxx', methods=['GET'])
-def xmxx():
-    return render_template("xmgl/xmxx.html")
+@app.route('/xmgl/xmxx/<int:task_id>', methods=['GET'])
+def xmxx(task_id):
+    data = OA_Task_Main.query.filter_by(id=task_id).first()
+    if int(data.create_user) is not int(current_user.id):
+        create = "false"
+    else:
+        create = "true"
+    #项目成员
+    task_user = OA_Task_User.query.filter_by(task_id=task_id).all()
+    #任务列表
+    sql = "static!=3 and task_id="+str(task_id)+" and user_id="+str(current_user.id)
+    task_board = OA_Task_Board.query.filter(sql).order_by("finish_time desc").all()
+    #已完成
+    list_1 = OA_Task_Board.query.filter("static='3' and task_id="+str(task_id)).count()
+    #当日待完成
+    date = datetime.datetime.now().date().strftime("%Y-%m-%d")
+    list_2 = OA_Task_Board.query.filter("static!='3' and task_id="+str(task_id)+" and substring(finish_time,1,10)='"+date+"'").count()
+    #任务总数
+    list_3 = OA_Task_Board.query.filter("static!='3' and task_id="+str(task_id)).count()
+    return render_template("xmgl/xmxx.html",task_user=task_user,task_id=task_id,create=create,task_board=task_board,\
+        list_1=list_1,list_2=list_2,list_3=list_3)
 		
 # 项目管理-任务板
-@app.route('/xmgl/rwb', methods=['GET'])
-def rwb():
-    return render_template("xmgl/rwb.html")
+@app.route('/xmgl/rwb/<int:task_id>', methods=['GET'])
+def rwb(task_id):
+    #任务列表
+    sql = "task_id="+str(task_id)+" and user_id="+str(current_user.id)
+    task_board = OA_Task_Board.query.filter(sql).order_by("finish_time desc").all()
+    return render_template("xmgl/rwb.html",task_board=task_board,task_id=task_id)
+
+# 项目管理-任务板状态变化
+@app.route('/xmgl/rwbStatic/<int:id>', methods=['GET'])
+def rwbStatic(id):
+    try:
+        data = OA_Task_Board.query.filter_by(id=id).first()
+        if str(data.static) is not '3':
+            data.static = int(data.static)+1
+        else:
+            data.static = "2"
+        db.session.commit()
+    except:
+        # 回滚
+        db.session.rollback()
+        logger.exception('exception')
+    return ""
 	
 # 项目管理-新增任务
-@app.route('/xmgl/new_rw', methods=['GET'])
-def new_rw():
-    return render_template("xmgl/new_rw.html")
+@app.route('/xmgl/new_rw/<int:task_id>', methods=['GET'])
+def new_rw(task_id):
+    users = OA_Task_User.query.filter_by(task_id=task_id).all()
+    return render_template("xmgl/new_rw.html",task_id=task_id,users=users)
+
+# 项目管理-新增任务保存
+@app.route('/xmgl/new_rw_over/<int:task_id>', methods=['POST'])
+def new_rw_over(task_id):
+    try:
+        task_content = request.form['task_content']
+        task_user = request.form['task_user']
+        finish_time = request.form['finish_time']
+        OA_Task_Board(task_user,task_id,task_content,finish_time,"1").add()
+        # 事务提交
+        db.session.commit()
+        # flash('新增成功！','success')
+    except:
+        # 回滚
+        db.session.rollback()
+        logger.exception('exception')
+        # flash('新增失败！','false')
+
+    return redirect("/xmgl/xmxx/"+str(task_id))
 	
 # 项目管理-编辑任务
 @app.route('/xmgl/edit_rw', methods=['GET'])
@@ -242,24 +354,52 @@ def edit_rw():
     return render_template("xmgl/edit_rw.html")
 	
 # 项目管理-添加组员
-@app.route('/xmgl/add_zy', methods=['GET'])
-def add_zy():
-    return render_template("xmgl/add_zy.html")
+@app.route('/xmgl/add_zy/<int:task_id>', methods=['GET'])
+def add_zy(task_id):
+    sql = "select a.id,a.real_name,a.login_name,b.user_id from (select * from  oa_user where id!="+str(current_user.id)+") as a  LEFT JOIN oa_task_user b on a.id=b.user_id and b.task_id="+str(task_id)
+    data = db.session.execute(sql).fetchall()
+    return render_template("xmgl/add_zy.html",data=data,task_id=task_id)
+
+# 项目管理-添加
+@app.route('/xmgl/add_zy_over/<int:task_id>/<users>', methods=['POST'])
+def add_zy_over(task_id,users):
+    try:
+        sql ="task_id="+str(task_id)+" and user_id!="+str(current_user.id)
+        OA_Task_User.query.filter(sql).delete(synchronize_session=False)
+        db.session.flush()
+        if "." in users:
+            value=users.split(".")
+            for obj in value:
+                OA_Task_User(obj,task_id).add()
+        else:
+            value=users
+            OA_Task_User(value,task_id).add()
+        db.session.commit()
+    except:
+        # 回滚
+        db.session.rollback()
+        logger.exception('exception')
+    return redirect("/xmgl/xmxx/"+str(task_id))
+
 	
 # 项目管理-未完成任务
-@app.route('/xmgl/unfinish', methods=['GET'])
-def unfinish():
-    return render_template("xmgl/unfinish.html")
+@app.route('/xmgl/unfinish/<task_id>', methods=['GET'])
+def unfinish(task_id):
+    data = OA_Task_Board.query.filter("static!='3' and task_id="+str(task_id)).all()
+    return render_template("xmgl/unfinish.html",data=data,task_id=task_id)
 	
 # 项目管理-已完成任务
-@app.route('/xmgl/finish', methods=['GET'])
-def finish():
-    return render_template("xmgl/finish.html")
+@app.route('/xmgl/finish/<task_id>', methods=['GET'])
+def finish(task_id):
+    data = OA_Task_Board.query.filter("static='3' and task_id="+str(task_id)).all()
+    return render_template("xmgl/finish.html",data=data,task_id=task_id)
 	
 # 项目管理-今日任务
-@app.route('/xmgl/today', methods=['GET'])
-def today():
-    return render_template("xmgl/today.html")
+@app.route('/xmgl/today/<task_id>', methods=['GET'])
+def today(task_id):
+    date = datetime.datetime.now().date().strftime("%Y-%m-%d")
+    data = OA_Task_Board.query.filter("static!=3 and task_id="+str(task_id)+" and substring(finish_time,1,10)='"+date+"'").all()
+    return render_template("xmgl/today.html",data=data,task_id=task_id)
 	
 	
 # 统计报表-年度费用统计搜索
@@ -268,46 +408,150 @@ def ndfytj_search():
     return render_template("tjbb/ndfytj_search.html")
 	
 # 统计报表-年度费用统计
-@app.route('/tjbb/ndfytj', methods=['GET'])
+@app.route('/tjbb/ndfytj', methods=['POST'])
 def ndfytj():
-    return render_template("tjbb/ndfytj.html")
+    org = request.form['org']
+    time = request.form['time']
+    return render_template("tjbb/ndfytj.html",org=org,time=time)
+
+# 柱状图
+@app.route('/Report/create/bar_3d/<org>/<time>', methods=['GET'])
+def Report_create_bar_3d(org,time):
+    exp = flash_pic()
+    sql = "SELECT concat(b.month,'月') AS MONTH,IFNULL(a.amount,0) FROM oa_month b LEFT JOIN \
+    (SELECT SUBSTR(create_date, 6, 2) as create_date, IFNULL(SUM(amount), 0) AS amount FROM oa_reimbursement\
+    WHERE org_id IN ( SELECT id FROM oa_org WHERE pid = "+org+") AND is_paid = 1 AND SUBSTR(create_date, 1, 4) = "+time+"\
+    GROUP BY SUBSTR(create_date, 1, 7)) a ON b.`month` = create_date ORDER BY b.`month`"
+    data=db.session.execute(sql).fetchall()
+    column_text=[u'金额(元)']
+    obj = OA_Org.query.filter_by(id=org).first()
+    return exp.bar_3d(data,u"",column_text,obj.name,time)
 	
 # 统计报表-月度部门费用开支情况搜索
 @app.route('/tjbb/ydbmtj_search', methods=['GET'])
 def ydbmtj_search():
-    return render_template("tjbb/ydbmtj_search.html")
+    data = OA_Org.query.filter("pid >1").all()
+    return render_template("tjbb/ydbmtj_search.html",data=data)
 	
 # 统计报表-月度部门费用开支情况
-@app.route('/tjbb/ydbmtj', methods=['GET'])
+@app.route('/tjbb/ydbmtj', methods=['POST'])
 def ydbmtj():
-    return render_template("tjbb/ydbmtj.html")	
+    org = request.form['org']
+    time = request.form['time']
+    return render_template("tjbb/ydbmtj.html",org=org,time=time)	
+
+# 部门月开支饼状图
+@app.route('/Report/create/pie/<org>/<time>', methods=['GET'])
+def Report_create_pie(org,time):
+    exp = flash_pic()
+    sql ="select b.reason_name as name,sum(a.amount) as amount from oa_reimbursement a,oa_reason b where a.org_id="+org+" \
+    and a.reason=b.id and is_paid=1 and date_format(a.create_date,'%Y-%m')='"+time+"' GROUP BY a.reason"
+    data=db.session.execute(sql).fetchall()
+    obj = OA_Org.query.filter_by(id=org).first()
+    title = obj.name+"部门"+time+"月费用开支"
+    return exp.pie(data,title)
+
 	
 # 统计报表-月度公司费用开支情况搜索
 @app.route('/tjbb/ydgstj_search', methods=['GET'])
 def ydgstj_search():
-    return render_template("tjbb/ydgstj_search.html")
+    data = OA_Org.query.filter("pid =1").all()
+    return render_template("tjbb/ydgstj_search.html",data=data)
 	
 # 统计报表-月度公司费用开支情况
-@app.route('/tjbb/ydgstj', methods=['GET'])
+@app.route('/tjbb/ydgstj', methods=['POST'])
 def ydgstj():
-    return render_template("tjbb/ydgstj.html")
+    org = request.form['org']
+    time = request.form['time']
+    return render_template("tjbb/ydgstj.html",org=org,time=time)
+
+# 公司月开支饼状图
+@app.route('/Report/create/pieOrg/<org>/<time>', methods=['GET'])
+def Report_create_pieOrg(org,time):
+    exp = flash_pic()
+    sql ="select b.reason_name,sum(a.amount) from oa_reimbursement a,oa_reason b where \
+    a.org_id in (select id from oa_org where id="+org+" or pid="+org+")\
+    and a.reason=b.id and is_paid=1 and date_format(a.create_date,'%Y-%m')='"+time+"' GROUP BY a.reason"
+    data=db.session.execute(sql).fetchall()
+    obj = OA_Org.query.filter_by(id=org).first()
+    title = obj.name+"公司"+time+"月费用开支"
+    return exp.pie(data,title)
 	
 # 统计报表-季度部门费用开支情况搜索
 @app.route('/tjbb/jdbmtj_search', methods=['GET'])
 def jdbmtj_search():
-    return render_template("tjbb/jdbmtj_search.html")
+    data = OA_Org.query.filter("pid >1").all()
+    return render_template("tjbb/jdbmtj_search.html",data=data)
 	
 # 统计报表-季度部门费用开支情况
-@app.route('/tjbb/jdbmtj', methods=['GET'])
+@app.route('/tjbb/jdbmtj', methods=['POST'])
 def jdbmtj():
-    return render_template("tjbb/jdbmtj.html")	
+    org = request.form['org']
+    year = request.form['year']
+    quarter = request.form['quarter']
+    return render_template("tjbb/jdbmtj.html",org=org,year=year,quarter=quarter)
+
+# 部门季度开支饼状图
+@app.route('/Report/create/pieQuarter/<org>/<year>/<quarter>', methods=['GET'])
+def Report_create_pieQuarter(org,year,quarter):
+    exp = flash_pic()
+    time = ""
+    string = ""
+    if quarter=='1':
+        time+="('"+year+"-01','"+year+"-02','"+year+"-03')"
+        string="第一季度"
+    if quarter=='2':
+        time+="('"+year+"-04','"+year+"-05','"+year+"-06')"
+        string="第二季度"
+    if quarter=='3':
+        time+="('"+year+"-07','"+year+"-08','"+year+"-09')"
+        string="第三季度"
+    if quarter=='4':
+        time+="('"+year+"-10','"+year+"-11','"+year+"-12')"
+        string="第四季度"
+    sql ="select b.reason_name,sum(a.amount) from oa_reimbursement a,oa_reason b where a.org_id="+org+" \
+    and a.reason=b.id and is_paid=1 and date_format(a.create_date,'%Y-%m') in "+time+" GROUP BY a.reason"
+    data=db.session.execute(sql).fetchall()
+    obj = OA_Org.query.filter_by(id=org).first()
+    title = obj.name+"部门"+year+string+"费用开支"
+    return exp.pie(data,title)	
 	
 # 统计报表-季度公司费用开支情况搜索
 @app.route('/tjbb/jdgstj_search', methods=['GET'])
 def jdgstj_search():
-    return render_template("tjbb/jdgstj_search.html")
+    data = OA_Org.query.filter("pid =1").all()
+    return render_template("tjbb/jdgstj_search.html",data=data)
 	
 # 统计报表-季度公司费用开支情况
-@app.route('/tjbb/jdgstj', methods=['GET'])
+@app.route('/tjbb/jdgstj', methods=['POST'])
 def jdgstj():
-    return render_template("tjbb/jdgstj.html")
+    org = request.form['org']
+    year = request.form['year']
+    quarter = request.form['quarter']
+    return render_template("tjbb/jdgstj.html",org=org,year=year,quarter=quarter)
+
+# 公司季度开支饼状图
+@app.route('/Report/create/pieOrgQuarter/<org>/<year>/<quarter>', methods=['GET'])
+def Report_create_pieOrgQuarter(org,year,quarter):
+    exp = flash_pic()
+    time = ""
+    string = ""
+    if quarter=='1':
+        time+="('"+year+"-01','"+year+"-02','"+year+"-03')"
+        string="第一季度"
+    if quarter=='2':
+        time+="('"+year+"-04','"+year+"-05','"+year+"-06')"
+        string="第二季度"
+    if quarter=='3':
+        time+="('"+year+"-07','"+year+"-08','"+year+"-09')"
+        string="第三季度"
+    if quarter=='4':
+        time+="('"+year+"-10','"+year+"-11','"+year+"-12')"
+        string="第四季度"
+    sql ="select b.reason_name,sum(a.amount) from oa_reimbursement a,oa_reason b where \
+    a.org_id in (select id from oa_org where id="+org+" or pid="+org+") \
+    and a.reason=b.id and is_paid=1 and date_format(a.create_date,'%Y-%m') in "+time+" GROUP BY a.reason"
+    data=db.session.execute(sql).fetchall()
+    obj = OA_Org.query.filter_by(id=org).first()
+    title = obj.name+"公司"+year+string+"费用开支"
+    return exp.pie(data,title)  

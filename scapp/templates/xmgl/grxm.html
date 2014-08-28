@@ -15,7 +15,8 @@
 		
 		.table-list .table-label{width:140px;}
 		.box{background:#93aec2 url(/static/img/xm.png) no-repeat;width:219px;height:183px;margin:15px 15px 0 0;box-shadow:2px 2px 5px gray;border-radius:10px;border:5px solid #93aec2;display:inline-block;float:left;}
-		.box img{width:16px;position:absolute;margin-top:10px;display:none;cursor:pointer;}
+		.box img{width:16px;position:absolute;margin-top:10px;cursor:pointer;margin-left:10px;}
+		.box .Himg{display:none;margin-left:0px;}
 		.box .edit{margin-left:170px;}		
 		.box .delete{margin-left:190px;}
 		.box p{text-align:center;font-family:"Microsoft YaHei";}
@@ -37,20 +38,28 @@
 			<div class="well place">			
 				<i class="icon-home"></i><a href="#">项目管理</a>/<a href="#">个人项目</a>
 			</div>	
-			
+			<form id="showTask" method="POST">
 			<div class="row-fluid">			
 				<i class="icon-bookmark"></i><span class="titletip">项目列表</span><br/>
-				<div class="box">
-					<img src="/static/img/edit.png" class="edit" onclick="showList('edit_xm')"/>
-					<img src="/static/img/delete.png" class="delete" onclick="show_confirm()"/>
-					<p class="title" onclick="iframe('xmgl/xmxx')">XMCI</p>	
-					<p class="describe">厦门进件</p>
-				</div>
-				<div class="new" onclick="showList('new_xm')">
-					<img src="/static/img/new.png"/>
-					<p>新建项目</p>
-				</div>
+					{%- for obj in data%}
+						{%- if obj.oa_task_user_ibfk_1.delete==0%}
+						<div class="box">
+							{%- if user_id==obj.oa_task_user_ibfk_1.create_user%}
+								<img src="/static/img/star.png"/>
+								<img src="/static/img/edit.png" class="edit Himg" onclick="edit({{obj.task_id}})"/>
+								<img src="/static/img/delete.png" class="delete Himg" onclick="show_confirm({{obj.task_id}})"/>
+							{%- endif%}
+							<p class="title" onclick="iframe('xmgl/xmxx/{{obj.task_id}}')">{{obj.oa_task_user_ibfk_1.subject}}</p>	
+							<p class="describe">{{obj.oa_task_user_ibfk_1.content}}</p>
+						</div>
+						{%- endif%}
+					{%- endfor%}
+					<div class="new" onclick="showList()">
+						<img src="/static/img/new.png"/>
+						<p>新建项目</p>
+					</div>
 			</div><!--/row-fluid -->
+			</form>
 		</div>
 	</div>
 	<script src="/static/js/jquery-1.7.2.min.js"></script>
@@ -58,24 +67,26 @@
 	<script src="/static/js/script.js"></script>
 	<script src="/static/js/bootstrap-datepicker.js"></script>
 	<script type="text/javascript">
-		function showList(name){
+		function showList(){
 			$('#text',window.parent.document).show();
 			var html="<div class=topDiv ><img src='/static/img/close.png' class='close' onclick='$(\"#text\",window.parent.document).hide();'/><br/>"
-			if(name=="new_xm"){
-				$('#text',window.parent.document).html(html+"<iframe src='xmgl/new_xm' width=100% height=90% frameborder=0></iframe></div>");	
-			}
-			if(name=="edit_xm"){
-				$('#text',window.parent.document).html(html+"<iframe src='xmgl/edit_xm' width=100% height=90% frameborder=0></iframe></div>");	
-			}
+			$('#text',window.parent.document).html(html+"<iframe src='xmgl/new_xm' width=100% height=90% frameborder=0></iframe></div>");	
 		}	
+		function edit(id){
+			$('#text',window.parent.document).show();
+			var html="<div class=topDiv ><img src='/static/img/close.png' class='close' onclick='$(\"#text\",window.parent.document).hide();'/><br/>"
+			$('#text',window.parent.document).html(html+"<iframe src='xmgl/edit_xm/"+id+"' width=100% height=90% frameborder=0></iframe></div>");	
+		}
 		$(document).ready(function(){
 			$(".box").mouseover(function(){
 				$(this).css('margin-top','5px');
-				$(this).find("img").show();
+				$(this).css('margin-bottom','10px');
+				$(this).find(".Himg").show();
 			});
 			$(".box").mouseout(function(){
 				$(this).css('margin-top','15px');
-				$(this).find("img").hide();
+				$(this).css('margin-bottom','0px');
+				$(this).find(".Himg").hide();
 			});
 			$(".box .edit").mouseover(function(){
 				$(this).attr('src','/static/img/editH.png');
@@ -102,13 +113,11 @@
 				$(this).attr('src','/static/img/close.png')
 			});
 		});
-		function show_confirm(){
+		function show_confirm(id){
 			var r=confirm("您确定要关闭此项目？");
 			if (r==true){
-				alert("项目关闭成功！");
-			}
-			else{
-				
+				document.getElementById("showTask").action="/xmgl/close/"+id;
+				document.getElementById("showTask").submit();
 			}
 		}
 	</script>

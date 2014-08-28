@@ -6,96 +6,47 @@
 	<link href="/static/css/main.css" rel="stylesheet">
 	<script type="text/javascript" src="/static/ofc2/json2.js"></script>
 	<script type="text/javascript" src="/static/ofc2/swfobject.js"></script>
+	<script src="/static/js/jquery-1.7.2.min.js"></script>
 </head>
 <body>
-	<div class="content" style="border:none;">	
-		<div class="well place">			
-			<i class="icon-home"></i><a href="#">统计报表</a>/<a href="#">公司费用开支(月)</a>
-		</div>	
-		<div id="my_chart"></div>
-	</div>
+<form id="content" method="POST" action="/Report/flash/export_pic" target="targetFrame"  style="padding-top:50px">
+  <div id="my_chart"></div>
+  <input type="hidden" id="imageData" name="imageData">
+</form>
+<iframe id="targetFrame" name="targetFrame" style="width:0;height:0;display:none"></iframe>
 </body>
+
 <script type="text/javascript">
-	swfobject.embedSWF("/static/ofc2/open-flash-chart.swf", "my_chart",
-	  "100%", "450", "9.0.0", "expressInstall.swf",
-	  {"get-data":"getDemoData"});
-	function getDemoData(){
-		var barData={
-		"bg_colour": "#ffffff", 
-		"elements": [
-			{
-				"alpha": 0.5,
-				"animate":[{"type":"bounce","distance":5},{"type":"fade"}],
-				"border": 2, 
-				"colours": [
-					"#0247fe", 
-					"#3d01a4", 
-					"#8601af", 
-					"#a7194b", 
-					"#fe2712", 
-					"#fd5308", 
-					"#fb9902", 
-					"#fabc02", 
-					"#fefe33", 
-					"#d0ea2b", 
-					"#66b032", 
-					"#0392ce"
-				], 
-				"label-colour": "#432baf", 
-				"start-angle": 0, 
-				"tip": "#val#元，总费用#total#元<br>占总费用的#percent#", 
-				"type": "pie", 
-				"values": [
-					{
-						"label": "差旅费", 
-						"value": 10
-					}, 
-					{
-						"label": "交通费", 
-						"value": 20
-					}, 
-					{
-						"label": "办公用品", 
-						"value": 30
-					}, 
-					{
-						"label": "招待费", 
-						"value": 40
-					}, 
-					{
-						"label": "技术服务法", 
-						"value": 50
-					}, 
-					{
-						"label": "水电煤气费", 
-						"value": 60
-					}, 
-					{
-						"label": "物业费", 
-						"value": 70
-					}, 
-					{
-						"label": "房屋组金", 
-						"value": 80
-					}, 
-					{
-						"label": "日用品", 
-						"value": 90
-					}, 
-					{
-						"label": "通讯费", 
-						"value": 100
-					}
-				]
-			}
-		], 
-		"title": {
-			"style": "{color: #888888; font-size: 16; text-align: center}", 
-			"text": "乾康信息技术—2014年5月（费用开支情况）"
-		}
-	};
-	   return JSON.stringify(barData);
-	}
+swfobject.embedSWF("/static/ofc2/open-flash-chart-SimplifiedChinese.swf", "my_chart",
+  "100%", "400", "9.0.0", "expressInstall.swf",
+  {"data-file":"/Report/create/pieOrg/{{org}}/{{time}}"});
+
+</script>
+
+<script type="text/javascript">
+  OFC = {};
+
+  OFC.jquery = {
+      name: "jQuery",
+      version: function(src) { 
+        return $('#'+ src)[0].get_version() 
+      },
+      rasterize: function (src, dst) {
+       $('#'+ dst).replaceWith(OFC.jquery.image(src)) 
+      },
+      image: function(src) { 
+        return "<img src='data:image/png;base64," + $('#'+src)[0].get_img_binary() + "' />"
+      },
+      imageData: function(src) { 
+        $("#imageData").val($('#'+src)[0].get_img_binary());
+        submitForm('content','/Report/flash/export_pic');
+      }
+  };
+
+  // Using an object as namespaces is JS Best Practice. I like the Control.XXX style.
+  //if (!Control) {var Control = {}}
+  //if (typeof(Control == "undefined")) {var Control = {}}
+  if (typeof(Control == "undefined")) {var Control = {OFC: OFC.jquery}};
 
 </script>
 </html>

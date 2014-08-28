@@ -459,10 +459,10 @@ def SendMail(reimbursement):
         url = EMAIL_SERVER+"/fysp/email_return/"+str(uu)
         msg = Message('OA报销审批提醒',sender=EMAIL_SEND,recipients=[email])
         msg.body = "text body"
-        msg.html = "<div style='border:0px solid #94c1dc;margin-bottom:10px;width:90%;'><table style='border-collapse:collapse;font-family:'Microsoft YaHei';width:100%;'>\
+        msg.html = "<div style='border:1px solid #94c1dc;margin-bottom:10px;width:800px;'><table style='border-collapse:collapse;width:800px;'>\
                     <thead><tr style='background:#afd5eb;'><th style='border:1px solid #FFF;padding:10px;'>费用所属单位</th>\
-                    <th style='border:1px solid #FFF;'>申请人</th>\
                     <th style='border:1px solid #FFF;'>项目</th>\
+                    <th style='border:1px solid #FFF;'>申请人</th>\
                     <th style='border:1px solid #FFF;'>金额</th>\
                     <th style='border:1px solid #FFF;'>报销事由</th></tr></thead>\
                     <tbody><tr style='text-align:center;background:#efefef;'>\
@@ -471,7 +471,7 @@ def SendMail(reimbursement):
                     <td style='border:1px solid #FFF;color:#333333;'>"+reimbursement.oa_reimbursement_ibfk_2.real_name+"</td>\
                     <td style='border:1px solid #FFF;color:red;font-weight:bold;'>"+reimbursement.amount+"</td>\
                     <td style='border:1px solid #FFF;color:#333333;'>"+reimbursement.oa_reimbursement_ibfk_5.reason_name+"</td></tr></tbody></table></div>\
-                    <div><a href='"+url+"' style='font-family:'Microsoft YaHei';color:#0088cc;text-decoration:none;'>点击查看详情</a></div>"
+                    <div><a href='"+url+"' style='color:#0088cc;text-decoration:none;'>点击查看详情</a></div>"
         thr = Thread(target=send_async_email,args=[app,msg,reimbursement.id,manager_id,uu])
         thr.start()
         return "OK"

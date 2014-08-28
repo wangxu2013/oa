@@ -17,48 +17,44 @@
 </head>
 
 <body>	
-	<form class="content" action="/xmgl/xmxx">
+	<form class="content" id="user_list" method="POST">
 		<div class="well place">			
 			<i class="icon-home"></i><a href="#">项目管理</a>/<a href="#">个人项目</a>/<a href="#">XMCI</a>
 		</div>	
 		<div class="back">
-			<input type="button" value="返回" class="btn btn-info" onclick="iframe('xmgl/xmxx')"/>
+			<input type="button" value="返回" class="btn btn-info" onclick="iframe('xmgl/xmxx/{{task_id}}')"/>
 		</div>
 		<div class="row-fluid">
 			<i class="icon-bookmark"></i><span class="titletip">添加组员</span>
 			<div class="divBorder">				
-				<table class="table-list" cellspacing="10" id="uesr-list">
+				<table class="table-list" cellspacing="10">
 					<thead>
 						<tr>
-							<th>选择</th>
-							<th>登录名称</th>
+							<th><input type="button" class="btn btn-info btn-mini" value="反选" style="margin:0;" onclick="ChkAllClick()"/></th>
+							<th>编号</th>
+							<th>登录名</th>
 							<th>真实姓名</th>
-							<th>性别</th>
 						</tr>
 					</thead>
 					<tbody class="center">
+						{%- for obj in data%}
 						<tr>
-							<td><input type="checkbox" onclick="changeColor(this)"/></td>
-							<td>qk_XXXX</td>
-							<td>张三</td>
-							<td>男</td>
+							{%- if obj.id!=1%}
+								{%- if obj.user_id%}
+									<td><input type="checkbox" name="checkbox" value="{{obj.id}}" onclick="changeColor(this)" checked="checked"/></td>
+								{%- else%}
+									<td><input type="checkbox" name="checkbox" value="{{obj.id}}" onclick="changeColor(this)"/></td>
+								{%- endif%}
+								<td>{{obj.id}}</td>
+								<td>{{obj.login_name}}</td>
+								<td>{{obj.real_name}}</td>
+							{%- endif%}
 						</tr>
-						<tr>
-							<td><input type="checkbox" onclick="changeColor(this)"/></td>
-							<td>qk_XXXX</td>
-							<td>张三</td>
-							<td>男</td>
-						</tr>
-						<tr>
-							<td><input type="checkbox" onclick="changeColor(this)"/></td>
-							<td>qk_XXXX</td>
-							<td>张三</td>
-							<td>男</td>
-						</tr>
+						{%-endfor%}
 					</tbody>
 				</table>
 			</div>
-			<input type="submit" value="提交" class="btn btn-info" />
+			<input type="button" value="提交" class="btn btn-info" onclick="addUser()"/>
 		</div><!--/row-fluid -->
 	</form><!--/content -->
 	
@@ -66,6 +62,24 @@
 	<script src="/static/js/jquery.json-2.4.min.js"></script>
 	<script src="/static/js/bootstrap.min.js"></script>
 	<script src="/static/js/script.js"></script>
-	
+	<script type="text/javascript">
+		function addUser(){
+			obj = document.getElementsByName("checkbox"); 
+			var value=""
+		 	for (var i=0;i<obj.length;i++ ){
+		 		if(obj[i].checked){
+		 			value=value+obj[i].value+"."
+		 		}
+		 	}
+		 	if(value==""){
+		 		alert("请选择成员");
+		 		return;
+		 	}
+		 	value=value.substring(0,value.length-1);
+	 		document.getElementById("user_list").action = "/xmgl/add_zy_over/{{task_id}}/"+value;
+    		document.getElementById("user_list").submit();
+
+		}
+	</script>
 </body>
 </html>

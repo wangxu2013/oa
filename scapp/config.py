@@ -40,7 +40,7 @@ PER_PAGE = 10  # 每页数量
 UPLOAD_FOLDER_REL = '/static/upload' #上传目录(相对路径)
 UPLOAD_FOLDER_ABS = os.path.join(_HERE,'static/upload') #上传目录(绝对路径)
 
-# EMAIL_SERVER = "http://localhost:8888"
+# EMAIL_SERVER = "http://192.168.0.105:8888"
 EMAIL_SERVER = "http://oa.cardpay-sh.com"
 
 EMAIL_SEND = "qkjr_no_reply@163.com"

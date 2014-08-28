@@ -26,12 +26,12 @@
 </head>
 
 <body onload="datepicker();">
-	<form name="form" action="/xmgl/xmxx" class="content">
+	<form name="form" action="/xmgl/new_rw_over/{{task_id}}" class="content" method="POST">
 		<div class="well place">			
 			<i class="icon-home"></i><a href="#">项目管理</a>/<a href="#">个人项目</a>/<a href="#">XMCI</a>
 		</div>	
 		<div class="back">
-			<input type="button" value="返回" class="btn btn-info" onclick="iframe('xmgl/xmxx')"/>
+			<input type="button" value="返回" class="btn btn-info" onclick="iframe('xmgl/xmxx/{{task_id}}')"/>
 		</div>
 		<i class="icon-bookmark"></i><span class="titletip">创建任务</span><br/>	
 		<div class="divBorder">		
@@ -40,7 +40,7 @@
 					<td class="table-label">任务内容<font class="red">*</font></td>
 					<td colspan="3">
 						<span id="work_name_spay">
-							<textarea name="" placeholder="任务内容"></textarea>
+							<textarea name="task_content" placeholder="任务内容"></textarea>
 							<span class="textareaRequiredMsg">不能为空</span>
 						</span>							
 					</td>				
@@ -48,15 +48,15 @@
 				<tr>						
 					<td class="table-label">执行人员</td>
 					<td>
-						<select name="">
-							<option>admin</option><!--默认执行者为自己-->
-							<option>组员1</option>
-							<option>组员2</option>
+						<select name="task_user">
+							{%- for obj in users%}
+							<option value="{{obj.user_id}}">{{obj.oa_task_user_ibfk_2.real_name}}</option>
+							{%- endfor%}
 						</select>
 					</td>	
 					<td class="table-label">截至时间</td>
 					<td>
-						<input type="text" class="datepicker" name="" data-date-format="yyyy-mm-dd" readonly/>
+						<input type="text" class="datepicker" name="finish_time" data-date-format="yyyy-mm-dd" readonly/>
 					</td>					
 				</tr>
 			</table>					

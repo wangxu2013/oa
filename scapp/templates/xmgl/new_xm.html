@@ -30,15 +30,15 @@
 </head>
 
 <body>	
-	<form class="content">				
+	<form class="content" id="createform" method="POST" action="/xmgl/create">				
 		<p class="title">新建项目</p>
 		<p>项目信息</p>
 		<span id="name1">
-			<input type="text" placeholder="项目名称"/>
+			<input type="text" placeholder="项目名称"  name="task_name" id="task_name"/>
 			<span class="textfieldRequiredMsg">不能为空</span>
 		</span><br/>
-		<textarea placeholder="项目简介（可选）"></textarea><br/>
-		<input type="button" class="btn btn-info" value="创建" onclick="$('#text',window.parent.document).hide();"/>
+		<textarea placeholder="项目简介（可选）" name="task_content"></textarea><br/>
+		<input type="button" class="btn btn-info" value="创建" onclick="create()"/>
 	</form>
 	
 	<script src="/static/js/jquery-1.7.2.min.js"></script>
@@ -47,6 +47,13 @@
 	<script src="/static/js/script.js"></script>
 	<script type="text/javascript">
 		var sprytextfield1 = new Spry.Widget.ValidationTextField("name1", "none");		
+		function create(){
+			document.getElementById("createform").submit();
+			var oDoc = window.parent.document;
+			$('#text',oDoc).hide();
+            var oAnotherFrame = oDoc.getElementById("content_frame");
+            oAnotherFrame.contentDocument.location.reload(true);
+		}
 	</script>
 </body>
 </html>
