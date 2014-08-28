@@ -4,7 +4,10 @@ import os
 # 引入日志模块
 import logging
 import logging.config
-
+from flask.ext.mail import Mail
+ 
+from flask.ext.mail import Message
+from scapp import app
 _HERE = os.path.dirname(__file__)
 _DB_SQLITE_PATH = os.path.join(_HERE, 'scapp.sqlite')
 
@@ -21,15 +24,26 @@ logger.addHandler(hdlr)
 logger.setLevel(logging.WARNING)
 #====================================
 
+# _DBUSER = "root"  # 数据库用户名
+# _DBPASS = "123456"  # 数据库用户名密码
+# _DBHOST = "192.168.0.101"  # 服务器
+# _DBPORT = '3306' #服务器端口
+# _DBNAME = "new_oa"  # 数据库名称
+
 _DBUSER = "root"  # 数据库用户名
 _DBPASS = "root"  # 数据库用户名密码
-_DBHOST = "localhost"  # 服务器
+_DBHOST = "192.168.0.250"  # 服务器
 _DBPORT = '3306' #服务器端口
 _DBNAME = "new_oa"  # 数据库名称
 
 PER_PAGE = 10  # 每页数量
 UPLOAD_FOLDER_REL = '/static/upload' #上传目录(相对路径)
 UPLOAD_FOLDER_ABS = os.path.join(_HERE,'static/upload') #上传目录(绝对路径)
+
+# EMAIL_SERVER = "http://192.168.0.105:8888"
+EMAIL_SERVER = "http://oa.cardpay-sh.com"
+
+EMAIL_SEND = "qkjr_no_reply@163.com"
 
 Approval_type_ORG = 1#部门 
 Approval_type_PRJ = 2#项目
@@ -48,6 +62,14 @@ class ProConfig(Config):
     SQLALCHEMY_DATABASE_URI = 'mysql://%s:%s@%s:%s/%s' % (_DBUSER, _DBPASS, _DBHOST, _DBPORT, _DBNAME)
     #SQLALCHEMY_DATABASE_URI = 'ibm_db_sa://%s:%s@%s:%s/%s' % (_DBUSER, _DBPASS, _DBHOST, _DBPORT, _DBNAME)
     DEBUG = True
+    app.config.update(dict(
+    DEBUG = True,
+    MAIL_SERVER = 'smtp.163.com',
+    MAIL_PORT = 25,
+    MAIL_USE_SSL = False,
+    MAIL_USE_TSL = False,
+    MAIL_USERNAME = "qkjr_no_reply@163.com",
+    MAIL_PASSWORD = "qkjradmin45"))
 
 class DevConfig(Config):
     DEBUG = True

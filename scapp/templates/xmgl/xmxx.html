@@ -48,72 +48,70 @@
 			<i class="icon-home"></i><a href="#">项目管理</a>/<a href="#">个人项目</a>/<a href="#">XMCI</a>
 		</div>						
 		<i class="icon-bookmark"></i><span class="titletip">XMCI</span><br/>	
+		{%- with messages = get_flashed_messages(with_categories=true) %}
+		  	{%- if messages %}
+	    	{%- for category, message in messages %}
+	    	<div class="alert alert-{{category}}">
+	      		{{message}}
+	      	</div>
+	    	{%- endfor %}
+		  	{%- endif %}
+		{%- endwith %}
 		<div class="span7">
 			<!--****************************任务板*************************************-->
 			<div class="tip-info">
 				<span class="tip-head">任务板</span>	
-				<span class="badge badge-info">2</span>	
-				<div class="pull-right" style="width:90px;margin-right:-8px">
-					<a onmouseover="hover(this)" onmouseout="away(this)" href="#" onclick="iframe('xmgl/new_rw')">
-						<img src="../static/img/add.jpg" />
+
+				<span class="badge badge-info" id="renwuban"></span>	
+				{%- if create=='true'%}
+				<div class="pull-right">
+					<a onmouseover="hover(this)" onmouseout="away(this)" href="#" onclick="iframe('xmgl/new_rw/{{task_id}}')">
+						<img src="/static/img/add.jpg" />
 						<span class="tip-add">创建任务</span>	
 					</a>
-				</div>							
+				</div>	
+				{%-endif%}						
 				<hr/>		
-				<div class="nothing" style="display:none;">						
+				{%-if task_board%}
+					{%- for obj in task_board%}
+					<blockquote>	
+						<!-- <a href="#" onclick="iframe('xmgl/edit_rw')">{{obj.task_content}}</a> -->
+						<span>{{obj.task_content}}</span>
+						<span style="marin-top:0;">
+							<i class="icon-calendar icon-white"></i>
+							<span class="date" id="times">{{obj.finish_time}}</span>
+						</span>
+					</blockquote>
+					{%- endfor%}
+				{%- else%}
+					<div class="nothing">						
 					<img src="/static/img/renwu.jpg"/><br/>						
-					目前还没有任务
-				</div><!--没有任务时显示-->
-				<blockquote>
-					<input type="checkbox" onclick="check(this)"/>
-					<a href="#" onclick="iframe('xmgl/edit_rw')">数值转换金额大写（0.65报错）修改数值转换金额大写（0.65报错）修改</a>
-					<span style="marin-top:0;">
-						<i class="icon-calendar icon-white"></i>
-						<span class="date">2014-08-20</span>
-					</span>
-				</blockquote>
-				<blockquote>
-					<input type="checkbox" onclick="check(this)"/>
-					<a href="#" onclick="iframe('xmgl/edit_rw')">数值转换金额大写（0.65报错）修改</a>
-					<span style="marin-top:0;">
-						<i class="icon-calendar icon-white"></i>
-						<span class="date">2014-08-15</span>
-					</span>
-				</blockquote>
-				<blockquote>
-					<input type="checkbox" onclick="check(this)"/>
-					<a href="#" onclick="iframe('xmgl/edit_rw')">数值转换金额大写（0.65报错）修改</a>
-					<span style="marin-top:0;">
-						<i class="icon-calendar icon-white"></i>
-						<span class="date">2014-08-13</span>
-					</span>
-				</blockquote>
+					<span>目前还没有任务</span>
+					</div>
+				{%- endif%}
 				<hr/>
-				<a href="#" onclick="iframe('xmgl/rwb')">进入任务板</a>
+				<a href="#" onclick="iframe('xmgl/rwb/{{task_id}}')">进入任务板</a>
 			</div>
 		</div>
 		<div class="span3">
 			<div class="tip-info">
 				<span class="tip-head">项目组成员</span>
-				<div class="pull-right" style="width:90px;margin-right:-8px">
-					<a onmouseover="hover(this)" onmouseout="away(this)" href="#" onclick="iframe('xmgl/add_zy')">
-						<img src="../static/img/add.jpg" />
+
+				{%- if create=='true'%}
+				<div class="pull-right">
+					<a onmouseover="hover(this)" onmouseout="away(this)" href="#" onclick="iframe('xmgl/add_zy/{{task_id}}')">
+						<img src="/static/img/add.jpg" />
+
 						<span class="tip-add">添加组员</span>	
 					</a>
-				</div>							
-				<hr/>						
+				</div>
+				{%-endif%}							
+				<hr/>	
+				{%- for user in task_user%}	
 				<blockquote>
-					<input type="checkbox" onclick="check(this)"/>
-					<a>admin</a>
+					<a>{{user.oa_task_user_ibfk_2.real_name}}</a>
 				</blockquote>
-				<blockquote>
-					<input type="checkbox" onclick="check(this)"/>
-					<a>组员1</a>
-				</blockquote>
-				<blockquote>
-					<input type="checkbox" onclick="check(this)"/>
-					<a>组员2</a>
-				</blockquote>
+				{%-endfor%}	
 			</div>
 		</div>
 		<div class="span3">
@@ -121,13 +119,13 @@
 					<span class="tip-head">项目任务统计</span>						
 					<hr/>						
 					<blockquote>
-						任务总数&nbsp;&nbsp;<span class="total" onclick="iframe('xmgl/unfinish')">57</span>
+						待完成任务&nbsp;&nbsp;<span class="total" onclick="iframe('xmgl/unfinish/{{task_id}}')">{{list_3}}</span>
 					</blockquote>
 					<blockquote>
-						已完成任务&nbsp;&nbsp;<span class="finish" onclick="iframe('xmgl/finish')">56</span>
+						已完成任务&nbsp;&nbsp;<span class="finish" onclick="iframe('xmgl/finish/{{task_id}}')">{{list_1}}</span>
 					</blockquote>
 					<blockquote>
-						今日待完成任务&nbsp;&nbsp;<span class="today" onclick="iframe('xmgl/today')">0</span>
+						今日待完成任务&nbsp;&nbsp;<span class="today" onclick="iframe('xmgl/today/{{task_id}}')">{{list_2}}</span>
 					</blockquote>
 				</div>
 			</div>
@@ -180,13 +178,22 @@
 					$(this).parent().attr("class","label label-important")
 				}
 			});
+			
+			length = $('[id=times]').length
+			if(length>0){
+				$("span[id^='times']").each(function(i) {
+					$(this).text($(this).text().substring(0,10))
+				})
+			}else{
+				$("#renwuban").text("0")
+			}
 		});
 		function hover(obj){
-			$(obj).find('img').attr('src','../static/img/addBlue.jpg')
+			$(obj).find('img').attr('src','/static/img/addBlue.jpg')
 			$(obj).find('span').attr('class','tip-hover')
 		}
 		function away(obj){
-			$(obj).find('img').attr('src','../static/img/add.jpg')
+			$(obj).find('img').attr('src','/static/img/add.jpg')
 			$(obj).find('span').attr('class','tip-add')
 		}
 		function check(obj){

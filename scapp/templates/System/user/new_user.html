@@ -35,9 +35,17 @@
 						<tr>
 							<td class="table-label">登录名称<font class="red">*</font></td>
 							<td width="36%">
-								<span id="sprytextfield1">
+								<span id="email">
 									<input type="text" id="login_name" name="login_name"/>
 									<span class="textfieldRequiredMsg">登录名称不能为空</span>
+								</span>
+							</td>
+							<td class="table-label">邮箱地址<font class="red">*</font></td>
+							<td width="36%">
+								<span id="email">
+									<input type="text" id="email" name="email"/>
+									<span class="textfieldRequiredMsg">不能为空</span>
+									<span class="textfieldInvalidFormatMsg">邮箱地址无效</span>
 								</span>
 							</td>					
 						</tr>	
@@ -133,7 +141,8 @@
 		var sprytextfield1 = new Spry.Widget.ValidationTextField("sprytextfield1", "none", {validateOn:["blur"]});
 		var sprypassword1 = new Spry.Widget.ValidationPassword("sprypassword1", {validateOn:["blur"], minChars:4, maxChars:16});
 		var spryconfirm1 = new Spry.Widget.ValidationConfirm("spryconfirm1", "login_password", {validateOn:["blur"]});
-		var sprytextfield2 = new Spry.Widget.ValidationTextField("sprytextfield2", "none", {validateOn:["blur"]});		
+		var sprytextfield2 = new Spry.Widget.ValidationTextField("sprytextfield2", "none", {validateOn:["blur"]});
+		var sprytextfield3 = new Spry.Widget.ValidationTextField("email", "email", {validateOn:["blur"]});
 	</script>
 </body>
 </html>

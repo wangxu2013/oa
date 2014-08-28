@@ -152,21 +152,10 @@
 						{%- endif %}
 						></a>
 				</li>
-				{%- endif %}
-			{%- endfor %}
-				<li title="项目管理"
-						{%- if menu == "Xmgl"%}
-							class="active"
-						{%- endif %}
-						onclick="iframe('Xmgl')">
-					<a href="javascript:void(0);"><img alt="项目管理" title="项目管理" 
-						{%- if menu == "Xmgl"%}
-							src="/static/img/3_hover.png"
-						{%- else -%}
-							src="/static/img/3.png"
-						{%- endif %}
-					></a>
-				</li>
+				{%- endif %}					
+							
+				{%- if obj.privilege_access_value == "Tjbb" and obj.privilege_operation != "0" %}
+
 				<li title="统计报表"
 						{%- if menu == "Tjbb"%}
 							class="active"
@@ -180,9 +169,24 @@
 						{%- endif %}
 					></a>
 				</li>
+				{%- endif %}
+				{%- endfor %}
 				<!-- <li title="文档管理" onclick="switchTab(this,4)">
 					<img alt="文档管理" title="统计报表" src="/static/img/4.png" width="33" height="33">
 				</li> -->
+				<li title="项目管理"
+						{%- if menu == "Xmgl"%}
+							class="active"
+						{%- endif %}
+						onclick="iframe('Xmgl')">
+					<a href="javascript:void(0);"><img alt="项目管理" title="项目管理" 
+						{%- if menu == "Xmgl"%}
+							src="/static/img/3_hover.png"
+						{%- else -%}
+							src="/static/img/3.png"
+						{%- endif %}
+					 width="33" height="33"></a>
+				</li>	
 			</ul>
 			<div style="position:absolute; bottom:0px; padding:10px;">
 				<a href="javascript:void(0);" onclick="showORhide()">
@@ -340,22 +344,34 @@
 						<div class="titleDIV">
 							<p class="title">统计报表</p>
 							<hr/>
-						</div>			
+						</div>	
+						{%- for obj in privileges %}
+						{%- if obj.privilege_access_value == "ndfytj" and obj.privilege_operation != "0" %}		
 						<li onclick="leftmenu(this);changeiframe('tjbb/ndfytj_search')" id="ndfytj" class="active">
 							<a href="javascript:void(0);">年度费用统计</a>
 						</li>
+						{%- endif%}
+						{%- if obj.privilege_access_value == "ydbmtj" and obj.privilege_operation != "0" %}	
 						<li onclick="leftmenu(this);changeiframe('tjbb/ydbmtj_search')" id="ydbmtj">
 							<a href="javascript:void(0);">部门费用开支(月)</a>
 						</li>
+						{%- endif%}
+						{%- if obj.privilege_access_value == "ydgstj" and obj.privilege_operation != "0" %}	
 						<li onclick="leftmenu(this);changeiframe('tjbb/ydgstj_search')" id="ydgstj">
 							<a href="javascript:void(0);">公司费用开支(月)</a>
 						</li>
+						{%- endif%}
+						{%- if obj.privilege_access_value == "jdbmtj" and obj.privilege_operation != "0" %}	
 						<li onclick="leftmenu(this);changeiframe('tjbb/jdbmtj_search')" id="jdbmtj">
 							<a href="javascript:void(0);">部门费用开支(季)</a>
 						</li>
+						{%- endif%}
+						{%- if obj.privilege_access_value == "jdgstj" and obj.privilege_operation != "0" %}	
 						<li onclick="leftmenu(this);changeiframe('tjbb/jdgstj_search')" id="jdgstj">
 							<a href="javascript:void(0);">公司费用开支(季)</a>
 						</li>
+						{%- endif%}
+						{%- endfor %}
 					</ul>
 				</div><!--/myNav-->
 			</div><!--/tab0-->

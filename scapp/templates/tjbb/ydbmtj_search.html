@@ -15,7 +15,7 @@
 </head>
 
 <body onload="datepicker()">	
-	<form class="content" action="/tjbb/ydbmtj">
+	<form class="content" action="/tjbb/ydbmtj" method="POST">
 		<div class="well place">
 			<i class="icon-home"></i><a href="#">统计报表</a>/<a href="#">部门费用开支(月)</a>
 		</div>	
@@ -27,13 +27,14 @@
 						<tr>
 							<td class="table-label">统计部门</td>
 							<td>
-								<select name="">
-									<option>技术部</option>
-									<option>销售部</option>
+								<select name="org">
+									{%- for obj in data%}
+										<option value="{{obj.id}}">{{obj.name}}</option>
+									{%- endfor%}
 								</select>
 							</td>
 							<td class="table-label">统计月份</td>
-							<td><input type="text" class="datepicker" name="beg_date" data-date-format="yyyy-mm" readonly/></td>
+							<td><input type="text" class="datepicker" name="time" data-date-format="yyyy-mm" readonly/></td>
 						</tr>
 					</table>
 				</div>

@@ -18,8 +18,10 @@ class OA_User(db.Model):
     create_date = db.Column(db.DateTime)
     modify_user = db.Column(db.Integer)
     modify_date = db.Column(db.DateTime)
+    email = db.Column(db.String(100))
 
-    def __init__(self,login_name,login_password,real_name,sex,mobile,active):
+
+    def __init__(self,login_name,login_password,real_name,sex,mobile,active,email):
         self.login_name = login_name
         self.login_password = login_password
         self.real_name = real_name
@@ -30,6 +32,7 @@ class OA_User(db.Model):
         self.create_date = datetime.datetime.now()
         self.modify_user = current_user.id
         self.modify_date = datetime.datetime.now()
+        self.email = email
 
     def add(self):
         db.session.add(self)

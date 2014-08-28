@@ -39,6 +39,14 @@
 									<input type="text" id="login_name" name="login_name" value="{{user.login_name}}"/>
 									<span class="textfieldRequiredMsg">登录名称不能为空</span>
 								</span>
+							</td>
+							<td class="table-label">邮箱地址<font class="red">*</font></td>
+							<td width="36%">
+								<span id="email">
+									<input type="text" id="email" name="email" value="{{user.email}}"/>
+									<span class="textfieldRequiredMsg">不能为空</span>
+									<span class="textfieldInvalidFormatMsg">邮箱地址无效</span>
+								</span>
 							</td>						
 						</tr>	
 						<tr>
@@ -130,7 +138,8 @@
 	<script src="/static/js/system.js"></script>
 	<script type="text/javascript">
 		var sprytextfield1 = new Spry.Widget.ValidationTextField("sprytextfield1", "none", {validateOn:["blur"]});
-		var sprytextfield2 = new Spry.Widget.ValidationTextField("sprytextfield2", "none", {validateOn:["blur"]});		
+		var sprytextfield2 = new Spry.Widget.ValidationTextField("sprytextfield2", "none", {validateOn:["blur"]});	
+		var sprytextfield3 = new Spry.Widget.ValidationTextField("email", "email", {validateOn:["blur"]});	
 	</script>
 </body>
 </html>

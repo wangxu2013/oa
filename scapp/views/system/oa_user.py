@@ -39,7 +39,7 @@ def new_user():
 	else:
 		try:
 			user = OA_User(request.form['login_name'],GetStringMD5(request.form['login_password']),
-				request.form['real_name'],request.form['sex'],request.form['mobile'],request.form['active'])
+				request.form['real_name'],request.form['sex'],request.form['mobile'],request.form['active'],request.form['email'])
 			user.add()
 
 			#清理缓存
@@ -63,40 +63,40 @@ def new_user():
 # 编辑用户
 @app.route('/System/edit_user/<int:id>', methods=['GET','POST'])
 def edit_user(id):
-	if request.method == 'GET':
-		user = OA_User.query.filter_by(id=id).first()
-		roles = OA_Role.query.order_by("id").all()
-		role = OA_UserRole.query.filter_by(user_id=id).first().oa_userrole_ibfk_2
-		return render_template("System/user/edit_user.html",user=user,roles=roles,role=role)
-	else:
-		try:
-			user = OA_User.query.filter_by(id=id).first()
-			user.login_name = request.form['login_name']
-			#user.login_password = request.form['login_password']
-			user.real_name = request.form['real_name']
-			user.sex = request.form['sex']
-			user.mobile = request.form['mobile']
-			user.active = request.form['active']
-			user.modify_user = current_user.id
-			user.modify_date = datetime.datetime.now()
+    if request.method == 'GET':
+        user = OA_User.query.filter_by(id=id).first()
+        roles = OA_Role.query.order_by("id").all()
+        role = OA_UserRole.query.filter_by(user_id=id).first().oa_userrole_ibfk_2
+        return render_template("System/user/edit_user.html",user=user,roles=roles,role=role)
+    else:
+        try:
+            user = OA_User.query.filter_by(id=id).first()
+            user.login_name = request.form['login_name']
+            #user.login_password = request.form['login_password']
+            user.real_name = request.form['real_name']
+            user.sex = request.form['sex']
+            user.mobile = request.form['mobile']
+            user.active = request.form['active']
+            user.email = request.form['email']
+            user.modify_user = current_user.id
+            user.modify_date = datetime.datetime.now()
 
-			user_role = OA_UserRole.query.filter_by(user_id=id).first()
-			user_role.role_id = request.form['roles']
-			user_role.modify_user = current_user.id
-			user_role.modify_date = datetime.datetime.now()
+            user_role = OA_UserRole.query.filter_by(user_id=id).first()
+            user_role.role_id = request.form['roles']
+            user_role.modify_user = current_user.id
+            user_role.modify_date = datetime.datetime.now()
 
-			# 事务提交
-			db.session.commit()
-			# 消息闪现
-			flash('保存成功','success')
-		except:
-			# 回滚
-			db.session.rollback()
-			logger.exception('exception')
-			# 消息闪现
-			flash('保存失败','error')
-
-		return redirect('System/user/1')
+            # 事务提交
+            db.session.commit()
+            # 消息闪现
+            flash('保存成功','success')
+        except:
+            # 回滚
+            db.session.rollback()
+            logger.exception('exception')
+            # 消息闪现
+            flash('保存失败','error')
+        return redirect('System/user/1')
 
 # 禁用用户
 @app.route('/System/disable_user/<type>/<int:id>', methods=['GET'])

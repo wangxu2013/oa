@@ -26,29 +26,21 @@
 			<i class="icon-home"></i><a href="#">项目管理</a>/<a href="#">个人项目</a>/<a href="#">XMCI</a>
 		</div>	
 		<div class="back">
-			<input type="button" value="返回" class="btn btn-info" onclick="iframe('xmgl/xmxx')"/>
+			<input type="button" value="返回" class="btn btn-info" onclick="iframe('xmgl/xmxx/{{task_id}}')"/>
 		</div>
 		<div class="row-fluid">
 			<i class="icon-bookmark"></i><span class="titletip">已完成任务</span>	
 			<ul class="work">
+				{%- for obj in data%}
 				<li>
-					<input type="checkbox" checked />
-					数值转换金额大写（0.65报错）修改数值转换金额大写（0.65报错）修改
+					{{obj.task_content}}
 					<span tyle="marin-top:0;">
 						<i class="icon-calendar icon-white"></i>
-						<span class="date">2014-08-15</span>
+						<span class="date" id="times">{{obj.finish_time}}</span>
 					</span>
-					<span class="worker pull-right">#admin&nbsp;&nbsp;</span>
+					<span class="worker pull-right">#{{obj.oa_task_board_ibfk_2.real_name}}&nbsp;&nbsp;</span>
 				</li>
-				<li>
-					<input type="checkbox" checked />
-					数值转换金额大写（0.65报错）修改
-					<span tyle="marin-top:0;">
-						<i class="icon-calendar icon-white"></i>
-						<span class="date">2014-08-15</span>
-					</span>
-					<span class="worker pull-right">#admin&nbsp;&nbsp;</span>
-				</li>
+				{%- endfor%}
 			<ul>
 		</div><!--/row-fluid -->
 	</div><!--/content -->
@@ -90,6 +82,9 @@
 					$(this).parent().attr("class","label label-important pull-right")
 				}
 			});
+			$("span[id^='times']").each(function(i) {
+					$(this).text($(this).text().substring(0,10))
+			})
 		});
 	</script>
 </body>

@@ -20,6 +20,11 @@
 		.task li{width:100%;background:white;border:1px solid #e3e3e3;list-style:none;margin-left:-1px;margin-top:5px;}
 		.task li:hover{cursor:pointer;}
 		.task div{display:inline-block;margin:15px;}
+		.task1 a{color:#000;}
+		.task1{width:100%;margin:5px 0;height:390px;overflow-y:auto;overflow-x:hidden;font-family:"Microsoft YaHei";}
+		.task1 li{width:100%;background:white;border:1px solid #e3e3e3;list-style:none;margin-left:-1px;margin-top:5px;text-decoration:line-through;}
+		.task1 li:hover{cursor:pointer;}
+		.task div{display:inline-block;margin:15px;}
 		.list-style{height:75px;width:10px;background:#d9d9d9;display:inline-block;}
 		.label{font-weight:normal;margin:10px 5px 0 28px;text-shadow:none}
 		.finish{color:gray;text-decoration:line-through;}		
@@ -33,77 +38,80 @@
 			<i class="icon-home"></i><a href="#">项目管理</a>/<a href="#">个人项目</a>/<a href="#">XMCI</a>
 		</div>		
 		<div class="back">
-			<input type="button" value="返回" class="btn btn-info" onclick="iframe('xmgl/xmxx')"/>
+			<input type="button" value="返回" class="btn btn-info" onclick="iframe('xmgl/xmxx/{{task_id}}')"/>
 		</div>
 		<i class="icon-bookmark"></i><span class="titletip">任务板</span><br/>	
 		<div class="row-fluid">	
 			<div class="span4">				
 				<div class="well sidebar-nav" style="padding-top:10px;margin-bottom:0px;">
-					<span class="worktype">未完成 · 2</span>
+					<span class="worktype" id="count_1"></span>
 					<br/>
 					<ul class="task">
-						<li>
-							<div>
-								<input type="checkbox"/>&nbsp;
-								<a href="#" onclick="iframe('xmgl/edit_rw')">
-									数值转换金额大写（0.65报错）修改数值转换金额大写（0.65报错）修改
-								</a><br/>
-								<span style="marin-top:0;">
-									<i class="icon-calendar icon-white"></i>
-									<span class="date">2014-09-13</span>
-								</span>
-							</div>
-						</li>
-						<li>
-							<div>
-								<input type="checkbox"/>&nbsp;
-								<a href="#" onclick="iframe('xmgl/edit_rw')">
-									数值转换金额大写（0.65报错）修改
-								</a><br/>
-								<span style="marin-top:0;">
-									<i class="icon-calendar icon-white"></i>
-									<span class="date">2014-09-13</span>
-								</span>
-							</div>
-						</li>
+						{%- for obj in task_board%}
+							{%- if obj.static=='1'%}
+								<li>
+									<div>
+										<input type="checkbox" onclick="setAjax({{obj.id}})"/>&nbsp;
+										<a href="#">
+											{{obj.task_content}}
+										</a><br/>
+										<span style="marin-top:0;">
+											<i class="icon-calendar icon-white"></i>
+											<span class="date" id="date_1">{{obj.finish_time}}</span>
+										</span>
+										
+									</div>
+								</li>
+							{%- endif%}
+						{%- endfor%}
 					</ul>
 				</div><!--/.well -->						
 			</div><!--/span-->
 			<div class="span4">				
 				<div class="well sidebar-nav" style="padding-top:10px;margin-bottom:0px;">				
-					<span class="worktype">进行中 · 1</span><br/>
+					<span class="worktype" id="count_2"></span><br/>
 					<ul class="task">
-						<li>
-							<div>
-								<input type="checkbox"/>&nbsp;
-								<a href="#" onclick="iframe('xmgl/edit_rw')">
-									数值转换金额大写（0.65报错）修改
-								</a><br/>
-								<span style="marin-top:0;">
-									<i class="icon-calendar icon-white"></i>
-									<span class="date">2014-08-15</span>
-								</span>
-							</div>
-						</li>
+						{%- for obj in task_board%}
+							{%- if obj.static=='2'%}
+								<li>
+									<div>
+										<input type="checkbox" onclick="setAjax({{obj.id}})"/>&nbsp;
+										<a href="#">
+											{{obj.task_content}}
+										</a><br/>
+										<span style="marin-top:0;">
+											<i class="icon-calendar icon-white"></i>
+											<span class="date" id="date_2">{{obj.finish_time}}</span>
+										</span>
+										
+									</div>
+								</li>
+							{%- endif%}
+						{%- endfor%}
 					</ul>
 				</div><!--/.well -->						
 			</div><!--/span-->
 			<div class="span4">				
 				<div class="well sidebar-nav" style="padding-top:10px;margin-bottom:0px;">				
-					<span class="worktype">已完成 · 1</span><br/>
-					<ul class="task">
-						<li>
-							<div>
-								<input type="checkbox" checked/>&nbsp;
-								<a href="#" onclick="iframe('xmgl/edit_rw')">
-									<span class="finish">数值转换金额大写（0.65报错）修改数值转换金额大写</span>
-								</a><br/>
-								<span class="label">
-									<i class="icon-calendar icon-white"></i>&nbsp;
-									2014-05-08
-								</span>
-							</div>
-						</li>
+					<span class="worktype" id="count_3"></span><br/>
+					<ul class="task1">
+						{%- for obj in task_board%}
+							{%- if obj.static=='3'%}
+								<li>
+									<div>
+										<input type="checkbox" onclick="setAjax({{obj.id}})"/>&nbsp;
+										<a href="#">
+											{{obj.task_content}}
+										</a><br/>
+										<span style="marin-top:0;">
+											<i class="icon-calendar icon-white"></i>
+											<span class="date" id="date_3">{{obj.finish_time}}</span>
+										</span>
+										
+									</div>
+								</li>
+							{%- endif%}
+						{%- endfor%}
 					</ul>
 				</div><!--/.well -->						
 			</div><!--/span-->
@@ -149,7 +157,36 @@
 					$(this).parent().attr("class","label label-important")
 				}
 			});
+			count_1 = $('[id=date_1]').length
+			count_2 = $('[id=date_2]').length
+			count_3 = $('[id=date_3]').length
+			$('#count_1').text("未完成 · "+count_1);
+			$('#count_2').text("进行中 · "+count_2);
+			$('#count_3').text("已完成 · "+count_3);
+			// 生成年月日格式
+			$("span[id^='date_1']").each(function(i) {
+				$(this).text($(this).text().substring(0,10));
+			})
+			$("span[id^='date_2']").each(function(i) {
+				$(this).text($(this).text().substring(0,10));
+			})
+			$("span[id^='date_3']").each(function(i) {
+				$(this).text($(this).text().substring(0,10));
+			})
 		});
+	function setAjax(id){
+		$.ajax({
+				url:"/xmgl/rwbStatic/"+id,
+				type: "GET",
+				async : false,
+				success : function(resp, options) {
+					var oDoc = window.parent.document;
+		            var oAnotherFrame = oDoc.getElementById("content_frame");
+					oAnotherFrame.contentDocument.location.reload(true);
+				}
+				})
+
+	}
 	</script>	
 </body>
 </html>

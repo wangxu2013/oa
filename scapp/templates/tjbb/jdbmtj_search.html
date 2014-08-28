@@ -14,8 +14,8 @@
 		
 </head>
 
-<body onload="datepicker()">	
-	<form class="content" action="/tjbb/jdbmtj">
+<body>	
+	<form class="content" action="/tjbb/jdbmtj" method="POST">
 		<div class="well place">
 			<i class="icon-home"></i><a href="#">统计报表</a>/<a href="#">部门费用开支(季)</a>
 		</div>	
@@ -27,18 +27,25 @@
 						<tr>
 							<td class="table-label">统计部门</td>
 							<td>
-								<select name="">
-									<option>技术部</option>
-									<option>销售部</option>
+								<select name="org">
+									{%- for obj in data%}
+										<option value="{{obj.id}}">{{obj.name}}</option>
+									{%- endfor%}
+								</select>
+							</td>
+							<td class="table-label">统计年份</td>
+							<td>
+								<select name="year" id='year'>
+
 								</select>
 							</td>
 							<td class="table-label">统计季度</td>
 							<td>
-								<select name="">
-									<option>第一季度</option>
-									<option>第二季度</option>
-									<option>第三季度</option>
-									<option>第四季度</option>
+								<select name="quarter">
+									<option value='1'>第一季度</option>
+									<option value='2'>第二季度</option>
+									<option value='3'>第三季度</option>
+									<option value='4'>第四季度</option>
 								</select>
 							</td>
 						</tr>
@@ -54,18 +61,14 @@
 	<script src="../../static/js/script.js"></script>
 	<script src="../../static/js/bootstrap-datepicker.js"></script>
 	<script type="text/javascript"/>
-		function datepicker(){
-			$('.datepicker').datepicker();
-			//给空的datepicker一个默认当天值
-			$('.datepicker').each(function(){
-				if(this.value==""){
-					var date=new Date();
-					var nian=date.getFullYear();
-					var month=creattime(date.getMonth()+1);
-					this.value=nian+"-"+month;
-				}
-			});
-		}
+		$(document).ready(function(){
+			d = new Date();
+			nowYear = d.getFullYear();
+			$("#year").html("");
+			for(i=nowYear;i>=nowYear-10;i--){
+				$("#year").html($("#year").html()+"<option value='"+i+"'>"+i+"</option>")
+			}			
+		});
 	</script>
 </body>
 </html>

@@ -15,7 +15,7 @@
 </head>
 
 <body>	
-	<form class="content" action="/tjbb/ndfytj">
+	<form class="content" action="/tjbb/ndfytj" method="POST">
 		<div class="well place">
 			<i class="icon-home"></i><a href="#">统计报表</a>/<a href="#">年度费用统计</a>
 		</div>	
@@ -27,16 +27,16 @@
 						<tr>
 							<td class="table-label">公司名称</td>
 							<td>
-								<select name="">
-									<option>乾康信息技术</option>
-									<option>乾康金融</option>
-									<option>云金天下</option>
+								<select name="org">
+									<option value="3">乾康信息技术</option>
+									<option value="2">乾康金融</option>
+									<option value="5">云金天下</option>
 								</select>
 							</td>
 							<td class="table-label">统计年份</td>
 							<td>
-								<select name="">
-									<option>2014</option>
+								<select name="time" id='year'>
+
 								</select>
 							</td>
 						</tr>
@@ -51,5 +51,16 @@
 	<script src="../../static/js/bootstrap.min.js"></script>
 	<script src="../../static/js/script.js"></script>
 	<script src="../../static/js/bootstrap-datepicker.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			d = new Date();
+			nowYear = d.getFullYear();
+			$("#year").html("");
+			for(i=nowYear;i>=nowYear-10;i--){
+				$("#year").html($("#year").html()+"<option value='"+i+"'>"+i+"</option>")
+			}			
+		});
+	</script>
+
 </body>
 </html>

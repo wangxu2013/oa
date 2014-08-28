@@ -89,7 +89,16 @@
 				<div id="content">
 					<div class="well place">			
 						<i class="icon-home"></i><a href="#">首页</a>
-					</div>		
+					</div>
+					{%- with messages = get_flashed_messages(with_categories=true) %}
+					  	{%- if messages %}
+				    	{%- for category, message in messages %}
+				    	<div class="alert alert-{{category}}">
+				      		{{message}}
+				      	</div>
+				    	{%- endfor %}
+					  	{%- endif %}
+					{%- endwith %}		
 					<div class="row-fluid">
 						<div class="span12">
 						{%- for obj in privileges %}
