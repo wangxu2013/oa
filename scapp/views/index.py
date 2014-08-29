@@ -338,7 +338,7 @@ def new_rw_over(task_id):
         task_content = request.form['task_content']
         task_user = request.form['task_user']
         finish_time = request.form['finish_time']
-        OA_Task_Board(task_user,task_id,task_content,finish_time,"1",null).add()
+        OA_Task_Board(task_user,task_id,task_content,finish_time,"1",datetime.datetime.now()).add()
         # 事务提交
         db.session.commit()
         # flash('新增成功！','success')
