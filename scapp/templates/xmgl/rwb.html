@@ -20,11 +20,11 @@
 		.task li{width:100%;background:white;border:1px solid #e3e3e3;list-style:none;margin-left:-1px;margin-top:5px;}
 		.task li:hover{cursor:pointer;}
 		.task div{display:inline-block;margin:15px;}
-		.task1 a{color:#000;}
+		.task1 a{color:#000;text-decoration:line-through;}
 		.task1{width:100%;margin:5px 0;height:390px;overflow-y:auto;overflow-x:hidden;font-family:"Microsoft YaHei";}
 		.task1 li{width:100%;background:white;border:1px solid #e3e3e3;list-style:none;margin-left:-1px;margin-top:5px;text-decoration:line-through;}
 		.task1 li:hover{cursor:pointer;}
-		.task div{display:inline-block;margin:15px;}
+		.task1 div{display:inline-block;margin:15px;}
 		.list-style{height:75px;width:10px;background:#d9d9d9;display:inline-block;}
 		.label{font-weight:normal;margin:10px 5px 0 28px;text-shadow:none}
 		.finish{color:gray;text-decoration:line-through;}		
@@ -99,13 +99,13 @@
 							{%- if obj.static=='3'%}
 								<li>
 									<div>
-										<input type="checkbox" onclick="setAjax({{obj.id}})"/>&nbsp;
+										<input type="checkbox" onclick="setAjax({{obj.id}})" checked/>&nbsp;
 										<a href="#">
 											{{obj.task_content}}
 										</a><br/>
-										<span style="marin-top:0;">
+										<span style="marin-top:0;" class="label">
 											<i class="icon-calendar icon-white"></i>
-											<span class="date" id="date_3">{{obj.finish_time}}</span>
+											<span id="date_3">{{obj.end_time}}</span>
 										</span>
 										
 									</div>

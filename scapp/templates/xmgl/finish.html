@@ -34,10 +34,11 @@
 				{%- for obj in data%}
 				<li>
 					{{obj.task_content}}
-					<span tyle="marin-top:0;">
+					<span tyle="marin-top:0;" class="label pull-right">
 						<i class="icon-calendar icon-white"></i>
-						<span class="date" id="times">{{obj.finish_time}}</span>
+						<span id="times">{{obj.finish_time}}</span>
 					</span>
+
 					<span class="worker pull-right">#{{obj.oa_task_board_ibfk_2.real_name}}&nbsp;&nbsp;</span>
 				</li>
 				{%- endfor%}

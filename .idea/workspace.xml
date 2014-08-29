@@ -2,48 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c51b83a3-857b-44d9-8b28-2d0b817afdfe" name="Default" comment="[mod]修正费用增加BUG">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/scapp/static/ofc2/open-flash-chart-SimplifiedChinese.swf" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/scapp/static/img/star.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/scapp/templates/bxsq/fysp/email_bxsq.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/scapp/tools/flash_pic.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/scapp/models/system_usage/oa_email_url.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/scapp/models/reimbursement/oa_task_board.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/scapp/models/reimbursement/oa_task_main.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/scapp/models/reimbursement/oa_task_user.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/scapp/tools/openFlashChart.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/scapp/tools/openFlashChart_elements.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/scapp/tools/openFlashChart_varieties.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scapp/models/__init__.py" afterPath="$PROJECT_DIR$/scapp/models/__init__.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scapp/templates/xmgl/add_zy.html" afterPath="$PROJECT_DIR$/scapp/templates/xmgl/add_zy.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scapp/config.py" afterPath="$PROJECT_DIR$/scapp/config.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scapp/templates/System/user/edit_user.html" afterPath="$PROJECT_DIR$/scapp/templates/System/user/edit_user.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scapp/templates/xmgl/edit_xm.html" afterPath="$PROJECT_DIR$/scapp/templates/xmgl/edit_xm.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scapp/templates/xmgl/finish.html" afterPath="$PROJECT_DIR$/scapp/templates/xmgl/finish.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scapp/views/reimbursement/fysp.py" afterPath="$PROJECT_DIR$/scapp/views/reimbursement/fysp.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scapp/templates/xmgl/grxm.html" afterPath="$PROJECT_DIR$/scapp/templates/xmgl/grxm.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scapp/templates/index.html" afterPath="$PROJECT_DIR$/scapp/templates/index.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scapp/views/index.py" afterPath="$PROJECT_DIR$/scapp/views/index.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scapp/templates/tjbb/jdbmtj.html" afterPath="$PROJECT_DIR$/scapp/templates/tjbb/jdbmtj.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scapp/templates/tjbb/jdbmtj_search.html" afterPath="$PROJECT_DIR$/scapp/templates/tjbb/jdbmtj_search.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scapp/templates/tjbb/jdgstj.html" afterPath="$PROJECT_DIR$/scapp/templates/tjbb/jdgstj.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scapp/templates/tjbb/jdgstj_search.html" afterPath="$PROJECT_DIR$/scapp/templates/tjbb/jdgstj_search.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scapp/templates/tjbb/ndfytj.html" afterPath="$PROJECT_DIR$/scapp/templates/tjbb/ndfytj.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scapp/templates/tjbb/ndfytj_search.html" afterPath="$PROJECT_DIR$/scapp/templates/tjbb/ndfytj_search.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scapp/templates/xmgl/new_rw.html" afterPath="$PROJECT_DIR$/scapp/templates/xmgl/new_rw.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scapp/templates/System/user/new_user.html" afterPath="$PROJECT_DIR$/scapp/templates/System/user/new_user.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scapp/templates/xmgl/new_xm.html" afterPath="$PROJECT_DIR$/scapp/templates/xmgl/new_xm.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scapp/models/system_usage/oa_user.py" afterPath="$PROJECT_DIR$/scapp/models/system_usage/oa_user.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scapp/views/system/oa_user.py" afterPath="$PROJECT_DIR$/scapp/views/system/oa_user.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scapp/models/reimbursement/oa_task_board.py" afterPath="$PROJECT_DIR$/scapp/models/reimbursement/oa_task_board.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scapp/templates/xmgl/rwb.html" afterPath="$PROJECT_DIR$/scapp/templates/xmgl/rwb.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scapp/templates/xmgl/today.html" afterPath="$PROJECT_DIR$/scapp/templates/xmgl/today.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scapp/templates/xmgl/unfinish.html" afterPath="$PROJECT_DIR$/scapp/templates/xmgl/unfinish.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scapp/templates/welcome.html" afterPath="$PROJECT_DIR$/scapp/templates/welcome.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scapp/templates/xmgl/xmxx.html" afterPath="$PROJECT_DIR$/scapp/templates/xmgl/xmxx.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scapp/views/reimbursement/xzfy.py" afterPath="$PROJECT_DIR$/scapp/views/reimbursement/xzfy.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scapp/templates/tjbb/ydbmtj.html" afterPath="$PROJECT_DIR$/scapp/templates/tjbb/ydbmtj.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scapp/templates/tjbb/ydbmtj_search.html" afterPath="$PROJECT_DIR$/scapp/templates/tjbb/ydbmtj_search.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scapp/templates/tjbb/ydgstj.html" afterPath="$PROJECT_DIR$/scapp/templates/tjbb/ydgstj.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scapp/templates/tjbb/ydgstj_search.html" afterPath="$PROJECT_DIR$/scapp/templates/tjbb/ydgstj_search.html" />
     </list>
     <ignored path="oa.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -72,30 +37,26 @@
       <file leaf-file-name="helpers.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/scapp/helpers.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="22" column="25" selection-start="810" selection-end="810" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="585">
+            <state line="22" column="25" selection-start="810" selection-end="810" vertical-scroll-proportion="0.0" vertical-offset="330" max-vertical-offset="645">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="index.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/scapp/templates/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="154" column="0" selection-start="5958" selection-end="5958" vertical-scroll-proportion="3.75" vertical-offset="2400" max-vertical-offset="6375">
+            <state line="328" column="48" selection-start="12201" selection-end="12201" vertical-scroll-proportion="0.091836736" vertical-offset="4875" max-vertical-offset="6435">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="xmxx.html" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="xmxx.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/scapp/templates/xmgl/xmxx.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="103" column="0" selection-start="4438" selection-end="4438" vertical-scroll-proportion="-2.4733605" vertical-offset="2752" max-vertical-offset="3240">
-              <folding>
-                <element signature="n#style#0;n#span#1;n#blockquote#0;n#div#0;n#div#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#input#1;n#form#0;n#div#5;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#6;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-              </folding>
+            <state line="199" column="4" selection-start="7452" selection-end="7452" vertical-scroll-proportion="-11.291667" vertical-offset="2714" max-vertical-offset="3240">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -140,8 +101,8 @@
         <option value="$PROJECT_DIR$/scapp/reimbursement/model.py" />
         <option value="$PROJECT_DIR$/scapp/reimbursement/form.py" />
         <option value="$PROJECT_DIR$/scapp/helpers.py" />
-        <option value="$PROJECT_DIR$/scapp/templates/index.html" />
         <option value="$PROJECT_DIR$/scapp/templates/xmgl/xmxx.html" />
+        <option value="$PROJECT_DIR$/scapp/templates/index.html" />
       </list>
     </option>
   </component>
@@ -176,6 +137,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -250,18 +212,17 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="recentsLimit" value="5" />
     <property name="options.lastSelected" value="com.jetbrains.python.templateLanguages.TemplateLanguageModulesConfigurable" />
-    <property name="restartRequiresConfirmation" value="true" />
+    <property name="recentsLimit" value="5" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../xhsc_git" />
-    <property name="options.searchVisible" value="true" />
+    <property name="restartRequiresConfirmation" value="true" />
     <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
   </component>
   <component name="PyConsoleOptionsProvider">
     <option name="myPythonConsoleState">
@@ -353,9 +314,6 @@
       <option name="PARAMETERS" value="" />
       <method />
     </configuration>
-    <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug" singleton="true">
-      <method />
-    </configuration>
     <configuration default="true" type="tests" factoryName="Unittests">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -377,6 +335,9 @@
       <option name="PUREUNITTEST" value="true" />
       <option name="PARAMS" value="" />
       <option name="USE_PARAM" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug" singleton="true">
       <method />
     </configuration>
     <configuration default="true" type="tests" factoryName="Doctests">
@@ -587,7 +548,7 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32911393" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3871212" sideWeight="0.85225224" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.39318183" sideWeight="0.85225224" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -636,6 +597,27 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/scapp/helpers.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="22" column="25" selection-start="810" selection-end="810" vertical-scroll-proportion="0.0" vertical-offset="330" max-vertical-offset="645">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scapp/templates/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="154" column="0" selection-start="5958" selection-end="5958" vertical-scroll-proportion="0.0" vertical-offset="2400" max-vertical-offset="6375">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scapp/templates/xmgl/xmxx.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="103" column="0" selection-start="4438" selection-end="4438" vertical-scroll-proportion="0.0" vertical-offset="2752" max-vertical-offset="3240">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/scapp/templates/bxsq/fksh.html">
       <provider selected="true" editor-type-id="text-editor">
         <state line="32" column="94" selection-start="1484" selection-end="1484" vertical-scroll-proportion="0.0" vertical-offset="450" max-vertical-offset="3750" />
@@ -668,21 +650,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/scapp/templates/index.html">
+    <entry file="file://$PROJECT_DIR$/scapp/templates/xmgl/xmxx.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="154" column="0" selection-start="5958" selection-end="5958" vertical-scroll-proportion="3.75" vertical-offset="2400" max-vertical-offset="6375">
+        <state line="199" column="4" selection-start="7452" selection-end="7452" vertical-scroll-proportion="-11.291667" vertical-offset="2714" max-vertical-offset="3240">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/scapp/templates/xmgl/xmxx.html">
+    <entry file="file://$PROJECT_DIR$/scapp/templates/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="103" column="0" selection-start="4438" selection-end="4438" vertical-scroll-proportion="-2.4733605" vertical-offset="2752" max-vertical-offset="3240">
-          <folding>
-            <element signature="n#style#0;n#span#1;n#blockquote#0;n#div#0;n#div#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#input#1;n#form#0;n#div#5;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#6;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
+        <state line="328" column="48" selection-start="12201" selection-end="12201" vertical-scroll-proportion="0.091836736" vertical-offset="4875" max-vertical-offset="6435">
+          <folding />
         </state>
       </provider>
     </entry>
