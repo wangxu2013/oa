@@ -118,25 +118,33 @@
 								</div>
 							</a>
 							{%- endif %}
-						{%- endfor %}
-							<a href="Wdgl">
-								<div class="divNav">
-									<img src="/static/img/2_hover.png"/><br/>
-									文档管理
-								</div>
-							</a>
-							<a href="Xmgl">
-								<div class="divNav">
-									<img src="/static/img/3_hover.png"/><br/>
-									项目管理
-								</div>
-							</a>
+							{%- if obj.privilege_access_value == "Tjbb" and obj.privilege_operation != "0" %}
 							<a href="Tjbb">
 								<div class="divNav">
 									<img src="/static/img/4_hover.png"/><br/>
 									统计报表
 								</div>
 							</a>
+							{%- endif %}
+							{%- if obj.privilege_access_value == "Wdgl" and obj.privilege_operation != "0" %}
+							<a href="Wdgl">
+								<div class="divNav">
+									<img src="/static/img/2_hover.png"/><br/>
+									文档管理
+								</div>
+							</a>
+							{%- endif %}
+							{%- if obj.privilege_access_value == "xmgl" and obj.privilege_operation != "0" %}
+							<a href="xmgl">
+								<div class="divNav">
+									<img src="/static/img/3_hover.png"/><br/>
+									项目管理
+								</div>
+							</a>
+							{%- endif %}
+						{%- endfor %}
+							
+							
 						</div>
 						<i class="icon-bookmark"></i><span class="titletip">待办事项</span>
 						<div class="divBorder">

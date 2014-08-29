@@ -151,8 +151,22 @@
 						{%- endif %}
 						width="33" height="33"></a>
 				</li>
-				{%- endif %}					
-							
+				{%- endif %}
+				{%- if obj.privilege_access_value == "xmgl" and obj.privilege_operation != "0" %}		
+				<li title="项目管理"
+						{%- if menu == "xmgl"%}
+							class="active"
+						{%- endif %}
+						onclick="iframe('xmgl')">
+					<a href="javascript:void(0);"><img alt="项目管理" title="项目管理" 
+						{%- if menu == "xmgl"%}
+							src="/static/img/3_hover.png"
+						{%- else -%}
+							src="/static/img/3.png"
+						{%- endif %}
+					 width="33" height="33"></a>
+				</li>	
+				{%- endif %}
 				{%- if obj.privilege_access_value == "Tjbb" and obj.privilege_operation != "0" %}
 				<li title="统计报表"
 						{%- if menu == "Tjbb"%}
@@ -168,23 +182,12 @@
 					 width="33" height="33"></a>
 				</li>
 				{%- endif %}
+				
 				{%- endfor %}
 				<!-- <li title="文档管理" onclick="switchTab(this,4)">
 					<img alt="文档管理" title="统计报表" src="/static/img/4.png" width="33" height="33">
-				</li> -->
-				<li title="项目管理"
-						{%- if menu == "Xmgl"%}
-							class="active"
-						{%- endif %}
-						onclick="iframe('Xmgl')">
-					<a href="javascript:void(0);"><img alt="项目管理" title="项目管理" 
-						{%- if menu == "Xmgl"%}
-							src="/static/img/3_hover.png"
-						{%- else -%}
-							src="/static/img/3.png"
-						{%- endif %}
-					 width="33" height="33"></a>
-				</li>	
+				</li> -->	
+		
 			</ul>
 			<div style="position:absolute; bottom:0px; padding:10px;">
 				<a href="javascript:0;" onclick="showORhide()">
@@ -320,7 +323,7 @@
 					{%- endfor %}
 					</ul>
 					<ul class="nav nav-list "
-						{%- if menu != "Xmgl" %}
+						{%- if menu != "xmgl" %}
 							hidden
 						{%- endif %}
 						 id="">
@@ -385,7 +388,7 @@
 					src="wdgl/wdgl"
 				{%- elif menu == "xtgl" %}
 					src="System/reason/1"						
-				{%- elif menu == "Xmgl" %}
+				{%- elif menu == "xmgl" %}
 					src="xmgl/grxm"
 				{%- elif menu == "Tjbb" %}
 					src="tjbb/ndfytj_search"

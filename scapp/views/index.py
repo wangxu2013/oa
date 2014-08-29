@@ -100,12 +100,12 @@ def Wdgl():
     return render_template("index.html",menu = 'Wdgl',role=role,privileges=privileges)
 	
 # 统计报表
-@app.route('/Xmgl', methods=['GET'])
+@app.route('/xmgl', methods=['GET'])
 @login_required
 def Xmgl():
     role = OA_UserRole.query.filter_by(user_id=current_user.id).first().oa_userrole_ibfk_2
     privileges = OA_Privilege.query.filter_by(privilege_master="OA_Role",privilege_master_id=role.id,privilege_access="OA_Menu").all()
-    return render_template("index.html",menu = 'Xmgl',role=role,privileges=privileges)
+    return render_template("index.html",menu = 'xmgl',role=role,privileges=privileges)
 	
 # 统计报表
 @app.route('/Tjbb', methods=['GET'])
@@ -314,6 +314,8 @@ def rwbStatic(id):
         data = OA_Task_Board.query.filter_by(id=id).first()
         if str(data.static) is not '3':
             data.static = int(data.static)+1
+            if str(data.static)=='3':
+                data.end_time=datetime.datetime.now()
         else:
             data.static = "2"
         db.session.commit()
@@ -336,7 +338,7 @@ def new_rw_over(task_id):
         task_content = request.form['task_content']
         task_user = request.form['task_user']
         finish_time = request.form['finish_time']
-        OA_Task_Board(task_user,task_id,task_content,finish_time,"1").add()
+        OA_Task_Board(task_user,task_id,task_content,finish_time,"1",null).add()
         # 事务提交
         db.session.commit()
         # flash('新增成功！','success')
