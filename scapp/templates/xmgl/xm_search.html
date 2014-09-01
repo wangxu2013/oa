@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>	
+	<meta charset="utf-8">
+	<title>OA管理系统</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="Charisma, a fully featured, responsive, HTML5, Bootstrap admin template.">
+	<meta name="author" content="Muhammad Usman">
+
+	<!-- The styles -->
+	<link href="../../static/css/bootstrap.css" rel="stylesheet">
+	<link href="../../static/css/main.css" rel="stylesheet">
+	<link href="../../static/css/datepicker.css" rel="stylesheet">
+		
+</head>
+
+<body onload="datepicker();">	
+	<div class="content">
+		<div class="row-fluid">
+			<i class="icon-bookmark"></i><span class="titletip">项目搜索</span>
+			<form>
+				<div style="border:1px solid #94c1dc;">
+					<table class="table-list">
+						<tr>							
+							<td class="table-label">所属部门</td>
+							<td>
+								<select name="">
+									<option>财务部</option>
+								</select>
+							</td>
+						</tr>
+						<tr>	
+							<td class="table-label">项目名称</td>
+							<td><input type="text" name=""/></td>
+						</tr>	
+						<tr>	
+							<td class="table-label">项目创建人</td>
+							<td><input type="text" name=""/></td>
+						</tr>							
+					</table>
+				</div>
+				<input type="button" class="btn btn-info" value="搜索"/>									
+			</form><!--/搜索-->
+		</div><!--/row-fluid -->
+	</div><!--/content -->
+	
+	<script src="../../static/js/jquery-1.7.2.min.js"></script>
+	<script src="../../static/js/bootstrap.min.js"></script>
+	<script src="../../static/js/script.js"></script>
+	<script src="../../static/js/bootstrap-datepicker.js"></script>
+</body>
+</html>
