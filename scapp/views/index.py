@@ -401,7 +401,19 @@ def finish(task_id):
 def today(task_id):
     date = datetime.datetime.now().date().strftime("%Y-%m-%d")
     data = OA_Task_Board.query.filter("static!=3 and task_id="+str(task_id)+" and substring(finish_time,1,10)='"+date+"'").all()
-    return render_template("xmgl/today.html",data=data,task_id=task_id)
+    return render_template("xmgl/today.html",data=data,task_id=task_id)	
+			
+# 项目管理-管理项目
+@app.route('/xmgl/glxm', methods=['GET','POST'])
+def glxm():
+    data = OA_Task_User.query.filter_by(user_id=current_user.id).order_by("id desc").all()
+    return render_template("xmgl/glxm.html",data=data,user_id=current_user.id)	
+			
+# 项目管理-项目搜索
+@app.route('/xmgl/xm_search', methods=['GET','POST'])
+def xm_search():
+    data = OA_Task_User.query.filter_by(user_id=current_user.id).order_by("id desc").all()
+    return render_template("xmgl/xm_search.html",data=data,user_id=current_user.id)	
 	
 	
 # 统计报表-年度费用统计搜索

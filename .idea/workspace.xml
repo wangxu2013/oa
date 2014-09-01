@@ -1,0 +1,669 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="c51b83a3-857b-44d9-8b28-2d0b817afdfe" name="Default" comment="[mod]修正费用增加BUG">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scapp/templates/xmgl/finish.html" afterPath="$PROJECT_DIR$/scapp/templates/xmgl/finish.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scapp/templates/index.html" afterPath="$PROJECT_DIR$/scapp/templates/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scapp/views/index.py" afterPath="$PROJECT_DIR$/scapp/views/index.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scapp/models/reimbursement/oa_task_board.py" afterPath="$PROJECT_DIR$/scapp/models/reimbursement/oa_task_board.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scapp/templates/xmgl/rwb.html" afterPath="$PROJECT_DIR$/scapp/templates/xmgl/rwb.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scapp/templates/welcome.html" afterPath="$PROJECT_DIR$/scapp/templates/welcome.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scapp/templates/xmgl/xmxx.html" afterPath="$PROJECT_DIR$/scapp/templates/xmgl/xmxx.html" />
+    </list>
+    <ignored path="oa.iws" />
+    <ignored path=".idea/workspace.xml" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
+  <component name="CoverageDataManager">
+    <SUITE FILE_PATH="coverage/oa$oa.coverage" NAME="oa Coverage Results" MODIFIED="1400125214758" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+  </component>
+  <component name="CreatePatchCommitExecutor">
+    <option name="PATCH_PATH" value="" />
+  </component>
+  <component name="DaemonCodeAnalyzer">
+    <disable_hints />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
+  <component name="FavoritesManager">
+    <favorites_list name="oa" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf>
+      <file leaf-file-name="helpers.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/scapp/helpers.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="22" column="25" selection-start="810" selection-end="810" vertical-scroll-proportion="0.0" vertical-offset="330" max-vertical-offset="645">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.html" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/scapp/templates/index.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="328" column="48" selection-start="12201" selection-end="12201" vertical-scroll-proportion="0.091836736" vertical-offset="4875" max-vertical-offset="6435">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="xmxx.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/scapp/templates/xmgl/xmxx.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="199" column="4" selection-start="7452" selection-end="7452" vertical-scroll-proportion="-11.291667" vertical-offset="2714" max-vertical-offset="3240">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FindManager">
+    <FindUsagesManager>
+      <setting name="OPEN_NEW_TAB" value="false" />
+    </FindUsagesManager>
+  </component>
+  <component name="Git.Push.Settings">
+    <option name="myUpdateMethod" value="REBASE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
+  </component>
+  <component name="GitLogSettings">
+    <option name="myDateState">
+      <MyDateState />
+    </option>
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="changedFiles">
+      <list>
+        <option value="$PROJECT_DIR$/scapp/templates/bxsq/fytj.html" />
+        <option value="$PROJECT_DIR$/scapp/templates/bxsq/new_bxsq.html" />
+        <option value="$PROJECT_DIR$/scapp/templates/bxsq/bxsq_list.html" />
+        <option value="$PROJECT_DIR$/scapp/config.py" />
+        <option value="$PROJECT_DIR$/scapp/views/reimbursement/oa_reimbursement.py" />
+        <option value="$PROJECT_DIR$/scapp/helper.py" />
+        <option value="$PROJECT_DIR$/scapp/middleware.py" />
+        <option value="$PROJECT_DIR$/scapp/core.py" />
+        <option value="$PROJECT_DIR$/scapp/factory.py" />
+        <option value="$PROJECT_DIR$/scapp/models.py" />
+        <option value="$PROJECT_DIR$/scapp/model/reimbursement/oa_reimbursement.py" />
+        <option value="$PROJECT_DIR$/scapp/reimbursement/model.py" />
+        <option value="$PROJECT_DIR$/scapp/reimbursement/form.py" />
+        <option value="$PROJECT_DIR$/scapp/helpers.py" />
+        <option value="$PROJECT_DIR$/scapp/templates/xmgl/xmxx.html" />
+        <option value="$PROJECT_DIR$/scapp/templates/index.html" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="y" value="22" />
+    <option name="width" value="1366" />
+    <option name="height" value="673" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
+    <OptionsSetting value="true" id="Add" />
+    <OptionsSetting value="true" id="Remove" />
+    <OptionsSetting value="true" id="Checkout" />
+    <OptionsSetting value="true" id="Update" />
+    <OptionsSetting value="true" id="Status" />
+    <OptionsSetting value="true" id="Edit" />
+    <ConfirmationsSetting value="2" id="Add" />
+    <ConfirmationsSetting value="0" id="Remove" />
+  </component>
+  <component name="ProjectReloadState">
+    <option name="STATE" value="0" />
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1" splitterProportion="0.5">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource />
+      <sortByType />
+    </navigator>
+    <panes>
+      <pane id="Scope" />
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="oa" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="oa" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="oa" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="oa" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="oa" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="scapp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="oa" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="oa" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="scapp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="templates" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="oa" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="oa" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="scapp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="templates" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="xmgl" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="options.splitter.main.proportions" value="0.3" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="options.lastSelected" value="com.jetbrains.python.templateLanguages.TemplateLanguageModulesConfigurable" />
+    <property name="recentsLimit" value="5" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../xhsc_git" />
+    <property name="restartRequiresConfirmation" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
+  </component>
+  <component name="PyConsoleOptionsProvider">
+    <option name="myPythonConsoleState">
+      <console-settings />
+    </option>
+  </component>
+  <component name="RunManager" selected="Python.oa">
+    <configuration default="true" type="DjangoTestsConfigurationType" factoryName="Django tests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="oa" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="TARGET" value="" />
+      <option name="SETTINGS_FILE" value="" />
+      <option name="CUSTOM_SETTINGS" value="false" />
+      <option name="USE_OPTIONS" value="false" />
+      <option name="OPTIONS" value="" />
+      <method />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="py.test">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="oa" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <option name="testToRun" value="" />
+      <option name="keywords" value="" />
+      <option name="params" value="" />
+      <option name="USE_PARAM" value="false" />
+      <option name="USE_KEYWORD" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Nosetests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="oa" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <option name="PARAMS" value="" />
+      <option name="USE_PARAM" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="PythonConfigurationType" factoryName="Python">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="oa" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="PARAMETERS" value="" />
+      <method />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Unittests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="oa" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <option name="PUREUNITTEST" value="true" />
+      <option name="PARAMS" value="" />
+      <option name="USE_PARAM" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug" singleton="true">
+      <method />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Doctests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="oa" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Attests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="oa" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="oa" type="PythonConfigurationType" factoryName="Python" singleton="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="$PROJECT_DIR$/../xhsc/bin/python" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="oa" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/run.py" />
+      <option name="PARAMETERS" value="runserver" />
+      <RunnerSettings RunnerId="PythonRunner" />
+      <ConfigurationWrapper RunnerId="PythonRunner" />
+      <method />
+    </configuration>
+    <list size="1">
+      <item index="0" class="java.lang.String" itemvalue="Python.oa" />
+    </list>
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false" />
+  <component name="SvnConfiguration" maxAnnotateRevisions="500" myUseAcceleration="nothing" myAutoUpdateAfterCommit="false" cleanupOnStartRun="false" SSL_PROTOCOLS="sslv3">
+    <option name="USER" value="" />
+    <option name="PASSWORD" value="" />
+    <option name="mySSHConnectionTimeout" value="30000" />
+    <option name="mySSHReadTimeout" value="30000" />
+    <option name="LAST_MERGED_REVISION" />
+    <option name="MERGE_DRY_RUN" value="false" />
+    <option name="MERGE_DIFF_USE_ANCESTRY" value="true" />
+    <option name="UPDATE_LOCK_ON_DEMAND" value="false" />
+    <option name="IGNORE_SPACES_IN_MERGE" value="false" />
+    <option name="CHECK_NESTED_FOR_QUICK_MERGE" value="false" />
+    <option name="IGNORE_SPACES_IN_ANNOTATE" value="true" />
+    <option name="SHOW_MERGE_SOURCES_IN_ANNOTATE" value="true" />
+    <option name="FORCE_UPDATE" value="false" />
+    <option name="IGNORE_EXTERNALS" value="false" />
+    <configuration useDefault="true">$USER_HOME$/.subversion</configuration>
+    <myIsUseDefaultProxy>false</myIsUseDefaultProxy>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="c51b83a3-857b-44d9-8b28-2d0b817afdfe" name="Default" comment="" />
+      <created>1389059959725</created>
+      <updated>1389059959725</updated>
+    </task>
+    <task id="LOCAL-00001" summary="[mod]mod project name">
+      <created>1389060596227</created>
+      <updated>1389060596227</updated>
+    </task>
+    <task id="LOCAL-00002" summary="[mod]mod project name">
+      <created>1389061248599</created>
+      <updated>1389061248599</updated>
+    </task>
+    <task id="LOCAL-00003" summary="[mod]modify query type">
+      <created>1389062858014</created>
+      <updated>1389062858014</updated>
+    </task>
+    <task id="LOCAL-00004" summary="[mod]modify query type">
+      <created>1389063431108</created>
+      <updated>1389063431108</updated>
+    </task>
+    <task id="LOCAL-00005" summary="[mod]modify query customer type">
+      <created>1389945409324</created>
+      <updated>1389945409324</updated>
+    </task>
+    <task id="LOCAL-00006" summary="[mod]modify company">
+      <created>1390465536941</created>
+      <updated>1390465536941</updated>
+    </task>
+    <task id="LOCAL-00007" summary="[mod]修正审批 增加公司选择">
+      <created>1390467805461</created>
+      <updated>1390467805461</updated>
+    </task>
+    <task id="LOCAL-00008" summary="[mod]修正公司码值，修正显示BUG">
+      <created>1390965193319</created>
+      <updated>1390965193319</updated>
+    </task>
+    <task id="LOCAL-00009" summary="[mod]修正审批看不到描述bug">
+      <created>1390965541744</created>
+      <updated>1390965541744</updated>
+    </task>
+    <task id="LOCAL-00010" summary="[mod]修正登陆后显示登录名并非真实姓名BUG">
+      <created>1391829588252</created>
+      <updated>1391829588252</updated>
+    </task>
+    <task id="LOCAL-00011" summary="[mod]新增费用统计">
+      <created>1392103879014</created>
+      <updated>1392103879014</updated>
+    </task>
+    <task id="LOCAL-00012" summary="[mod]增加费用统计">
+      <created>1392103955163</created>
+      <updated>1392103955163</updated>
+    </task>
+    <task id="LOCAL-00013" summary="[mod]增加费用统计">
+      <created>1392104036101</created>
+      <updated>1392104036101</updated>
+    </task>
+    <task id="LOCAL-00014" summary="[mod]修正费用统计跳转BUG">
+      <created>1392104693781</created>
+      <updated>1392104693781</updated>
+    </task>
+    <task id="LOCAL-00015" summary="[mod]修正费用统计BUG">
+      <created>1392105295129</created>
+      <updated>1392105295129</updated>
+    </task>
+    <task id="LOCAL-00016" summary="[mod]修正费用统计BUG">
+      <created>1392109646736</created>
+      <updated>1392109646736</updated>
+    </task>
+    <task id="LOCAL-00017" summary="[mod]修正费用增加BUG">
+      <created>1392195488507</created>
+      <updated>1392195488507</updated>
+    </task>
+    <task id="LOCAL-00018" summary="[mod]费用统计按付款情况排序">
+      <created>1392196189729</created>
+      <updated>1392196189729</updated>
+    </task>
+    <task id="LOCAL-00019" summary="[mod]统一费用所属单位">
+      <created>1392261287317</created>
+      <updated>1392261287317</updated>
+    </task>
+    <task id="LOCAL-00020" summary="[mod]新增专家费">
+      <created>1392343947109</created>
+      <updated>1392343947109</updated>
+    </task>
+    <task id="LOCAL-00021" summary="[mod]修正不能编辑BUG">
+      <created>1392791100865</created>
+      <updated>1392791100866</updated>
+    </task>
+    <task id="LOCAL-00022" summary="[mod]修正财务总监提交费用时init_level为6财务无法看到BUG">
+      <created>1394009810851</created>
+      <updated>1394009810851</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
+    <servers />
+  </component>
+  <component name="TodoView" selected-index="3">
+    <todo-panel id="selected-file">
+      <are-packages-shown value="false" />
+      <are-modules-shown value="false" />
+      <flatten-packages value="false" />
+      <is-autoscroll-to-source value="false" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="false" />
+      <are-modules-shown value="false" />
+      <flatten-packages value="false" />
+      <is-autoscroll-to-source value="false" />
+    </todo-panel>
+    <todo-panel id="default-changelist">
+      <are-packages-shown value="false" />
+      <are-modules-shown value="false" />
+      <flatten-packages value="false" />
+      <is-autoscroll-to-source value="false" />
+    </todo-panel>
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="0" y="22" width="1366" height="673" extended-state="0" />
+    <editor active="true" />
+    <layout>
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32911393" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32972974" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32911393" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.39318183" sideWeight="0.85225224" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23688969" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.14774776" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+    </layout>
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="myTodoPanelSettings">
+      <TodoPanelSettings />
+    </option>
+    <MESSAGE value="[mod]mod project name" />
+    <MESSAGE value="[mod]modify query type" />
+    <MESSAGE value="[mod]modify query customer type" />
+    <MESSAGE value="[mod]modify company" />
+    <MESSAGE value="[mod]修正审批 增加公司选择" />
+    <MESSAGE value="[mod]修正公司码值，修正显示BUG" />
+    <MESSAGE value="[mod]修正审批看不到描述bug" />
+    <MESSAGE value="[mod]修正登陆后显示登录名并非真实姓名BUG" />
+    <MESSAGE value="[mod]新增费用统计" />
+    <MESSAGE value="[mod]增加费用统计" />
+    <MESSAGE value="[mod]修正费用统计跳转BUG" />
+    <MESSAGE value="[mod]修正费用统计BUG" />
+    <MESSAGE value="[mod]修正费用增加BUG" />
+    <MESSAGE value="[mod]费用统计按付款情况排序" />
+    <MESSAGE value="[mod]统一费用所属单位" />
+    <MESSAGE value="[mod]新增专家费" />
+    <MESSAGE value="[mod]修正不能编辑BUG" />
+    <MESSAGE value="[mod]修正财务总监提交费用时init_level为6财务无法看到BUG" />
+    <option name="LAST_COMMIT_MESSAGE" value="[mod]修正财务总监提交费用时init_level为6财务无法看到BUG" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <option name="time" value="2" />
+    </breakpoint-manager>
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/scapp/helpers.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="22" column="25" selection-start="810" selection-end="810" vertical-scroll-proportion="0.0" vertical-offset="330" max-vertical-offset="645">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scapp/templates/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="154" column="0" selection-start="5958" selection-end="5958" vertical-scroll-proportion="0.0" vertical-offset="2400" max-vertical-offset="6375">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scapp/templates/xmgl/xmxx.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="103" column="0" selection-start="4438" selection-end="4438" vertical-scroll-proportion="0.0" vertical-offset="2752" max-vertical-offset="3240">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scapp/templates/bxsq/fksh.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="32" column="94" selection-start="1484" selection-end="1484" vertical-scroll-proportion="0.0" vertical-offset="450" max-vertical-offset="3750" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scapp/templates/bxsq/fytj_search.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="13" column="4" selection-start="528" selection-end="528" vertical-scroll-proportion="-0.625" vertical-offset="180" max-vertical-offset="780" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scapp/config.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="38" column="45" selection-start="1095" selection-end="1095" vertical-scroll-proportion="0.0" vertical-offset="301" max-vertical-offset="825" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../xhsc/lib/python2.7/site-packages/werkzeug/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-4.316027" vertical-offset="1912" max-vertical-offset="2355" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../xhsc/lib/python2.7/site-packages/flask_security/datastore.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="180" column="51" selection-start="5049" selection-end="5049" vertical-scroll-proportion="-0.0744921" vertical-offset="2733" max-vertical-offset="5070" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scapp/helpers.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="22" column="25" selection-start="810" selection-end="810" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="585">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scapp/templates/xmgl/xmxx.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="199" column="4" selection-start="7452" selection-end="7452" vertical-scroll-proportion="-11.291667" vertical-offset="2714" max-vertical-offset="3240">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scapp/templates/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="328" column="48" selection-start="12201" selection-end="12201" vertical-scroll-proportion="0.091836736" vertical-offset="4875" max-vertical-offset="6435">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>
+

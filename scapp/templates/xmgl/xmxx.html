@@ -61,6 +61,7 @@
 			<!--****************************任务板*************************************-->
 			<div class="tip-info">
 				<span class="tip-head">任务板</span>	
+
 				<span class="badge badge-info" id="renwuban"></span>	
 				{%- if create=='true'%}
 				<div class="pull-right">
@@ -84,8 +85,8 @@
 					{%- endfor%}
 				{%- else%}
 					<div class="nothing">						
-					<img src="/static/img/renwu.jpg"/><br/>						
-					<span>目前还没有任务</span>
+						<img src="/static/img/renwu.jpg"/><br/>						
+						<span>目前还没有任务</span>
 					</div>
 				{%- endif%}
 				<hr/>
@@ -95,10 +96,12 @@
 		<div class="span3">
 			<div class="tip-info">
 				<span class="tip-head">项目组成员</span>
+
 				{%- if create=='true'%}
 				<div class="pull-right">
 					<a onmouseover="hover(this)" onmouseout="away(this)" href="#" onclick="iframe('xmgl/add_zy/{{task_id}}')">
 						<img src="/static/img/add.jpg" />
+
 						<span class="tip-add">添加组员</span>	
 					</a>
 				</div>
