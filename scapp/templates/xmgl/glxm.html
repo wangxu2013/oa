@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>	
+	<meta charset="utf-8">
+	<title>OA管理系统</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="Charisma, a fully featured, responsive, HTML5, Bootstrap admin template.">
+	<meta name="author" content="Muhammad Usman">
+
+	<!-- The styles -->
+	<link href="/static/css/bootstrap.css" rel="stylesheet">
+	<link href="/static/css/main.css" rel="stylesheet">
+	<link href="/static/css/datepicker.css" rel="stylesheet">
+	<style type="text/css">
+		
+		.table-list .table-label{width:140px;}
+		.box{background:#93aec2 url(/static/img/xm.png) no-repeat;width:219px;height:183px;margin:15px 15px 0 0;box-shadow:2px 2px 5px gray;border-radius:10px;border:5px solid #93aec2;display:inline-block;float:left;}
+		.box img{width:16px;position:absolute;margin-top:10px;cursor:pointer;margin-left:10px;}
+		.box .Himg{display:none;margin-left:0px;}
+		.box .edit{margin-left:170px;}		
+		.box .delete{margin-left:190px;}
+		.box p{text-align:center;font-family:"Microsoft YaHei";}
+		.box .title{font-size:20px;font-weight:bold;text-shadow:1px 1px 3px gray;color:white;padding-top:20px;cursor:pointer;}
+		.box .describe{font-size:16px;color:white;}
+		
+		.new{background:#f5f5f5;width:219px;height:183px;margin:15px 15px 0 0;box-shadow:2px 2px 5px gray;border-radius:10px;cursor:pointer;border:5px solid #f5f5f5;display:inline-block;float:left;text-align:center;}
+		.new img{margin-top:35px;}
+		.new p{color:#a4a4a4;font-size:20px;font-family:"Microsoft YaHei";}
+		
+		
+	</style>
+	
+</head>
+
+<body onload="">
+	<div class="content">
+		<div>	
+			<div class="well place">			
+				<i class="icon-home"></i><a href="#">项目管理</a>/<a href="#">管理项目</a>
+			</div>	
+			<form id="showTask" method="POST">				
+			<div class="row-fluid">			
+				<i class="icon-bookmark"></i><span class="titletip">项目列表</span><br/>
+				<input type="button" class="btn btn-info" name="" value="搜索" onclick="search()"/><br/>		
+					{%- for obj in data%}
+						{%- if obj.oa_task_user_ibfk_1.delete==0%}
+						<div class="box">
+							{%- if user_id==obj.oa_task_user_ibfk_1.create_user%}
+								<img src="/static/img/star.png"/>
+								<img src="/static/img/edit.png" class="edit Himg" onclick="edit({{obj.task_id}})"/>
+								<img src="/static/img/delete.png" class="delete Himg" onclick="show_confirm({{obj.task_id}})"/>
+							{%- endif%}
+							<p class="title" onclick="iframe('xmgl/xmxx/{{obj.task_id}}')">{{obj.oa_task_user_ibfk_1.subject}}</p>	
+							<p class="describe">{{obj.oa_task_user_ibfk_1.content}}</p>
+						</div>
+						{%- endif%}
+					{%- endfor%}
+			</div><!--/row-fluid -->
+			</form>
+		</div>
+	</div>
+	<script src="/static/js/jquery-1.7.2.min.js"></script>
+	<script src="/static/js/bootstrap.min.js"></script>
+	<script src="/static/js/script.js"></script>
+	<script src="/static/js/bootstrap-datepicker.js"></script>
+	<script type="text/javascript">
+		function search(){
+			$('#text',window.parent.document).show();
+			var html="<div class=topDiv style='width:530px;height:270px;margin-top:150px;'><img src='/static/img/close.png' class='close' onclick='$(\"#text\",window.parent.document).hide();'/><br/>"
+			$('#text',window.parent.document).html(html+"<iframe src='xmgl/xm_search' width=100% height=90% frameborder=0></iframe></div>");	
+		}	
+		function showList(){
+			$('#text',window.parent.document).show();
+			var html="<div class=topDiv ><img src='/static/img/close.png' class='close' onclick='$(\"#text\",window.parent.document).hide();'/><br/>"
+			$('#text',window.parent.document).html(html+"<iframe src='xmgl/new_xm' width=100% height=90% frameborder=0></iframe></div>");	
+		}	
+		function edit(id){
+			$('#text',window.parent.document).show();
+			var html="<div class=topDiv ><img src='/static/img/close.png' class='close' onclick='$(\"#text\",window.parent.document).hide();'/><br/>"
+			$('#text',window.parent.document).html(html+"<iframe src='xmgl/edit_xm/"+id+"' width=100% height=90% frameborder=0></iframe></div>");	
+		}
+		$(document).ready(function(){
+			$(".box").mouseover(function(){
+				$(this).css('margin-top','5px');
+				$(this).css('margin-bottom','10px');
+				$(this).find(".Himg").show();
+			});
+			$(".box").mouseout(function(){
+				$(this).css('margin-top','15px');
+				$(this).css('margin-bottom','0px');
+				$(this).find(".Himg").hide();
+			});
+			$(".box .edit").mouseover(function(){
+				$(this).attr('src','/static/img/editH.png');
+			});
+			$(".box .edit").mouseout(function(){
+				$(this).attr('src','/static/img/edit.png');
+			});
+			$(".box .delete").mouseover(function(){
+				$(this).attr('src','/static/img/deleteH.png');
+			});
+			$(".box .delete").mouseout(function(){
+				$(this).attr('src','/static/img/delete.png');
+			});
+			$(".new").mouseover(function(){
+				$(this).css('border','5px solid #a0d468');
+			});
+			$(".new").mouseout(function(){
+				$(this).css('border','5px solid #f5f5f5');
+			});
+			$(".close").mouseover(function(){//关闭按钮鼠标经过
+				$(this).attr('src','/static/img/closehover.png')
+			});
+			$(".close").mouseout(function(){//关闭按钮鼠标离开
+				$(this).attr('src','/static/img/close.png')
+			});
+		});
+		function show_confirm(id){
+			var r=confirm("您确定要关闭此项目？");
+			if (r==true){
+				document.getElementById("showTask").action="/xmgl/close/"+id;
+				document.getElementById("showTask").submit();
+			}
+		}
+	</script>
+</body>
+</html>
