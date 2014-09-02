@@ -288,7 +288,7 @@ def xmxx(task_id):
     task_user = OA_Task_User.query.filter_by(task_id=task_id).all()
     #任务列表
     sql = "static!=3 and task_id="+str(task_id)+" and user_id="+str(current_user.id)
-    task_board = OA_Task_Board.query.filter(sql).order_by("finish_time desc").all()
+    task_board = OA_Task_Board.query.filter(sql).order_by("finish_time").all()
     #已完成
     list_1 = OA_Task_Board.query.filter("static='3' and task_id="+str(task_id)).count()
     #当日待完成
@@ -297,15 +297,27 @@ def xmxx(task_id):
     #任务总数
     list_3 = OA_Task_Board.query.filter("static!='3' and task_id="+str(task_id)).count()
     return render_template("xmgl/xmxx.html",task_user=task_user,task_id=task_id,create=create,task_board=task_board,\
-        list_1=list_1,list_2=list_2,list_3=list_3)
+        list_1=list_1,list_2=list_2,list_3=list_3,data=data)
 		
 # 项目管理-任务板
 @app.route('/xmgl/rwb/<int:task_id>', methods=['GET'])
 def rwb(task_id):
     #任务列表
     sql = "task_id="+str(task_id)+" and user_id="+str(current_user.id)
-    task_board = OA_Task_Board.query.filter(sql).order_by("finish_time desc").all()
-    return render_template("xmgl/rwb.html",task_board=task_board,task_id=task_id)
+    task_board = OA_Task_Board.query.filter(sql).order_by("finish_time").all()
+    task = OA_Task_Main.query.filter_by(id=task_id).first()
+    return render_template("xmgl/rwb.html",task_board=task_board,task_id=task_id,task=task,task_type="true")
+
+# 项目管理-其它成员任务板
+@app.route('/xmgl/otherRwb/<int:task_id>/<int:user_id>', methods=['GET'])
+def otherRwb(task_id,user_id):
+    #任务列表
+    sql = "task_id="+str(task_id)+" and user_id="+str(user_id)
+    task_board = OA_Task_Board.query.filter(sql).order_by("finish_time").all()
+    task = OA_Task_Main.query.filter_by(id=task_id).first()
+    if user_id is not current_user.id:
+        task_type="false"
+    return render_template("xmgl/rwb.html",task_board=task_board,task_id=task_id,task=task,task_type="false")
 
 # 项目管理-任务板状态变化
 @app.route('/xmgl/rwbStatic/<int:id>', methods=['GET'])
@@ -329,7 +341,8 @@ def rwbStatic(id):
 @app.route('/xmgl/new_rw/<int:task_id>', methods=['GET'])
 def new_rw(task_id):
     users = OA_Task_User.query.filter_by(task_id=task_id).all()
-    return render_template("xmgl/new_rw.html",task_id=task_id,users=users)
+    task = OA_Task_Main.query.filter_by(id=task_id).first()
+    return render_template("xmgl/new_rw.html",task_id=task_id,users=users,task=task)
 
 # 项目管理-新增任务保存
 @app.route('/xmgl/new_rw_over/<int:task_id>', methods=['POST'])
@@ -338,7 +351,7 @@ def new_rw_over(task_id):
         task_content = request.form['task_content']
         task_user = request.form['task_user']
         finish_time = request.form['finish_time']
-        OA_Task_Board(task_user,task_id,task_content,finish_time,"1",datetime.datetime.now()).add()
+        OA_Task_Board(task_user,task_id,task_content,finish_time,"1",request.form['finish_time']).add()
         # 事务提交
         db.session.commit()
         # flash('新增成功！','success')
@@ -360,7 +373,8 @@ def edit_rw():
 def add_zy(task_id):
     sql = "select a.id,a.real_name,a.login_name,b.user_id from (select * from  oa_user where id!="+str(current_user.id)+") as a  LEFT JOIN oa_task_user b on a.id=b.user_id and b.task_id="+str(task_id)
     data = db.session.execute(sql).fetchall()
-    return render_template("xmgl/add_zy.html",data=data,task_id=task_id)
+    task = OA_Task_Main.query.filter_by(id=task_id).first()
+    return render_template("xmgl/add_zy.html",data=data,task_id=task_id,task=task)
 
 # 项目管理-添加
 @app.route('/xmgl/add_zy_over/<int:task_id>/<users>', methods=['POST'])
@@ -387,33 +401,45 @@ def add_zy_over(task_id,users):
 # 项目管理-未完成任务
 @app.route('/xmgl/unfinish/<task_id>', methods=['GET'])
 def unfinish(task_id):
-    data = OA_Task_Board.query.filter("static!='3' and task_id="+str(task_id)).all()
-    return render_template("xmgl/unfinish.html",data=data,task_id=task_id)
+    data = OA_Task_Board.query.filter("static!='3' and task_id="+str(task_id)).order_by("finish_time").all()
+    task = OA_Task_Main.query.filter_by(id=task_id).first()
+    return render_template("xmgl/unfinish.html",data=data,task_id=task_id,task=task)
 	
 # 项目管理-已完成任务
 @app.route('/xmgl/finish/<task_id>', methods=['GET'])
 def finish(task_id):
-    data = OA_Task_Board.query.filter("static='3' and task_id="+str(task_id)).all()
-    return render_template("xmgl/finish.html",data=data,task_id=task_id)
+    data = OA_Task_Board.query.filter("static='3' and task_id="+str(task_id)).order_by("end_time desc").all()
+    task = OA_Task_Main.query.filter_by(id=task_id).first()
+    return render_template("xmgl/finish.html",data=data,task_id=task_id,task=task)
 	
 # 项目管理-今日任务
 @app.route('/xmgl/today/<task_id>', methods=['GET'])
 def today(task_id):
     date = datetime.datetime.now().date().strftime("%Y-%m-%d")
     data = OA_Task_Board.query.filter("static!=3 and task_id="+str(task_id)+" and substring(finish_time,1,10)='"+date+"'").all()
-    return render_template("xmgl/today.html",data=data,task_id=task_id)	
+    task = OA_Task_Main.query.filter_by(id=task_id).first()
+    return render_template("xmgl/today.html",data=data,task_id=task_id,task=task)
 			
 # 项目管理-管理项目
 @app.route('/xmgl/glxm', methods=['GET','POST'])
 def glxm():
-    data = OA_Task_User.query.filter_by(user_id=current_user.id).order_by("id desc").all()
+    data = get_recursion_project(current_user.id)
     return render_template("xmgl/glxm.html",data=data,user_id=current_user.id)	
 			
-# 项目管理-项目搜索
+# 项目管理-项目搜索页面
 @app.route('/xmgl/xm_search', methods=['GET','POST'])
 def xm_search():
-    data = OA_Task_User.query.filter_by(user_id=current_user.id).order_by("id desc").all()
+    org = OA_Org.query.filter_by(manager=current_user.id).first()
+    data = ''
+    if org:
+        data = get_recursion_org(org.id)
     return render_template("xmgl/xm_search.html",data=data,user_id=current_user.id)	
+
+# 项目管理-查询项目结果
+@app.route('/xmgl/glxm_result/<org_id>/<task_name>', methods=['GET','POST'])
+def glxm_result(org_id,task_name):
+    data = get_recursion_project_task(org_id,task_name)
+    return render_template("xmgl/glxm.html",data=data,user_id=current_user.id)  
 	
 	
 # 统计报表-年度费用统计搜索
@@ -444,7 +470,10 @@ def Report_create_bar_3d(org,time):
 # 统计报表-月度部门费用开支情况搜索
 @app.route('/tjbb/ydbmtj_search', methods=['GET'])
 def ydbmtj_search():
-    data = OA_Org.query.filter("pid >1").all()
+    org = OA_Org.query.filter_by(manager=current_user.id).first()
+    data = ''
+    if org:
+        data = get_recursion_org(org.id)
     return render_template("tjbb/ydbmtj_search.html",data=data)
 	
 # 统计报表-月度部门费用开支情况
@@ -469,7 +498,9 @@ def Report_create_pie(org,time):
 # 统计报表-月度公司费用开支情况搜索
 @app.route('/tjbb/ydgstj_search', methods=['GET'])
 def ydgstj_search():
-    data = OA_Org.query.filter("pid =1").all()
+    data = OA_Org.query.filter_by(manager=current_user.id).all()
+    if data[0].org_level==0:
+        data = OA_Org.query.filter("pid=1").all()
     return render_template("tjbb/ydgstj_search.html",data=data)
 	
 # 统计报表-月度公司费用开支情况
@@ -494,7 +525,10 @@ def Report_create_pieOrg(org,time):
 # 统计报表-季度部门费用开支情况搜索
 @app.route('/tjbb/jdbmtj_search', methods=['GET'])
 def jdbmtj_search():
-    data = OA_Org.query.filter("pid >1").all()
+    org = OA_Org.query.filter_by(manager=current_user.id).first()
+    data = ''
+    if org:
+        data = get_recursion_org(org.id)
     return render_template("tjbb/jdbmtj_search.html",data=data)
 	
 # 统计报表-季度部门费用开支情况
@@ -533,7 +567,9 @@ def Report_create_pieQuarter(org,year,quarter):
 # 统计报表-季度公司费用开支情况搜索
 @app.route('/tjbb/jdgstj_search', methods=['GET'])
 def jdgstj_search():
-    data = OA_Org.query.filter("pid =1").all()
+    data = OA_Org.query.filter_by(manager=current_user.id).all()
+    if data[0].org_level==0:
+        data = OA_Org.query.filter("pid=1").all()
     return render_template("tjbb/jdgstj_search.html",data=data)
 	
 # 统计报表-季度公司费用开支情况
@@ -569,3 +605,103 @@ def Report_create_pieOrgQuarter(org,year,quarter):
     obj = OA_Org.query.filter_by(id=org).first()
     title = obj.name+"公司"+year+string+"费用开支"
     return exp.pie(data,title)  
+
+#递归获取所有部门
+def get_recursion_org(pid):
+    tmpsql = "FIND_IN_SET(id,getChildOrgLst('"+str(pid)+"'))"
+    orgs_list = OA_Org.query.filter(tmpsql).all()
+    return orgs_list
+
+#递归获取所管部门和项目
+def get_recursion_project(user_id):
+    sql = ''
+    ids = []
+    org_ids = "("
+    project_ids = "("
+    org = OA_Org.query.filter_by(manager=user_id).all()
+    if len(org)>0:#选定部门，递归查询子部门及子项目
+        for node_obj in org: 
+            tmpsql = "FIND_IN_SET(id ,getChildOrgLst('"+str(node_obj.id)+"'))"
+            orgs_list = OA_Org.query.filter(tmpsql).all()
+            orgs_list = list(set(orgs_list))
+            projects_list = []
+            
+            for obj in orgs_list:
+                projects = OA_Project.query.filter_by(p_org_id=obj.id).all()
+                org_ids+=str(obj.id)+","
+
+                if projects:
+                    for obj2 in projects:
+                        tmpsql = "FIND_IN_SET(id ,getChildProjectLst('"+str(obj2.id)+"'))"
+                        projects_list += OA_Project.query.filter(tmpsql).all()
+            
+            projects_list = list(set(projects_list))
+            if projects_list:
+                for obj in projects_list:
+                    ids.append(obj.id)
+                    project_ids+=str(obj.id)+","  
+    project = OA_Project.query.filter_by(manager_id=current_user.id).all()
+    if len(project)>0:#选定项目，递归查询子项目
+        for node_obj in project: 
+            tmpsql = "FIND_IN_SET(id ,getChildProjectLst('"+str(node_obj.id)+"'))"
+            projects_list = OA_Project.query.filter(tmpsql).all()
+            projects_list = list(set(projects_list))
+            
+            if projects_list:
+                for obj in projects_list:
+                    project_ids+=str(obj.id)+"," 
+
+    org_ids = str(org_ids[0:len(org_ids)-1])+")"       
+    project_ids = str(project_ids[0:len(project_ids)-1])+")"
+    #获取部门和项目的所有成员
+    sql = "select DISTINCT user_id from oa_project_group where (type='OA_Org' and project_id in "+org_ids+") "
+    if len(ids)>0:
+        sql+="or (type='OA_Project' and project_id in "+project_ids+")"   
+
+    #获取项目管理中项目id
+    task_sql = "select * from oa_task_main where create_user in ("+sql+") group by id"
+    data = db.session.execute(task_sql).fetchall()
+    return data
+
+#递归获取所管部门下的所有项目内容
+def get_recursion_project_task(org_id,task_name):
+    sql = ''
+    ids = []
+    org_ids = "("
+    project_ids = "("
+    org = OA_Org.query.filter_by(id=org_id).first()
+    if org:#选定部门，递归查询子部门及子项目
+        tmpsql = "FIND_IN_SET(id ,getChildOrgLst('"+str(org.id)+"'))"
+        orgs_list = OA_Org.query.filter(tmpsql).all()
+        orgs_list = list(set(orgs_list))
+        projects_list = []
+        
+        for obj in orgs_list:
+            projects = OA_Project.query.filter_by(p_org_id=obj.id).all()
+            org_ids+=str(obj.id)+","
+
+            if projects:
+                for obj2 in projects:
+                    tmpsql = "FIND_IN_SET(id ,getChildProjectLst('"+str(obj2.id)+"'))"
+                    projects_list += OA_Project.query.filter(tmpsql).all()
+        
+        projects_list = list(set(projects_list))
+        if projects_list:
+            for obj in projects_list:
+                ids.append(obj.id)
+                project_ids+=str(obj.id)+","  
+    org_ids = str(org_ids[0:len(org_ids)-1])+")"       
+    project_ids = str(project_ids[0:len(project_ids)-1])+")"
+    #获取部门和项目的所有成员
+    sql = "select DISTINCT user_id from oa_project_group where (type='OA_Org' and project_id in "+org_ids+") "
+    if len(ids)>0:
+        sql+="or (type='OA_Project' and project_id in "+project_ids+")"   
+
+    #获取项目管理中项目id
+    task_sql = "select * from oa_task_main where create_user in ("+sql+")"
+    if str(task_name) != "-1":
+        task_sql += " and subject like '%"+task_name+"%'"
+    task_sql += " group by id"
+    print task_sql
+    data = db.session.execute(task_sql).fetchall()
+    return data
