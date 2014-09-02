@@ -35,7 +35,7 @@
 <body>
 	<form id="content" class="content" method="POST">	
 		<div class="well place">			
-			<i class="icon-home"></i><a href="#">项目管理</a>/<a href="#">个人项目</a>/<a href="#">XMCI</a>
+			<i class="icon-home"></i><a href="#">项目管理</a>/<a href="#">个人项目</a>/<a href="#">{{task.subject}}</a>
 		</div>		
 		<div class="back">
 			<input type="button" value="返回" class="btn btn-info" onclick="iframe('xmgl/xmxx/{{task_id}}')"/>
@@ -51,7 +51,9 @@
 							{%- if obj.static=='1'%}
 								<li>
 									<div>
+										{%- if task_type=='true'%}
 										<input type="checkbox" onclick="setAjax({{obj.id}})"/>&nbsp;
+										{%- endif%}
 										<a href="#">
 											{{obj.task_content}}
 										</a><br/>
@@ -75,7 +77,9 @@
 							{%- if obj.static=='2'%}
 								<li>
 									<div>
+										{%- if task_type=='true'%}
 										<input type="checkbox" onclick="setAjax({{obj.id}})"/>&nbsp;
+										{%- endif%}
 										<a href="#">
 											{{obj.task_content}}
 										</a><br/>
@@ -99,7 +103,9 @@
 							{%- if obj.static=='3'%}
 								<li>
 									<div>
+										{%- if task_type=='true'%}
 										<input type="checkbox" onclick="setAjax({{obj.id}})" checked/>&nbsp;
+										{%- endif%}
 										<a href="#">
 											{{obj.task_content}}
 										</a><br/>

@@ -334,13 +334,19 @@
 						<div class="titleDIV">
 							<p class="title">项目管理</p>
 							<hr/>
-						</div>				
+						</div>	
+						{%- for obj in privileges %}
+						{%- if obj.privilege_access_value == "grxm" and obj.privilege_operation != "0" %}			
 						<li onclick="leftmenu(this);changeiframe('xmgl/grxm')" id="grxm" class="active">
 							<a href="javascript:void(0);">个人项目</a>
 						</li>
+						{%- endif %}
+						{%- if obj.privilege_access_value == "glxm" and obj.privilege_operation != "0" %}	
 						<li onclick="leftmenu(this);changeiframe('xmgl/glxm')" id="glxm" >
 							<a href="javascript:void(0);">管理项目</a>
 						</li>
+						{%- endif %}
+						{%- endfor %}
 					</ul>
 					<ul class="nav nav-list 
 						{%- if menu != "Tjbb" %}
