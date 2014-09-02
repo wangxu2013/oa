@@ -45,9 +45,9 @@
 <body >
 	<div class="content">
 		<div class="well place">			
-			<i class="icon-home"></i><a href="#">项目管理</a>/<a href="#">个人项目</a>/<a href="#">XMCI</a>
+			<i class="icon-home"></i><a href="#">项目管理</a>/<a href="#">个人项目</a>/<a href="#">{{data.subject}}</a>
 		</div>						
-		<i class="icon-bookmark"></i><span class="titletip">XMCI</span><br/>	
+		<i class="icon-bookmark"></i><span class="titletip">{{data.subject}}</span><br/>	
 		{%- with messages = get_flashed_messages(with_categories=true) %}
 		  	{%- if messages %}
 	    	{%- for category, message in messages %}
@@ -109,7 +109,7 @@
 				<hr/>	
 				{%- for user in task_user%}	
 				<blockquote>
-					<a>{{user.oa_task_user_ibfk_2.real_name}}</a>
+					<a href="/xmgl/otherRwb/{{task_id}}/{{user.user_id}}">{{user.oa_task_user_ibfk_2.real_name}}</a>
 				</blockquote>
 				{%-endfor%}	
 			</div>

@@ -23,7 +23,7 @@
 <body>	
 	<div class="content" action="/xmgl/xmxx">
 		<div class="well place">			
-			<i class="icon-home"></i><a href="#">项目管理</a>/<a href="#">个人项目</a>/<a href="#">XMCI</a>
+			<i class="icon-home"></i><a href="#">项目管理</a>/<a href="#">个人项目</a>/<a href="#">{{task.subject}}</a>
 		</div>	
 		<div class="back">
 			<input type="button" value="返回" class="btn btn-info" onclick="iframe('xmgl/xmxx/{{task_id}}')"/>
@@ -36,7 +36,7 @@
 					{{obj.task_content}}
 					<span tyle="marin-top:0;" class="label pull-right">
 						<i class="icon-calendar icon-white"></i>
-						<span id="times">{{obj.finish_time}}</span>
+						<span id="times">{{obj.end_time}}</span>
 					</span>
 
 					<span class="worker pull-right">#{{obj.oa_task_board_ibfk_2.real_name}}&nbsp;&nbsp;</span>
