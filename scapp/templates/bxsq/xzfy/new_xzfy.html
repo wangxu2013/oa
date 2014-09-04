@@ -119,7 +119,7 @@
 							<input type="hidden" id="yzA" />
 							<span class="textfieldRequiredMsg">不能为空</span>
 						</span>							
-						<div class="display-div" id="A_xdyss">																
+						<div class="display-div" id="A_xdyss" style="height:310px">																
 							<input type="button" value="关闭" class="btn btn-info btn-mini pull-right" onclick="$('.display-div').hide();" style="width:40px;"/><br/>							
 							<div style="width:47%;float:left;margin-top:8px;">
 								<i class="icon-bookmark"></i><span class="titletip">第一步.选择机构</span>
@@ -211,7 +211,7 @@
 										"</td>" + 
 									"</tr>");      
 			}
-			doubleIframe(frameid);
+			//doubleIframe(frameid);
 		}
 		//表格删除行
 		function removeTd(table,frameid){ 
@@ -219,7 +219,7 @@
 			if(tr.length>1){//至少要保留一行
 				document.getElementById(table).deleteRow(tr.length-1);//删除最后一行
 			}
-			doubleIframe(frameid);
+			//doubleIframe(frameid);
 		}
 		//计算总金额
 		function sub(){
