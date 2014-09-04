@@ -24,7 +24,7 @@
 		input[type=text]{font-family:"Microsoft YaHei";width:80%;height:30px;}
 		textarea{font-family:"Microsoft YaHei";width:95%;height:80px;}
 		.btn{display:block;margin:20px auto;width:30%;font-family:'Microsoft YaHei';}
-		.textfieldRequiredMsg{font-size:14px;}
+		.textfieldRequiredMsg{font-size:14px;color: #CC3333;}
 	</style>
 	
 </head>
@@ -35,11 +35,11 @@
 		<p>项目信息</p>
 		<span id="name1">
 			<input type="hidden" value={{data.id}} name="task_id"/>
-			<input type="text" placeholder="项目名称" value="{{data.subject}}" name="task_name"/>
+			<input type="text" placeholder="项目名称" value="{{data.subject}}" name="task_name" id="task_name"/>
 			<span class="textfieldRequiredMsg">不能为空</span>
 		</span><br/>
 		<textarea placeholder="项目简介（可选）" name="task_content">{{data.content}}</textarea><br/>
-		<input type="submit" class="btn btn-info" value="保存" onclick="editTask()"/>
+		<input type="button" class="btn btn-info" value="保存" onclick="editTask()"/>
 	</form>
 	
 	<script src="/static/js/jquery-1.7.2.min.js"></script>
@@ -47,11 +47,14 @@
 	<script src="/static/js/bootstrap.min.js"></script>
 	<script src="/static/js/script.js"></script>
 	<script type="text/javascript">
-		var sprytextfield1 = new Spry.Widget.ValidationTextField("name1", "none");	
 		function editTask(){
-			$("#editform").submit();		
+			if($("input[name=task_name]").val()==""){
+				$(".textfieldRequiredMsg").css("display","inline");
+				return;
+			}
 			var oDoc = window.parent.document;
 			$('#text',oDoc).hide();
+			$("#editform").submit();
             var oAnotherFrame = oDoc.getElementById("content_frame");
 			oAnotherFrame.contentDocument.location.reload(true);
 		}	

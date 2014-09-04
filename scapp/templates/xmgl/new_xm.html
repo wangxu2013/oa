@@ -24,7 +24,7 @@
 		input[type=text]{font-family:"Microsoft YaHei";width:80%;height:30px;}
 		textarea{font-family:"Microsoft YaHei";width:95%;height:80px;}
 		.btn{display:block;margin:20px auto;width:30%;font-family:'Microsoft YaHei';}
-		.textfieldRequiredMsg{font-size:14px;}
+		.textfieldRequiredMsg{font-size:14px;color: #CC3333;}
 	</style>
 	
 </head>
@@ -33,7 +33,7 @@
 	<form class="content" id="createform" method="POST" action="/xmgl/create">				
 		<p class="title">新建项目</p>
 		<p>项目信息</p>
-		<span id="name1">
+		<span>
 			<input type="text" placeholder="项目名称"  name="task_name" id="task_name"/>
 			<span class="textfieldRequiredMsg">不能为空</span>
 		</span><br/>
@@ -46,8 +46,12 @@
 	<script src="/static/js/bootstrap.min.js"></script>
 	<script src="/static/js/script.js"></script>
 	<script type="text/javascript">
-		var sprytextfield1 = new Spry.Widget.ValidationTextField("name1", "none");		
+				
 		function create(){
+			if($("input[name=task_name]").val()==""){
+				$(".textfieldRequiredMsg").css("display","inline");
+				return;
+			}
 			document.getElementById("createform").submit();
 			var oDoc = window.parent.document;
 			$('#text',oDoc).hide();
