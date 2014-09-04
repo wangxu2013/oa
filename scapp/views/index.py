@@ -445,7 +445,13 @@ def glxm_result(org_id,task_name):
 # 统计报表-年度费用统计搜索
 @app.route('/tjbb/ndfytj_search', methods=['GET'])
 def ndfytj_search():
-    return render_template("tjbb/ndfytj_search.html")
+    if str(current_user.id) == '1':
+        data = OA_Org.query.all()
+    else:
+        data = OA_Org.query.filter_by(manager=current_user.id).all()
+        if data[0].org_level==0:
+            data = OA_Org.query.filter("pid=1").all()
+    return render_template("tjbb/ndfytj_search.html",data=data)
 	
 # 统计报表-年度费用统计
 @app.route('/tjbb/ndfytj', methods=['POST'])
@@ -460,7 +466,7 @@ def Report_create_bar_3d(org,time):
     exp = flash_pic()
     sql = "SELECT concat(b.month,'月') AS MONTH,IFNULL(a.amount,0) FROM oa_month b LEFT JOIN \
     (SELECT SUBSTR(create_date, 6, 2) as create_date, IFNULL(SUM(amount), 0) AS amount FROM oa_reimbursement\
-    WHERE org_id IN ( SELECT id FROM oa_org WHERE pid = "+org+") AND is_paid = 1 AND SUBSTR(create_date, 1, 4) = "+time+"\
+    WHERE org_id IN ( SELECT id FROM oa_org WHERE pid = "+org+" or id="+org+") AND is_paid = 1 AND SUBSTR(create_date, 1, 4) = "+time+"\
     GROUP BY SUBSTR(create_date, 1, 7)) a ON b.`month` = create_date ORDER BY b.`month`"
     data=db.session.execute(sql).fetchall()
     column_text=[u'金额(元)']
@@ -474,6 +480,8 @@ def ydbmtj_search():
     data = ''
     if org:
         data = get_recursion_org(org.id)
+    if str(current_user.id) == '1':
+        data = OA_Org.query.all()
     return render_template("tjbb/ydbmtj_search.html",data=data)
 	
 # 统计报表-月度部门费用开支情况
@@ -498,9 +506,13 @@ def Report_create_pie(org,time):
 # 统计报表-月度公司费用开支情况搜索
 @app.route('/tjbb/ydgstj_search', methods=['GET'])
 def ydgstj_search():
-    data = OA_Org.query.filter_by(manager=current_user.id).all()
-    if data[0].org_level==0:
-        data = OA_Org.query.filter("pid=1").all()
+    data=''
+    if str(current_user.id) == '1':
+        data = OA_Org.query.all()
+    else:
+        data = OA_Org.query.filter_by(manager=current_user.id).all()
+        if data[0].org_level==0:
+            data = OA_Org.query.filter("pid=1").all()
     return render_template("tjbb/ydgstj_search.html",data=data)
 	
 # 统计报表-月度公司费用开支情况
@@ -529,6 +541,8 @@ def jdbmtj_search():
     data = ''
     if org:
         data = get_recursion_org(org.id)
+    if str(current_user.id) == '1':
+        data = OA_Org.query.all()
     return render_template("tjbb/jdbmtj_search.html",data=data)
 	
 # 统计报表-季度部门费用开支情况
@@ -567,9 +581,13 @@ def Report_create_pieQuarter(org,year,quarter):
 # 统计报表-季度公司费用开支情况搜索
 @app.route('/tjbb/jdgstj_search', methods=['GET'])
 def jdgstj_search():
-    data = OA_Org.query.filter_by(manager=current_user.id).all()
-    if data[0].org_level==0:
-        data = OA_Org.query.filter("pid=1").all()
+    data=''
+    if str(current_user.id) == '1':
+        data = OA_Org.query.all()
+    else:
+        data = OA_Org.query.filter_by(manager=current_user.id).all()
+        if data[0].org_level==0:
+            data = OA_Org.query.filter("pid=1").all()
     return render_template("tjbb/jdgstj_search.html",data=data)
 	
 # 统计报表-季度公司费用开支情况
