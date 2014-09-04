@@ -28,9 +28,9 @@
 							<td class="table-label">公司名称</td>
 							<td>
 								<select name="org">
-									<option value="3">乾康信息技术</option>
-									<option value="2">乾康金融</option>
-									<option value="5">云金天下</option>
+									{%- for obj in data%}
+										<option value="{{obj.id}}">{{obj.name}}</option>
+									{%- endfor%}
 								</select>
 							</td>
 							<td class="table-label">统计年份</td>
