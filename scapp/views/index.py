@@ -720,6 +720,5 @@ def get_recursion_project_task(org_id,task_name):
     if str(task_name) != "-1":
         task_sql += " and subject like '%"+task_name+"%'"
     task_sql += " group by id"
-    print task_sql
     data = db.session.execute(task_sql).fetchall()
     return data

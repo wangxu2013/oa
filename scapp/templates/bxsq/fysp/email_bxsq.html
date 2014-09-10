@@ -211,9 +211,17 @@
 					<td class="table-label">审批决定<font class="red">*</font></td>
 					<td width="35%">
 						<select name="decision" onchange="setTextarea()" id="decision">
-							<option value="1">通过</option>
-							<option value="2">拒绝</option>
-							<option value="3">退回</option>
+							{%- if email.list_type==0%}
+								<option value="1">通过</option>
+								<option value="2">拒绝</option>
+								<option value="3">退回</option>
+							{%- elif email.list_type==1%}
+								<option value="1">通过</option>
+							{%- elif email.list_type==2%}
+								<option value="1">拒绝</option>
+							{%- elif email.list_type==3%}
+								<option value="1">退回</option>
+							{%- endif%}
 						</select>
 					</td>	
 					<td class="table-label">拒绝或退回原因</td>
@@ -224,7 +232,11 @@
 			</table>					
 		</div>
 		<span class="point">*为必填字段</span><br/>
-		<input onclick="submit()" value="提交" class="btn btn-info" />
+		{%- if email.list_type==0%}
+			<input onclick="submit()" value="提交" class="btn btn-info" />
+		{%- else%}
+			<input onclick="returnLogin()" value="返回首页" class="btn btn-info" />
+		{%- endif%}
 	</form>	
 
 	<script src="/static/js/jquery-1.7.2.min.js"></script>
@@ -241,6 +253,10 @@
 			else{
 				$("#jjyy").removeAttr("disabled");
 			}
+		}
+		function returnLogin(){
+			document.getElementById("fybx").action="/fysp/email_check_return";
+			document.getElementById("fybx").submit();
 		}
 			
 	</script>

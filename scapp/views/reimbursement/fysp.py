@@ -283,7 +283,7 @@ def approve(user_id,expense_id,result,reason):
             reimbursement.fail_reason = reason
         email_url = OA_Email_Url.query.filter_by(manager=current_user.id,list_id=reimbursement.id).first()
         if email_url:
-            OA_Email_Url.query.filter_by(manager=current_user.id,list_id=reimbursement.id).delete()
+            email_url.list_type=result
         db.session.commit()
         # 消息闪现
         flash('保存成功','success')
@@ -479,7 +479,7 @@ def SendMail(reimbursement):
 def send_async_email(app,msg,list_id,manager_id,uu):
         with app.app_context():
                 try:  
-                    OA_Email_Url(list_id,manager_id,uu).add()
+                    OA_Email_Url(list_id,manager_id,uu,0).add()
                     db.session.commit()
                     mail = Mail(app)
                     mail.send(msg)
@@ -498,7 +498,7 @@ def email_return(random_uuid):
         login_user(user)
         project = OA_Project.query.order_by("id").all()
         reimbursement = OA_Reimbursement.query.filter_by(id=email.list_id).first()
-        return render_template("bxsq/fysp/email_bxsq.html",reimbursement=reimbursement,project=project)
+        return render_template("bxsq/fysp/email_bxsq.html",reimbursement=reimbursement,project=project,email=email)
     else:
         return redirect("/login")
 
@@ -519,3 +519,8 @@ def email_check(id):
             db.session.rollback()
             logger.exception('exception') 
     return redirect("/welcome")
+
+#返回首页
+@app.route('/fysp/email_check_return',methods=['GET','POST'])
+def email_check_return():
+    return redirect("/login")
