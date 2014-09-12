@@ -61,16 +61,16 @@
 			<!--****************************任务板*************************************-->
 			<div class="tip-info">
 				<span class="tip-head">任务板</span>	
-
-				<span class="badge badge-info" id="renwuban"></span>	
+				<span class="badge badge-info" id="renwuban"></span>
 				{%- if create=='true'%}
 				<div class="pull-right">
-					<a onmouseover="hover(this)" onmouseout="away(this)" href="#" onclick="iframe('xmgl/new_rw/{{task_id}}')">
+					<a onmouseover="hover(this)" onmouseout="away(this)" href="#" onclick="iframe('xmgl/new_rw/{{task_id}}')" style="display:inline-block;width:90px;*margin-top:-22px;">
 						<img src="/static/img/add.jpg" />
 						<span class="tip-add">创建任务</span>	
 					</a>
 				</div>	
-				{%-endif%}						
+				{%-endif%}	
+				<div style="clear:both;"></div>
 				<hr/>		
 				{%-if task_board%}
 					{%- for obj in task_board%}
@@ -99,13 +99,13 @@
 
 				{%- if create=='true'%}
 				<div class="pull-right">
-					<a onmouseover="hover(this)" onmouseout="away(this)" href="#" onclick="iframe('xmgl/add_zy/{{task_id}}')">
+					<a onmouseover="hover(this)" onmouseout="away(this)" href="#" onclick="iframe('xmgl/add_zy/{{task_id}}')" style="display:inline-block;width:90px;*margin-top:-22px;">
 						<img src="/static/img/add.jpg" />
-
 						<span class="tip-add">添加组员</span>	
 					</a>
 				</div>
-				{%-endif%}							
+				{%-endif%}	
+				<div style="clear:both;"></div>
 				<hr/>	
 				{%- for user in task_user%}	
 				<blockquote>
@@ -179,11 +179,12 @@
 				}
 			});
 			
-			length = $('[id=times]').length
+			var length = $('.date').length;
 			if(length>0){
-				$("span[id^='times']").each(function(i) {
+				$(".date").each(function(i) {
 					$(this).text($(this).text().substring(0,10))
 				})
+				$("#renwuban").text(length)
 			}else{
 				$("#renwuban").text("0")
 			}

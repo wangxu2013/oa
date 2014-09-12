@@ -156,14 +156,14 @@
 			<table class="table-list" id="table2">
 				<tr>	
 					<td class="table-label">金额<font class="red">*</font></td>
-					<td>
+					<td width="180px">
 						<span id="amount">
 							<input type="text" name="amount" onKeyUp="checkNUM(this)" style="width:80px" onblur="sub()"/>元
 							<span class="textfieldRequiredMsg">不能为空</span>
 						</span>						
 					</td>
 					<td class="table-label">报销事由</td>
-					<td>
+					<td width="180px">
 						<select name="reason" style="width:110px">
 							{%- for obj in reasons %}
 								<option value="{{obj.id}}">{{obj.reason_name}}</option>
