@@ -228,7 +228,6 @@ def approve(user_id,expense_id,result,reason):
             #如果当前是财务审批
             if reimbursement.approval_type==3:
                 reimbursement.approval_type=4
-                reimbursement.paid_date= datetime.datetime.now() 
             #部门审批阶段
             elif reimbursement.approval_type==1:
                 if power=='true':
@@ -378,6 +377,7 @@ def fyzf_check(id,page,create_user):
             #报销单信息
             reimbursement = OA_Reimbursement.query.filter_by(id=id).first()  
             reimbursement.is_paid=1
+            reimbursement.paid_date= datetime.datetime.now()
             db.session.commit()
             # 消息闪现
             flash('保存成功','success')
@@ -402,10 +402,12 @@ def fyzf_pay(id,page,userId):
                 for obj in value:
                     reimbursement = OA_Reimbursement.query.filter_by(id=obj).first()  
                     reimbursement.is_paid=1
+                    reimbursement.paid_date= datetime.datetime.now() 
             else:
                 value=id
                 reimbursement = OA_Reimbursement.query.filter_by(id=value).first()  
                 reimbursement.is_paid=1
+                reimbursement.paid_date= datetime.datetime.now() 
             db.session.commit()
             # 消息闪现
             flash('支付成功','success')
@@ -448,7 +450,7 @@ def fyzf_Excel():
     is_paid = request.form['is_paid']
 
     sql = "SELECT b.name,c.real_name,d.project_name,a.amount,a.`describe`,a.create_date,(case is_paid when '0' then '未支付' \
-        when '1' then '已支付' end) as paid FROM oa_reimbursement a, oa_org b, oa_user c,oa_project d WHERE\
+        when '1' then '已支付' end) as paid,a.paid_date FROM oa_reimbursement a, oa_org b, oa_user c,oa_project d WHERE\
         a.org_id = b.id AND a.create_user = c.id and a.project_id=d.id"
     sql += " and a.create_date between '" + beg_date + "' and '" + end_date + "'"
     if float(is_paid) !=-1:
@@ -457,8 +459,8 @@ def fyzf_Excel():
     data=db.session.execute(sql).fetchall()
 
 
-    exl_hdngs=['费用所属单位','申请人','项目','金额','报销事由','创建时间','审批状态']
-    types=     'text   text   text      text      text     datetime    text'.split()
+    exl_hdngs=['费用所属单位','申请人','项目','金额','报销事由','创建时间','审批状态','支付时间']
+    types=     'text   text   text      text      text     datetime    text   datetime'.split()
     exl_hdngs_xf=ezxf('font: bold on;align: wrap on,vert centre,horiz center')
     types_to_xf_map={
         'int':ezxf(num_format_str='#,##0'),
