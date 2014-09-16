@@ -20,6 +20,10 @@ from flask.ext.mail import Message
  
 from threading import Thread
 import uuid
+from scapp.tools.export_excel import export_excel
+import xlwt,re
+
+ezxf=xlwt.easyxf #样式转换
 
 
 
@@ -436,6 +440,43 @@ def fyzf_pay(id,page,userId):
             data = OA_Reimbursement.query.filter(sql).paginate(page-1, per_page = PER_PAGE) 
         return render_template("bxsq/fysp/fyzf_list.html",data=data,org_id=org_id,project_id=project_id,userId=userId)
 
+#费用支付Excel下载
+@app.route('/fysp/fyzf_Excel',methods=['GET','POST'])
+def fyzf_Excel():
+    beg_date = request.form['beg_date'] + " 00:00:00"
+    end_date = request.form['end_date'] + " 23:59:59"
+    is_paid = request.form['is_paid']
+
+    sql = "SELECT b.name,c.real_name,d.project_name,a.amount,a.`describe`,a.create_date,(case is_paid when '0' then '未支付' \
+        when '1' then '已支付' end) as paid FROM oa_reimbursement a, oa_org b, oa_user c,oa_project d WHERE\
+        a.org_id = b.id AND a.create_user = c.id and a.project_id=d.id"
+    sql += " and a.create_date between '" + beg_date + "' and '" + end_date + "'"
+    if float(is_paid) !=-1:
+        sql+=" and a.is_paid="+str(is_paid)
+    sql +="order by a.is_paid,c.real_name,b.name"
+    data=db.session.execute(sql).fetchall()
+
+
+    exl_hdngs=['费用所属单位','申请人','项目','金额','报销事由','创建时间','审批状态']
+    types=     'text   text   text      text      text     datetime    text'.split()
+    exl_hdngs_xf=ezxf('font: bold on;align: wrap on,vert centre,horiz center')
+    types_to_xf_map={
+        'int':ezxf(num_format_str='#,##0'),
+        'date':ezxf(num_format_str='yyyy-mm-dd'),
+        'datetime':ezxf(num_format_str='yyyy-mm-dd HH:MM:SS'),
+        'ratio':ezxf(num_format_str='#,##0.00%'),
+        'text':ezxf(),
+        'price':ezxf(num_format_str='￥#,##0.00')
+    }
+
+    data_xfs=[types_to_xf_map[t] for t in types]
+    date=datetime.datetime.now()
+    year=date.year
+    month=date.month
+    day=date.day
+    filename=str(year)+'_'+str(month)+'_'+str(day)+'_'+'报销费用支付详情'+'.xls'
+    exp=export_excel()
+    return exp.export_download(filename,'报销费用支付详情表',exl_hdngs,data,exl_hdngs_xf,data_xfs)
 
 #邮件发送
 def SendMail(reimbursement):
