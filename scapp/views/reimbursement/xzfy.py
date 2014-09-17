@@ -12,6 +12,7 @@ from flask.ext.login import current_user
 from scapp.models import OA_Project,OA_Reason,OA_Org,OA_UserRole,OA_Reimbursement
 
 from scapp import app
+import json
 
 from scapp.views.reimbursement.fysp import SendMail
 
@@ -66,8 +67,20 @@ def new_xzfy():
 
     else:
         reasons = OA_Reason.query.order_by("id").all()
+        org = OA_Org.query.filter("id>1").all();
+        return render_template("bxsq/xzfy/new_xzfy.html",reasons=reasons,org=org)
 
-        return render_template("bxsq/xzfy/new_xzfy.html",reasons=reasons)
+# 获取项目
+@app.route('/xzfy/get_project/<int:id>', methods=['GET','POST'])
+def get_project(id):
+    project = OA_Project.query.filter_by(p_org_id=id).all();
+    
+    data =''
+    for obj in project:
+        data=str(data)+str(obj.id)+","+str(obj.project_name)
+        data+="."
+    data = data[:int(len(data)-1)]
+    return json.dumps(data,ensure_ascii=False);
     
 # 修改费用
 @app.route('/xzfy/edit_xzfy/<int:id>', methods=['GET','POST'])
@@ -118,7 +131,8 @@ def edit_xzfy(id):
         reimbursement = OA_Reimbursement.query.filter_by(id=id).first()
         reasons = OA_Reason.query.order_by("id").all()
         belong_name = OA_Project.query.filter_by(id=reimbursement.project_id).first().project_name
-        return render_template("bxsq/xzfy/edit_xzfy.html",reimbursement=reimbursement,reasons=reasons,belong_name=belong_name)
+        org = OA_Org.query.filter("id>1").all();
+        return render_template("bxsq/xzfy/edit_xzfy.html",reimbursement=reimbursement,reasons=reasons,belong_name=belong_name,org=org)
 
 # 修改费用
 @app.route('/xzfy/check_xzfy/<int:id>', methods=['GET','POST'])
