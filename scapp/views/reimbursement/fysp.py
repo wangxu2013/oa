@@ -455,7 +455,7 @@ def fyzf_Excel():
     sql += " and a.create_date between '" + beg_date + "' and '" + end_date + "'"
     if float(is_paid) !=-1:
         sql+=" and a.is_paid="+str(is_paid)
-    sql +="order by a.is_paid,c.real_name,b.name"
+    sql +="order by a.paid_date"
     data=db.session.execute(sql).fetchall()
 
 
