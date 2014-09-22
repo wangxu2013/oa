@@ -77,7 +77,11 @@
 											<td><span class="label label-warning">被退回</span></td>
 											<td><input type='button' class='btn btn-warning btn-mini' value='编辑' onclick="iframe('xzfy/edit_xzfy/{{obj.id}}')"/></td>	
 										{%- else %}
-											<td><span class="label">{{obj.approval_name}}审批</span></td>
+											{%- if obj.approval_type==4 %}
+												<td><span class="label">等待支付</span></td>
+											{%- else %}
+												<td><span class="label">{{obj.approval_name}}审批</span></td>
+											{%- endif%}
 											<td><input type='button' class='btn btn-info btn-mini' value='查看' onclick="iframe('xzfy/check_xzfy/{{obj.id}}')"/></td>
 										{%- endif %}
 									{%- else %}
@@ -85,7 +89,11 @@
 											<td><span class="label label-info">新申请</span></td>
 											<td><input type='button' class='btn btn-warning btn-mini' value='编辑' onclick="iframe('xzfy/edit_xzfy/{{obj.id}}')"/></td>	
 										{%- else %}
-											<td><span class="label">{{obj.approval_name}}审批</span></td>
+											{%- if obj.approval_type==4 %}
+												<td><span class="label">等待支付</span></td>
+											{%- else %}
+												<td><span class="label">{{obj.approval_name}}审批</span></td>
+											{%- endif%}
 											<td><input type='button' class='btn btn-info btn-mini' value='查看' onclick="iframe('xzfy/check_xzfy/{{obj.id}}')"/></td>
 										{%- endif %}
 									{%- endif %}
