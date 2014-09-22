@@ -38,6 +38,8 @@ def grcx_list(page,return_type):
             for obj in data.items:
                 if str(obj.approval_type)=='3':
                     obj.approval_name='财务'
+                if str(obj.approval_type)=='4':
+                    obj.approval_name='人事'
                 if str(obj.approval_type)=='1':
                     tt = OA_Org.query.filter_by(id=obj.approval).first()
                     obj.approval_name=tt.name
