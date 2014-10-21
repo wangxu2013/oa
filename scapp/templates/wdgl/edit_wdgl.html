@@ -66,7 +66,7 @@
 							<td colspan="3">
 								<span id="file">	
 									<input type="file" id="attachment" name="attachment" onchange="return FileUpload_onselect()" />
-									<span class="textfieldRequiredMsg">不能为空</span>
+
 								</span>	
 							</td>
 						</tr>						
@@ -137,7 +137,6 @@
 	<script src="/static/js/system.js"></script>
 	<script type="text/javascript">
 		var sprytextfield1 = new Spry.Widget.ValidationTextField("name", "none");
-		var sprytextfield2 = new Spry.Widget.ValidationTextField("file", "none");
 		function selectAll(obj,num){
 			if($(obj).attr("checked")=="checked"){
 				$("input[value="+num+"]").attr("checked","checked")

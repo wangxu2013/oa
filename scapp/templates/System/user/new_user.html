@@ -35,7 +35,7 @@
 						<tr>
 							<td class="table-label">登录名称<font class="red">*</font></td>
 							<td width="36%">
-								<span id="email">
+								<span id="sprytextfield1">
 									<input type="text" id="login_name" name="login_name"/>
 									<span class="textfieldRequiredMsg">登录名称不能为空</span>
 								</span>
@@ -142,7 +142,7 @@
 		var sprypassword1 = new Spry.Widget.ValidationPassword("sprypassword1", {validateOn:["blur"], minChars:4, maxChars:32});
 		var spryconfirm1 = new Spry.Widget.ValidationConfirm("spryconfirm1", "login_password", {validateOn:["blur"]});
 		var sprytextfield2 = new Spry.Widget.ValidationTextField("sprytextfield2", "none", {validateOn:["blur"]});
-		var sprytextfield3 = new Spry.Widget.ValidationTextField("email", "email", {validateOn:["blur"]});
+		var email = new Spry.Widget.ValidationTextField("email", "none", {validateOn:["blur"]});
 	</script>
 </body>
 </html>
