@@ -179,22 +179,22 @@ def new_doc(type,p_id):
             # 消息闪现
             flash('保存失败','error')
             
-        return render_template("wdgl/wdgl.html")
+        return render_template("wdgl/wdgl.html",type=type,p_id=p_id,second=1)
     else:
         user= OA_User.query.filter("active='1'").order_by("id").all()
         user_group = OA_User.query.filter("id in (select user_id from oa_project_group where type='"+type+"' and project_id="+str(p_id)+")").all()
         return render_template("wdgl/new_wdgl.html",type=type,p_id=p_id,user=user,user_group=user_group)
 
 #进入文件权限更新页面
-@app.route('/wdgl/edit_doc/<int:docId>', methods=['GET','POST'])
-def edit_doc(docId):
+@app.route('/wdgl/edit_doc/<int:docId>/<type>/<int:p_id>', methods=['GET','POST'])
+def edit_doc(docId,type,p_id):
     if request.method == 'GET':
         doc = OA_Doc.query.filter_by(id=docId).first()
         #user= OA_User.query.filter("active='1' and id<>1").order_by("id").all()
         #privileges = OA_Privilege.query.filter("privilege_access='OA_Doc' and privilege_access_value="+str(docId)).order_by("privilege_master_id").all()
         #调用存储过程
         user_doc_privilege = db.session.execute("call pro_user_doc_privilege("+str(docId)+")").fetchall()
-        return render_template("wdgl/edit_wdgl.html",doc=doc,user_doc_privilege=user_doc_privilege)  
+        return render_template("wdgl/edit_wdgl.html",doc=doc,user_doc_privilege=user_doc_privilege,type=type,p_id=p_id)  
     else:
         try:
             oa_doc = OA_Doc.query.filter_by(id=docId).first()
@@ -264,7 +264,7 @@ def edit_doc(docId):
             # 消息闪现
             flash('保存失败','error')
             
-        return render_template("wdgl/wdgl.html")
+        return render_template("wdgl/wdgl.html",type=type,p_id=p_id,second=1)
 
 # #分页查询
 @app.route('/wdgl/information/<type>/<int:p_id>/<int:page>', methods=['GET'])
