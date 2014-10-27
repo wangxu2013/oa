@@ -213,7 +213,7 @@
 						</div>
 					{%- for obj in privileges %}
 						{%- if obj.privilege_access_value == "xzfy" and obj.privilege_operation != "0" %}
-						<li onclick="leftmenu(this);changeiframe('xzfy/new_xzfy')" id="xzfy" class="
+						<li onclick="leftmenu(this);changeiframe('xzfy/new_xzfy')" style="*margin-top:25px;" id="xzfy" class="
 							{%- if menu == "xxgl"%}
 								active
 							{%- endif %}									
@@ -259,7 +259,7 @@
 					</div>	
 					{%- for obj in privileges %}
 						{%- if obj.privilege_access_value == "wdgl" and obj.privilege_operation != "0" %}				
-						<li onclick="leftmenu(this);changeiframe('wdgl/wdgl')" id="wdgl" class="active">
+						<li onclick="leftmenu(this);changeiframe('wdgl/wdgl')" style="*margin-top:25px;" id="wdgl" class="active">
 							<a href="javascript:void(0);">文档管理</a>
 						</li>
 						{%- endif %}
@@ -278,7 +278,7 @@
 					<!-- 系统管理员 -->
 					{%- for obj in privileges %}
 						{%- if obj.privilege_access_value == "sygl" and obj.privilege_operation != "0" %}
-						<li onclick="leftmenu(this);changeiframe('System/reason/1')" id="sygl" class="active">
+						<li onclick="leftmenu(this);changeiframe('System/reason/1')" style="*margin-top:25px;" id="sygl" class="active">
 							<a href="javascript:void(0);">事由管理</a>
 						</li>
 						{%- endif %}
@@ -337,7 +337,7 @@
 						</div>	
 						{%- for obj in privileges %}
 						{%- if obj.privilege_access_value == "grxm" and obj.privilege_operation != "0" %}			
-						<li onclick="leftmenu(this);changeiframe('xmgl/grxm')" id="grxm" class="active">
+						<li onclick="leftmenu(this);changeiframe('xmgl/grxm')" style="*margin-top:25px;" id="grxm" class="active">
 							<a href="javascript:void(0);">个人项目</a>
 						</li>
 						{%- endif %}
@@ -360,7 +360,7 @@
 						</div>	
 						{%- for obj in privileges %}
 						{%- if obj.privilege_access_value == "ndfytj" and obj.privilege_operation != "0" %}		
-						<li onclick="leftmenu(this);changeiframe('tjbb/ndfytj_search')" id="ndfytj" class="active">
+						<li onclick="leftmenu(this);changeiframe('tjbb/ndfytj_search')" style="*margin-top:25px;" id="ndfytj" class="active">
 							<a href="javascript:void(0);">年度费用统计</a>
 						</li>
 						{%- endif%}
@@ -405,7 +405,7 @@
 				{%- elif menu == "Tjbb" %}
 					src="tjbb/ndfytj_search"
 				{%- endif %}
-			width="100%" id="content_frame" name="content_frame" marginheight="0" marginwidth="0" height="100%"></iframe>
+			width="100%" id="content_frame" name="content_frame" marginheight="0" marginwidth="0" height="100%" style="*height:530px;"></iframe>
 		</div><!--/right-->
 	</div><!--/bottom-->
 	<div class="footer">
