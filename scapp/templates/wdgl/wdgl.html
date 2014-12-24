@@ -77,7 +77,10 @@
 		
 		function check_new_privilegeCB(json){
 			var obj = $.evalJSON(json);
+			type=document.getElementById("type").value;
+			p_id=document.getElementById("p_id").value;
 			if(obj.result == "Success"){
+				posturl = "wdgl/new_doc/"+type+"/"+p_id;
 				iframe(posturl);
 			}
 			else{
@@ -89,8 +92,11 @@
 		function new_doc(){
 			if(p_id!=0){
 				//管理员可任意发布
+				type=document.getElementById("type").value;
+				p_id=document.getElementById("p_id").value;
 				var cur_user_id = {{current_user.id}}
 				if(cur_user_id == 1){
+					posturl = "wdgl/new_doc/"+type+"/"+p_id;
 					iframe(posturl);
 				}
 				else{
