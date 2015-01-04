@@ -23,13 +23,14 @@ class OA_Project(db.Model):
     treeType=db.Column(db.Integer) #树中显示
     amount = db.Column(db.String)
     open = db.Column(db.Boolean)
+    version = db.Column(db.String)
     
     #外键
     oa_project_ibfk_1 = db.relationship('OA_Org', backref='oa_project_ibfk_1')
     oa_project_ibfk_3 = db.relationship('OA_Customer', backref='oa_project_ibfk_3')
     oa_project_ibfk_4 = db.relationship('OA_User', backref='oa_project_ibfk_4')
 
-    def __init__(self,project_num,project_name,contract_num,project_describe,p_org_id,p_project_id,customer_id,treeType):
+    def __init__(self,project_num,project_name,contract_num,project_describe,p_org_id,p_project_id,customer_id,treeType,version):
         self.project_name=project_name
         self.project_num=project_num
         self.contract_num=contract_num
@@ -39,6 +40,7 @@ class OA_Project(db.Model):
         self.customer_id=customer_id
         self.open = True
         self.treeType=treeType
+        self.version=version
 
     def add(self):
         db.session.add(self)

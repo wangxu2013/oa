@@ -18,7 +18,7 @@ from scapp import app
 #费用统计条件树
 @app.route('/fytj/fytj_tree',methods=['GET','POST'])
 def fytj_tree():
-    orgs = OA_Org.query.filter_by(manager=current_user.id).all()
+    orgs = OA_Org.query.filter("manager="+str(current_user.id)+" and version='2015'").all()
     orgs_list = []
     if orgs:
         for obj in orgs:
