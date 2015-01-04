@@ -9,7 +9,7 @@ from flask import request,redirect,render_template,flash
 # 项目管理
 @app.route('/System/project/<int:page>', methods=['GET'])
 def System_project(page):
-    projects = OA_Project.query.order_by("id").paginate(page, per_page = PER_PAGE)
+    projects = OA_Project.query.filter("version='2015'").order_by("id").paginate(page, per_page = PER_PAGE)
     return render_template("System/project/project.html",projects=projects)
 
 # 加载树
@@ -41,7 +41,7 @@ def new_project():
             OA_Project(request.form['project_num'],request.form['project_name'],
                        request.form['contract_num'],request.form['project_describe'],
                        p_org_id,p_project_id,
-                       request.form['customer_id'],request.form['treeType']).add()
+                       request.form['customer_id'],request.form['treeType'],'2015').add()
             db.session.commit()
             # 消息闪现
             flash('保存成功','success')
@@ -55,9 +55,9 @@ def new_project():
         return redirect("System/project/1")
 
     else:
-        orgs = OA_Org.query.filter(OA_Org.id>1).all()
+        orgs = OA_Org.query.filter("version='2015'").all()
         customers = OA_Customer.query.all()
-        projects = OA_Project.query.all()
+        projects = OA_Project.query.filter("version='2015'").all()
         user = OA_User.query.filter("id!=1").all()
         return render_template('System/project/new_project.html',orgs=orgs,user=user,customers=customers,projects=projects)
     

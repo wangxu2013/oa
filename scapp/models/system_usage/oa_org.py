@@ -15,15 +15,17 @@ class OA_Org(db.Model):
     org_level = db.Column(db.Integer)
     amount = db.Column(db.String)
     is_caiwu = db.Column(db.Integer)
+    version = db.Column(db.String)
     
     #外键
     oa_org_ibfk_2 = db.relationship('OA_User', backref='oa_org_ibfk_2')
     
-    def __init__(self, name, pId,org_level):
+    def __init__(self, name, pId,org_level,version):
         self.name = name
         self.pId = pId
         self.open = True
         self.org_level = org_level
+        self.version = version
 
     def add(self):
         db.session.add(self)

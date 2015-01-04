@@ -15,6 +15,7 @@ from scapp import app
 import json
 
 from scapp.views.reimbursement.fysp import SendMail
+from scapp.logic import recursion
 
 # 新增费用
 @app.route('/xzfy/new_xzfy', methods=['GET','POST'])
@@ -26,7 +27,7 @@ def new_xzfy():
             #提单，自动级别高的部门下
             approval =""
             approval_type=""
-            if str(level)=='5':
+            if str(level)=='8':
                 approval_type=Approval_type_CAIWU
                 approval = 1
             elif str(level)=='6':
@@ -67,17 +68,17 @@ def new_xzfy():
 
     else:
         reasons = OA_Reason.query.order_by("id").all()
-        org = OA_Org.query.filter("id>1").all();
+        org = OA_Org.query.filter("id>1 and version='2015'").all();
         return render_template("bxsq/xzfy/new_xzfy.html",reasons=reasons,org=org)
 
 # 获取项目
 @app.route('/xzfy/get_project/<int:id>', methods=['GET','POST'])
 def get_project(id):
-    project = OA_Project.query.filter_by(p_org_id=id).all();
-    
+    ids = recursion.get_recursion_prjs(str(id), "OA_Org")
     data =''
-    for obj in project:
-        data=str(data)+str(obj.id)+","+str(obj.project_name)
+    for obj in ids:
+        project = OA_Project.query.filter_by(id=obj).first();
+        data=str(data)+str(obj)+","+str(project.project_name)
         data+="."
     data = data[:int(len(data)-1)]
     return json.dumps(data,ensure_ascii=False);

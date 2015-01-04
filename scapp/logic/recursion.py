@@ -33,7 +33,7 @@ def get_recursion_prjs(node_id,node_type):
                 for obj in projects_list:
                     ids.append(obj.id)
     else:#未选定任意节点
-        orgs = OA_Org.query.filter_by(manager=current_user.id).all()#获得负责部门
+        orgs = OA_Org.query.filter("manager="+str(current_user.id)+" and version='2015'").all()#获得负责部门
         orgs_list = []
         projects_list = []
         if orgs:

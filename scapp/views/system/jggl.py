@@ -22,11 +22,11 @@ def System_jggl():
 def init_org_tree(id):
 	# 加载所有
 	if id == 0:
-		tree = OA_Org.query.order_by("id").all()
+		tree = OA_Org.query.filter_by(version='2015').order_by("id").all()
 
 	# 加载对应id的子节点
 	else:
-		tree = OA_Org.query.filter_by(pId=id).order_by("id").all()
+		tree = OA_Org.query.filter("pId=id and version='2015'").order_by("id").all()
 
 	return helpers.show_result_content(tree) # 返回json
 	
@@ -36,7 +36,7 @@ def new_jggl(pId):
 	if request.method == 'POST':
 		try:
 			org_level = OA_Org.query.filter_by(id=pId).first().org_level + 1
-			OA_Org(request.form['name'],pId,org_level).add()
+			OA_Org(request.form['name'],pId,org_level,"2015").add()
 
 			# 事务提交
 			db.session.commit()
