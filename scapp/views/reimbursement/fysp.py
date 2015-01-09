@@ -205,6 +205,8 @@ def approve(user_id,expense_id,result,reason):
     try:
         #报销单信息
         reimbursement = OA_Reimbursement.query.filter_by(id=expense_id).first()
+        #获得level
+        role = OA_UserRole.query.filter_by(user_id=user_id).first().oa_userrole_ibfk_2
         #通过
         if result=='1':
             # #金额权限
@@ -225,9 +227,16 @@ def approve(user_id,expense_id,result,reason):
             # if reimbursement.approval_type==4:
             #     reimbursement.is_paid = '1'
             #     reimbursement.paid_date= datetime.datetime.now()
-            #如果当前是财务审批
+            #如果当前是财务审批,转入人事
             if reimbursement.approval_type==3:
                 reimbursement.approval_type=4
+            #如果当前是副总审批，转入财务
+            elif role.role_level==7:
+                reimbursement.approval_type=3
+
+            #如果当前是总裁审批，转入财务
+            elif role.role_level==8:
+                reimbursement.approval_type=3
             #部门审批阶段
             elif reimbursement.approval_type==1:
                 # if power=='true':
