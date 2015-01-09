@@ -98,7 +98,7 @@ def edit_project(id):
         return redirect("System/project/1")
 
     else:
-        orgs = OA_Org.query.filter(OA_Org.id>1).all()
+        orgs = OA_Org.query.filter("version='2015'" ).all()
         customers = OA_Customer.query.all()
         projects = OA_Project.query.all()
         project = OA_Project.query.filter_by(id=id).first()
