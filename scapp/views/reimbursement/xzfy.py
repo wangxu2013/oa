@@ -30,11 +30,12 @@ def new_xzfy():
             if str(level)=='8':
                 approval_type=Approval_type_CAIWU
                 approval = 1
-            elif str(level)=='6':
+            if str(level)=='6':
                 approval=request.form['project_id']
                 approval_type=Approval_type_PRJ
-            else:
+            if str(level)!='6' and str(level)!='8':
                 string = getLastId(request.form['project_id'],Approval_type_PRJ,level)
+                print string
                 if string:
                     app = string.split('.')
                     approval=app[0]
@@ -152,13 +153,19 @@ def getLastId(id,approval_type,level):
             if project.manager_id:
                 #获取上级部门managerID
                 last_org = OA_Org.query.filter_by(id=project.p_org_id).first()
+                if not last_org:
+                    pro = OA_Project.query.filter_by(id=project.p_project_id).first()
+                    print pro.manager_id
+                    if str(project.manager_id)==str(pro.manager_id): 
+                        return getLastId(pro.id,Approval_type_PRJ,level)
                 #项目上级部门同属一个负责人
-                if str(project.manager_id)==str(last_org.manager):    
+                elif str(project.manager_id)==str(last_org.manager):    
                     role = OA_UserRole.query.filter_by(user_id=project.manager_id).first().oa_userrole_ibfk_2
                     last_level = role.role_level #取得用户权限等级
                     if int(last_level)>int(level):
                         return str(project.p_org_id)+"."+str(Approval_type_ORG)
                     else:
+
                         return getLastId(last_org.id,Approval_type_ORG,level)
                 else:
                     role = OA_UserRole.query.filter_by(user_id=project.manager_id).first().oa_userrole_ibfk_2
