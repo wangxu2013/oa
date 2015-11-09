@@ -21,7 +21,7 @@
 </head>
 
 <body onload="datepicker();">	
-	<form class="content" method="POST" action="/fysp/fyzf_total">
+	<form class="content" method="POST" action="/fysp/fyzf_total" id="formExcel">
 		<div class="well place">			
 			<i class="icon-home"></i><a href="#">报销管理</a>/<a href="#">费用审批</a>
 		</div>		
@@ -69,9 +69,45 @@
 						</tr>
 					</table>
 				</div>
-				<input type="submit" class="btn btn-info" value="搜索"/>										
+				<input type="button" class="btn btn-info" value="搜索" onclick="search()"/>										
 			</div><!--/搜索-->
 		</div><!--/row-fluid -->
+		<div class="row-fluid">
+			<i class="icon-bookmark"></i><span class="titletip">导出excel</span>
+			<div>
+				<div style="border:1px solid #94c1dc;">
+					<table class="table-list">
+						<tr>
+							<td class="table-label">费用开始时间</td>
+							<td><input type="text" class="datepicker" name="beg_date" data-date-format="yyyy-mm-dd" readonly/></td>
+							<td class="table-label">费用结束时间</td>
+							<td><input type="text" class="datepicker" name="end_date" data-date-format="yyyy-mm-dd" readonly/></td>
+						</tr>
+						<tr>
+							<td class="table-label">付款状态</td>
+							<td>
+								<select name="is_paid">
+									<option value="-1">全部</option>
+									<option value="1">已付款</option>
+									<option value="0">未付款</option>
+								</select>
+							</td>							
+						</tr>
+					</table>
+				</div>
+				<input type="button" class="btn btn-info" value="导出" onclick="down()"/>										
+			</div><!--/搜索-->
+		</div><!--/row-fluid -->
+		<script type="text/javascript">
+		 	function down(){
+		 		document.getElementById("formExcel").action="/fysp/fyzf_Excel";
+		 		document.getElementById("formExcel").submit();
+		 	}
+		 	function search(){
+		 		document.getElementById("formExcel").action="/fysp/fyzf_total";
+		 		document.getElementById("formExcel").submit();
+		 	}
+		</script>
 	</form><!--/content -->
 </body>
 </html>

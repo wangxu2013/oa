@@ -59,7 +59,7 @@
 </head>
 
 <body onload="datepicker();">	
-	<form class="content" method="POST" action="/fytj/fytj_list/1">
+	<form class="content" method="POST" action="/fytj/fytj_list/1" id="formExcel">
 		<div class="well place">			
 			<i class="icon-home"></i><a href="#">报销管理</a>/<a href="#">付款审核</a>
 		</div>		
@@ -106,9 +106,22 @@
 						</tr>
 					</table>
 				</div>
-				<input type="submit" class="btn btn-info" value="搜索"/>										
+				<input type="button" class="btn btn-info" value="搜索" onclick="search()"/>		
+				<input type="button" class="btn btn-info" value="导出" onclick="down()"/>									
 			</div><!--/搜索-->
 		</div><!--/row-fluid -->
+		<script type="text/javascript">
+		 	function down(){
+		 		document.getElementById("formExcel").action="/fytj/fytj_Excel";
+		 		document.getElementById("formExcel").submit();
+		 	}
+
+		 	function search(){
+		 		document.getElementById("formExcel").action="/fytj/fytj_list/1";
+		 		document.getElementById("formExcel").submit();
+		 	}
+
+		</script>
 	</form><!--/content -->
 </body>
 </html>

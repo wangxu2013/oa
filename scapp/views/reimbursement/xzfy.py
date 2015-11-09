@@ -12,8 +12,10 @@ from flask.ext.login import current_user
 from scapp.models import OA_Project,OA_Reason,OA_Org,OA_UserRole,OA_Reimbursement
 
 from scapp import app
+import json
 
 from scapp.views.reimbursement.fysp import SendMail
+from scapp.logic import recursion
 
 # 新增费用
 @app.route('/xzfy/new_xzfy', methods=['GET','POST'])
@@ -25,14 +27,15 @@ def new_xzfy():
             #提单，自动级别高的部门下
             approval =""
             approval_type=""
-            if str(level)=='5':
+            if str(level)=='8':
                 approval_type=Approval_type_CAIWU
                 approval = 1
-            elif str(level)=='6':
+            if str(level)=='6':
                 approval=request.form['project_id']
                 approval_type=Approval_type_PRJ
-            else:
+            if str(level)!='6' and str(level)!='8':
                 string = getLastId(request.form['project_id'],Approval_type_PRJ,level)
+                print string
                 if string:
                     app = string.split('.')
                     approval=app[0]
@@ -66,8 +69,20 @@ def new_xzfy():
 
     else:
         reasons = OA_Reason.query.order_by("id").all()
+        org = OA_Org.query.filter("id>1 and version='2015'").all();
+        return render_template("bxsq/xzfy/new_xzfy.html",reasons=reasons,org=org)
 
-        return render_template("bxsq/xzfy/new_xzfy.html",reasons=reasons)
+# 获取项目
+@app.route('/xzfy/get_project/<int:id>', methods=['GET','POST'])
+def get_project(id):
+    ids = recursion.get_recursion_prjs(str(id), "OA_Org")
+    data =''
+    for obj in ids:
+        project = OA_Project.query.filter_by(id=obj).first();
+        data=str(data)+str(obj)+","+str(project.project_name)
+        data+="."
+    data = data[:int(len(data)-1)]
+    return json.dumps(data,ensure_ascii=False);
     
 # 修改费用
 @app.route('/xzfy/edit_xzfy/<int:id>', methods=['GET','POST'])
@@ -118,7 +133,8 @@ def edit_xzfy(id):
         reimbursement = OA_Reimbursement.query.filter_by(id=id).first()
         reasons = OA_Reason.query.order_by("id").all()
         belong_name = OA_Project.query.filter_by(id=reimbursement.project_id).first().project_name
-        return render_template("bxsq/xzfy/edit_xzfy.html",reimbursement=reimbursement,reasons=reasons,belong_name=belong_name)
+        org = OA_Org.query.filter("id>1").all();
+        return render_template("bxsq/xzfy/edit_xzfy.html",reimbursement=reimbursement,reasons=reasons,belong_name=belong_name,org=org)
 
 # 修改费用
 @app.route('/xzfy/check_xzfy/<int:id>', methods=['GET','POST'])
@@ -137,13 +153,19 @@ def getLastId(id,approval_type,level):
             if project.manager_id:
                 #获取上级部门managerID
                 last_org = OA_Org.query.filter_by(id=project.p_org_id).first()
+                if not last_org:
+                    pro = OA_Project.query.filter_by(id=project.p_project_id).first()
+                    print pro.manager_id
+                    if str(project.manager_id)==str(pro.manager_id): 
+                        return getLastId(pro.id,Approval_type_PRJ,level)
                 #项目上级部门同属一个负责人
-                if str(project.manager_id)==str(last_org.manager):    
+                elif str(project.manager_id)==str(last_org.manager):    
                     role = OA_UserRole.query.filter_by(user_id=project.manager_id).first().oa_userrole_ibfk_2
                     last_level = role.role_level #取得用户权限等级
                     if int(last_level)>int(level):
                         return str(project.p_org_id)+"."+str(Approval_type_ORG)
                     else:
+
                         return getLastId(last_org.id,Approval_type_ORG,level)
                 else:
                     role = OA_UserRole.query.filter_by(user_id=project.manager_id).first().oa_userrole_ibfk_2

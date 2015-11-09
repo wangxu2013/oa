@@ -50,7 +50,7 @@
 		<div class="row-fluid">
 			<i class="icon-bookmark"></i><span class="titletip">文档信息</span>			
 			<form method="POST" enctype="multipart/form-data" 
-				action="/wdgl/edit_doc/{{doc.id}}">	
+				action="/wdgl/edit_doc/{{doc.id}}/{{type}}/{{p_id}}">	
 				<div style="border:1px solid #94c1dc;">				
 					<table class="table-list">								
 						<tr>
@@ -66,7 +66,7 @@
 							<td colspan="3">
 								<span id="file">	
 									<input type="file" id="attachment" name="attachment" onchange="return FileUpload_onselect()" />
-									<span class="textfieldRequiredMsg">不能为空</span>
+
 								</span>	
 							</td>
 						</tr>						
@@ -137,7 +137,6 @@
 	<script src="/static/js/system.js"></script>
 	<script type="text/javascript">
 		var sprytextfield1 = new Spry.Widget.ValidationTextField("name", "none");
-		var sprytextfield2 = new Spry.Widget.ValidationTextField("file", "none");
 		function selectAll(obj,num){
 			if($(obj).attr("checked")=="checked"){
 				$("input[value="+num+"]").attr("checked","checked")

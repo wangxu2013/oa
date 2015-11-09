@@ -54,6 +54,9 @@
 		    $("#body1").html(content);
 		    Frame();
 		    //分页
+		    document.getElementById("second").value=1;
+		    document.getElementById("type").value=type;
+		    document.getElementById("p_id").value=p_id;
 		    information(1);
 	    }
 	    
@@ -74,7 +77,10 @@
 		
 		function check_new_privilegeCB(json){
 			var obj = $.evalJSON(json);
+			type=document.getElementById("type").value;
+			p_id=document.getElementById("p_id").value;
 			if(obj.result == "Success"){
+				posturl = "wdgl/new_doc/"+type+"/"+p_id;
 				iframe(posturl);
 			}
 			else{
@@ -86,8 +92,11 @@
 		function new_doc(){
 			if(p_id!=0){
 				//管理员可任意发布
+				type=document.getElementById("type").value;
+				p_id=document.getElementById("p_id").value;
 				var cur_user_id = {{current_user.id}}
 				if(cur_user_id == 1){
+					posturl = "wdgl/new_doc/"+type+"/"+p_id;
 					iframe(posturl);
 				}
 				else{
@@ -110,7 +119,7 @@
 			if(chk==""){
 				alert("请先在列表中勾选要修改的文档");
 			}else{
-				posturl = "wdgl/edit_doc/"+chk.split("_")[0];
+				posturl = "wdgl/edit_doc/"+chk.split("_")[0]+"/"+type+"/"+p_id;
 				if(chk.split("_")[1] != {{current_user.id}}){
 					alert("您没有该文档的修改权限");
 					return;
@@ -141,6 +150,12 @@
 		});
 
 		function information(page){
+			var second=document.getElementById("second").value;
+			if(second!=1){
+				return;
+			}
+			type=document.getElementById("type").value;
+			p_id=document.getElementById("p_id").value;
 			$.ajax({
 				url:"/wdgl/information/"+type+"/"+p_id+"/"+page,
 				type: "GET",
@@ -191,7 +206,7 @@
 	</SCRIPT>	
 </head>
 
-<body onload="setTimeOut();">	
+<body onload="setTimeOut();information(1);">	
 	<div class="content">
 		<div class="well place">			
 			<i class="icon-home"></i><a href="#">文档管理</a>/<a href="#">文档管理</a>
@@ -211,7 +226,9 @@
 				<ul id="tree" class="ztree" style="height:420px;overflow:auto;border:1px solid #94c1dc;"></ul>	
 			</div>
 			<div class="span8" style="margin-top:25px;">
-				
+				<input type="hidden" value="{{second}}" id="second">
+				<input type="hidden" value="{{type}}" id="type">
+				<input type="hidden" value="{{p_id}}" id="p_id">
 				<div style="margin-bottom:5px;">
 					<a type="button" class="btn btn-info" href="#" onclick="new_doc();">新增</a>
 					<a type="button" class="btn btn-info" href="#" onclick="edit_doc();">修改</a>

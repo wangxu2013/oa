@@ -35,7 +35,7 @@ def login():
             count_1=len(OA_Reimbursement.query.filter_by(create_user=current_user.id,is_paid=0).all())
             count_2=getCount()
             
-            orgs = OA_Org.query.filter_by(manager=current_user.id).all()
+            orgs = OA_Org.query.filter("manager="+str(current_user.id)+" and version='2015'").all()
             result = []
             for obj in orgs:
                 tmp = {}
@@ -70,7 +70,7 @@ def welcome():
     count_1=len(OA_Reimbursement.query.filter_by(create_user=current_user.id,is_paid=0).all())
     count_2=getCount()
     
-    orgs = OA_Org.query.filter_by(manager=current_user.id).all()
+    orgs = OA_Org.query.filter("manager="+str(current_user.id)+" and version='2015'").all()
     result = []
     for obj in orgs:
         tmp = {}
@@ -166,7 +166,7 @@ def getCount():
     sql =" is_paid=0 and is_refuse=0 "
     if current_user.id is not 15:
         sql+=" and approval_type!=4 "
-    orgAll = OA_Org.query.filter_by(manager=current_user.id).all()
+    orgAll = OA_Org.query.filter("manager="+str(current_user.id)+" and version='2015'").all()
     sql+=" and ("
     if len(orgAll)>0:
         appreval ="("
@@ -429,7 +429,7 @@ def glxm():
 # 项目管理-项目搜索页面
 @app.route('/xmgl/xm_search', methods=['GET','POST'])
 def xm_search():
-    org = OA_Org.query.filter_by(manager=current_user.id).first()
+    org = OA_Org.query.filter("manager="+str(current_user.id)+" and version='2015'").first()
     data = ''
     if org:
         data = get_recursion_org(org.id)
@@ -446,11 +446,11 @@ def glxm_result(org_id,task_name):
 @app.route('/tjbb/ndfytj_search', methods=['GET'])
 def ndfytj_search():
     if str(current_user.id) == '1':
-        data = OA_Org.query.all()
+        data = OA_Org.query.filter("version='2015'").all()
     else:
-        data = OA_Org.query.filter_by(manager=current_user.id).all()
+        data = OA_Org.query.filter("manager="+str(current_user.id)+" and version='2015'").all()
         if data[0].org_level==0:
-            data = OA_Org.query.filter("pid=1").all()
+            data = OA_Org.query.filter("pid=1 and version='2015'").all()
     return render_template("tjbb/ndfytj_search.html",data=data)
 	
 # 统计报表-年度费用统计
@@ -476,12 +476,12 @@ def Report_create_bar_3d(org,time):
 # 统计报表-月度部门费用开支情况搜索
 @app.route('/tjbb/ydbmtj_search', methods=['GET'])
 def ydbmtj_search():
-    org = OA_Org.query.filter_by(manager=current_user.id).first()
+    org = OA_Org.query.filter("manager="+str(current_user.id)+" and version='2015'").first()
     data = ''
     if org:
         data = get_recursion_org(org.id)
     if str(current_user.id) == '1':
-        data = OA_Org.query.all()
+        data = OA_Org.query.filter("version='2015'").all()
     return render_template("tjbb/ydbmtj_search.html",data=data)
 	
 # 统计报表-月度部门费用开支情况
@@ -508,11 +508,11 @@ def Report_create_pie(org,time):
 def ydgstj_search():
     data=''
     if str(current_user.id) == '1':
-        data = OA_Org.query.all()
+        data = OA_Org.query.filter("version='2015'").all()
     else:
-        data = OA_Org.query.filter_by(manager=current_user.id).all()
+        data = OA_Org.query.filter("manager="+str(current_user.id)+" and version='2015'").all()
         if data[0].org_level==0:
-            data = OA_Org.query.filter("pid=1").all()
+            data = OA_Org.query.filter("pid=1 and version='2015'").all()
     return render_template("tjbb/ydgstj_search.html",data=data)
 	
 # 统计报表-月度公司费用开支情况
@@ -537,7 +537,7 @@ def Report_create_pieOrg(org,time):
 # 统计报表-季度部门费用开支情况搜索
 @app.route('/tjbb/jdbmtj_search', methods=['GET'])
 def jdbmtj_search():
-    org = OA_Org.query.filter_by(manager=current_user.id).first()
+    org = OA_Org.query.filter("manager="+str(current_user.id)+" and version='2015'").first()
     data = ''
     if org:
         data = get_recursion_org(org.id)
@@ -583,11 +583,11 @@ def Report_create_pieQuarter(org,year,quarter):
 def jdgstj_search():
     data=''
     if str(current_user.id) == '1':
-        data = OA_Org.query.all()
+        data = OA_Org.query.filter("version='2015'").all()
     else:
-        data = OA_Org.query.filter_by(manager=current_user.id).all()
+        data = OA_Org.query.filter("manager="+str(current_user.id)+" and version='2015'").all()
         if data[0].org_level==0:
-            data = OA_Org.query.filter("pid=1").all()
+            data = OA_Org.query.filter("pid=1 and version='2015'").all()
     return render_template("tjbb/jdgstj_search.html",data=data)
 	
 # 统计报表-季度公司费用开支情况
@@ -720,6 +720,5 @@ def get_recursion_project_task(org_id,task_name):
     if str(task_name) != "-1":
         task_sql += " and subject like '%"+task_name+"%'"
     task_sql += " group by id"
-    print task_sql
     data = db.session.execute(task_sql).fetchall()
     return data

@@ -24,75 +24,44 @@
 		.table-list .table-label{width:140px;}
 	</style>
 	<SCRIPT type="text/javascript">
-		<!--
-		//树节点单击回调
-		var pId = 0;
-		function zTreeOnClick(event, treeId, treeNode) {
-			pId = treeNode.id;
-			//动态修改项目树
-			setting1.async.url = "/System/tree/OA_Project/"+pId;
-			$.fn.zTree.init($("#tree1"), setting1);
-		};
-
-		var setting = {
-			data: {
-				simpleData: {
-					enable: true
-				}
-			},
-			async: {
-				enable: true,
-				url:"/System/tree/OA_Org/0"
-			},
-			callback: {
-				onClick: zTreeOnClick
+		function changeselect(id){
+			value = $("#org_id option:selected").attr("value");
+			if(value=="-1"){
+				$("#project_id").html('');
 			}
-		};		
-		$(document).ready(function(){						
-			$.fn.zTree.init($("#tree"), setting);		
-					 	
-		});
-		//-->
-	</SCRIPT>
-	
-	<SCRIPT type="text/javascript">
-		//树节点单击回调
-		function zTreeOnClick1(event, treeId, treeNode) {
-			//点击项目树获取归属项目id
-			$("#project_id").val(treeNode.id);
-			$("#org_id").val(pId);
-			$("#belong_name").val(treeNode.project_name);
-			$("#yzA").val(treeNode.project_name);
-			$('#A_xdyss').hide();
-		};
-		var setting1 = {
-			data: {
-				simpleData: {
-					enable: true,
-					pIdKey: "p_project_id",
-				},
-				key: {
-					name: "project_name"
+			$.ajax({
+				url:"/xzfy/get_project/"+id,
+				type: "GET",
+				async : false,
+				success : function(resp, options) {
+					if(resp!=''){
+						resp = resp.substring(1,resp.length-1);
+					}
+					data = resp.split(".");
+					$("#project_id").html('');
+					for(var i=0;i<data.length;i++){
+						data1 = data[i].split(",");
+						$("#project_id").html($("#project_id").html()+"<option value='"+data1[0]+"'>"+data1[1]+"</option>")
+					}
+					
 				}
-			},
-			async: {
-				enable: true
-				//url:"/System/tree/OA_Org/0"
-			},
-			callback: {
-				onClick: zTreeOnClick1
+			})
+		}
+		function add(){
+			value = $("#project_id option:selected").attr("value");
+			
+			if(value>1){
+				document.getElementById("addform").submit();
+			}else{
+				alert("请选择部门");
 			}
-		};	
-		$(document).ready(function(){						
-			$.fn.zTree.init($("#tree1"), setting1);		
-					 	
-		});
-		//-->
+			
+		}
 	</SCRIPT>	
 </head>
 
 <body onload="datepicker();setTimeOut();">
-	<form name="form" class="content" method="POST" action="/xzfy/edit_xzfy/{{reimbursement.id}}">
+	<form name="form" id="addform" class="content" method="POST" action="/xzfy/edit_xzfy/{{reimbursement.id}}">
 		<div class="well place">			
 			<i class="icon-home"></i><a href="#">报销申请</a>/<a href="#">新增费用</a>
 		</div>	
@@ -109,32 +78,23 @@
 		<!--**********************个人类***********************-->
 			<table class="table-list" id="table2">
 				<tr>
-					<td class="table-label">费用所属<font class="red">*</font></td>
+					<td class="table-label">选择部门</td>
 					<td colspan="1">
-						<input type="hidden" id="project_id" name="project_id" value="{{reimbursement.project_id}}"/>
-						<input type="hidden" id="org_id" name="org_id" value="{{reimbursement.org_id}}"/>
-						<input type="text" id="belong_name" value="{{belong_name}}" readonly/>
-						<input type="button" value="选择" class="btn" onclick="$('#A_xdyss').show();"/>
-						<span id="A_manager_name_spay">
-							<input type="hidden" id="yzA" value="{{belong_name}}"/>
-							<span class="textfieldRequiredMsg">不能为空</span>
-						</span>							
-						<div class="display-div" id="A_xdyss">																
-							<input type="button" value="关闭" class="btn btn-info btn-mini pull-right" onclick="$('.display-div').hide();"/><br/>							
-							<div style="width:47%;float:left;margin-top:8px;">
-								<i class="icon-bookmark"></i><span class="titletip">第一步.选择机构</span>
-								<div style="border:1px solid #94c1dc;height:250px;overflow:auto;">
-									<ul id="tree" class="ztree"></ul>	
-								</div>
-							</div>
-							<div style="width:47%;float:right;margin-left:15px;">
-								<i class="icon-bookmark"></i><span class="titletip">第二步.选择项目</span>
-								<div style="border:1px solid #94c1dc;height:250px;overflow:auto;">
-									<ul id="tree1" class="ztree"></ul>	
-								</div>
-							</div>
-						</div>
-					</td>								
+						<select name="org_id" id="org_id" style="width:260px;" onchange="changeselect(this.value)">
+							<option value="-1" selected>请选择</option>
+							{%- for obj in org%}
+							<option value="{{obj.id}}">{{obj.name}}</option>
+							{%- endfor%}
+						</select>
+					</td>
+					</td>	
+					<td class="table-label">选择项目</td>
+							<td colspan="1">
+								<select name="project_id" style="width:260px;" id="project_id">
+								
+								</select>
+							</td>
+					</td>									
 				</tr>
 				<tr>	
 					<td class="table-label">金额<font class="red">*</font></td>
@@ -176,7 +136,7 @@
 			</table>					
 		</div>
 		<span class="point">*为必填字段</span><br/>
-		<input type="submit" value="提交" class="btn btn-info" />
+		<input type="button" value="提交" class="btn btn-info" onclick="add()"/>
 		<input type="reset" value="重置" class="btn btn-info" />
 	</form>	
 

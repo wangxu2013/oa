@@ -20,6 +20,10 @@ from flask.ext.mail import Message
  
 from threading import Thread
 import uuid
+from scapp.tools.export_excel import export_excel
+import xlwt,re
+
+ezxf=xlwt.easyxf #样式转换
 
 
 
@@ -33,9 +37,9 @@ def fysp_search():
     date = time.strftime('%Y-%m-%d',time.localtime(time.time()-2*30*24*60*60))
     user = OA_User.query.all()
     
-    orgs = OA_Org.query.filter_by(manager=current_user.id).all()
+    orgs = OA_Org.query.filter("manager="+str(current_user.id)+" and version='2015'").all()
             
-    projects = OA_Project.query.filter_by(manager_id=current_user.id).all()
+    projects = OA_Project.query.filter("manager_id="+str(current_user.id)+" and version='2015'").all()
             
     return render_template("bxsq/fysp/fysp_search.html",level=level,beg_date=date,user=user,orgs=orgs,projects=projects)
 
@@ -55,7 +59,7 @@ def fysp_total():
     #财务总监
     if current_user.id is not 15:
         sql+=" and approval_type!=4 "
-    orgAll = OA_Org.query.filter_by(manager=current_user.id).all()
+    orgAll = OA_Org.query.filter("manager="+str(current_user.id)+" and version='2015'").all()
     sql+=" and ("
     if org_id == "-1":
         if len(orgAll)>0:
@@ -85,7 +89,7 @@ def fysp_total():
             else:
                 sql += " (approval="+org_id+" and approval_type = 1)"
     #前台没有选择项目
-    da = OA_Project.query.filter_by(manager_id=current_user.id).all()
+    da = OA_Project.query.filter("manager_id="+str(current_user.id)+" and version='2015'").all()
     if project_id == "-1":
         if len(da)>0:
             app ="("
@@ -123,7 +127,7 @@ def fysp_list(page,userId):
     sql =" is_refuse=0 and is_paid =0 and create_user="+str(userId)
     # if current_user.id is not 15:
     sql+=" and approval_type!=4 "
-    orgAll = OA_Org.query.filter_by(manager=current_user.id).all()
+    orgAll = OA_Org.query.filter("manager="+str(current_user.id)+" and version='2015'").all()
     sql+=" and ("
     if org_id == "-1":
         if len(orgAll)>0:
@@ -153,7 +157,7 @@ def fysp_list(page,userId):
             else:
                 sql += " (approval="+org_id+" and approval_type = 1)"
     #前台没有选择项目
-    da = OA_Project.query.filter_by(manager_id=current_user.id).all()
+    da = OA_Project.query.filter("manager_id="+str(current_user.id)+" and version='2015'").all()
     if project_id == "-1":
         if len(da)>0:
             app ="("
@@ -201,73 +205,81 @@ def approve(user_id,expense_id,result,reason):
     try:
         #报销单信息
         reimbursement = OA_Reimbursement.query.filter_by(id=expense_id).first()
+        #获得level
+        role = OA_UserRole.query.filter_by(user_id=user_id).first().oa_userrole_ibfk_2
         #通过
         if result=='1':
-            #金额权限
-            power = 'false'
-            #查询金额是否在审批权限内
-            amount_limit=""
-            if reimbursement.approval_type==1:
-                org = OA_Org.query.filter_by(id=reimbursement.approval).first()
-                amount_limit = org.amount
-            elif reimbursement.approval_type==2:
-                project = OA_Project.query.filter_by(id=reimbursement.approval).first()
-                amount_limit = project.amount
-            #财务无需比较
-            if int(reimbursement.approval_type) is not 3:
-                if float(reimbursement.amount)<=float(amount_limit):
-                    power= 'true'
+            # #金额权限
+            # power = 'false'
+            # #查询金额是否在审批权限内
+            # amount_limit=""
+            # if reimbursement.approval_type==1:
+            #     org = OA_Org.query.filter_by(id=reimbursement.approval).first()
+            #     amount_limit = org.amount
+            # elif reimbursement.approval_type==2:
+            #     project = OA_Project.query.filter_by(id=reimbursement.approval).first()
+            #     amount_limit = project.amount
+            # #财务无需比较
+            # if int(reimbursement.approval_type) is not 3:
+            #     if float(reimbursement.amount)<=float(amount_limit):
+            #         power= 'true'
             #财务总监审批(暂时不用)
             # if reimbursement.approval_type==4:
             #     reimbursement.is_paid = '1'
             #     reimbursement.paid_date= datetime.datetime.now()
-            #如果当前是财务审批
+            #如果当前是财务审批,转入人事
             if reimbursement.approval_type==3:
                 reimbursement.approval_type=4
-                reimbursement.paid_date= datetime.datetime.now() 
+            #如果当前是副总审批，转入财务
+            elif role.role_level==7:
+                reimbursement.approval_type=3
+
+            #如果当前是总裁审批，转入财务
+            elif role.role_level==8:
+                reimbursement.approval_type=3
             #部门审批阶段
             elif reimbursement.approval_type==1:
-                if power=='true':
-                    #审批通过进入财务审批
-                    reimbursement.approval_type=3
-                else:
-                    org = OA_Org.query.filter_by(id=reimbursement.approval).first()
-                    if org:
-                        if org.pId: 
-                            #审批通过进入上级部门审批
-                            highOrg = OA_Org.query.filter_by(id=org.pId).first()
-                            if highOrg.pId:
-                                if highOrg.manager==org.manager:
-                                    reimbursement.approval=highOrg.pId
-                                else:
-                                    reimbursement.approval=org.pId                            
-                                reimbursement.approval_type = 1
+                # if power=='true':
+                #     #审批通过进入财务审批
+                #     reimbursement.approval_type=3
+                # else:
+                org = OA_Org.query.filter_by(id=reimbursement.approval).first()
+                if org:
+                    if org.pId: 
+                        #审批通过进入上级部门审批
+                        highOrg = OA_Org.query.filter_by(id=org.pId).first()
+                        if highOrg.pId:
+                            if highOrg.manager==org.manager:
+                                reimbursement.approval=highOrg.pId
                             else:
-                               reimbursement.approval=org.pId 
-                               reimbursement.approval_type = 1
+                                reimbursement.approval=org.pId                            
+                            reimbursement.approval_type = 1
                         else:
-                            #审批通过进入财务审批
-                            reimbursement.approval_type=3
+                           reimbursement.approval=org.pId 
+                           reimbursement.approval_type = 1
+                    else:
+                        #审批通过进入财务审批
+                        reimbursement.approval_type=3
             #项目审批阶段
             else:
-                if power=='true':
-                    #审批通过进入财务审批
-                    reimbursement.approval_type=3
-                else:
-                    project = OA_Project.query.filter_by(id=reimbursement.approval).first()
-                    if project:
-                        if project.p_project_id:
-                            #审批通过进入上级项目审批
-                            reimbursement.approval=project.p_project_id
-                        else:
-                            #审批通过进入上级部门审批(判断是否同一领导)
-                            org = OA_Org.query.filter_by(id=project.p_org_id).first()
-                            if org:
-                                if int(org.manager)==int(project.manager_id):
-                                   reimbursement.approval=org.pId
-                                else:
-                                    reimbursement.approval=project.p_org_id
-                            reimbursement.approval_type = 1
+                # if power=='true':
+                #     #审批通过进入财务审批
+                #     reimbursement.approval_type=3
+                # else:
+                project = OA_Project.query.filter_by(id=reimbursement.approval).first()
+                if project:
+                    if project.p_project_id:
+                        #审批通过进入上级项目审批
+                        reimbursement.approval=project.p_project_id
+                    else:
+                        #审批通过进入上级部门审批(判断是否同一领导)
+                        org = OA_Org.query.filter_by(id=project.p_org_id).first()
+                        if org:
+                            if int(org.manager)==int(project.manager_id):
+                               reimbursement.approval=org.pId
+                            else:
+                                reimbursement.approval=project.p_org_id
+                        reimbursement.approval_type = 1
             if reimbursement.approval_type is not 4:
                 #邮件通知
                 SendMail(reimbursement)
@@ -283,7 +295,7 @@ def approve(user_id,expense_id,result,reason):
             reimbursement.fail_reason = reason
         email_url = OA_Email_Url.query.filter_by(manager=current_user.id,list_id=reimbursement.id).first()
         if email_url:
-            OA_Email_Url.query.filter_by(manager=current_user.id,list_id=reimbursement.id).delete()
+            email_url.list_type=result
         db.session.commit()
         # 消息闪现
         flash('保存成功','success')
@@ -374,6 +386,7 @@ def fyzf_check(id,page,create_user):
             #报销单信息
             reimbursement = OA_Reimbursement.query.filter_by(id=id).first()  
             reimbursement.is_paid=1
+            reimbursement.paid_date= datetime.datetime.now()
             db.session.commit()
             # 消息闪现
             flash('保存成功','success')
@@ -398,10 +411,12 @@ def fyzf_pay(id,page,userId):
                 for obj in value:
                     reimbursement = OA_Reimbursement.query.filter_by(id=obj).first()  
                     reimbursement.is_paid=1
+                    reimbursement.paid_date= datetime.datetime.now() 
             else:
                 value=id
                 reimbursement = OA_Reimbursement.query.filter_by(id=value).first()  
                 reimbursement.is_paid=1
+                reimbursement.paid_date= datetime.datetime.now() 
             db.session.commit()
             # 消息闪现
             flash('支付成功','success')
@@ -436,6 +451,43 @@ def fyzf_pay(id,page,userId):
             data = OA_Reimbursement.query.filter(sql).paginate(page-1, per_page = PER_PAGE) 
         return render_template("bxsq/fysp/fyzf_list.html",data=data,org_id=org_id,project_id=project_id,userId=userId)
 
+#费用支付Excel下载
+@app.route('/fysp/fyzf_Excel',methods=['GET','POST'])
+def fyzf_Excel():
+    beg_date = request.form['beg_date'] + " 00:00:00"
+    end_date = request.form['end_date'] + " 23:59:59"
+    is_paid = request.form['is_paid']
+
+    sql = "SELECT b.name,c.real_name,d.project_name,a.amount,a.`describe`,a.create_date,(case is_paid when '0' then '未支付' \
+        when '1' then '已支付' end) as paid,a.paid_date FROM oa_reimbursement a, oa_org b, oa_user c,oa_project d WHERE\
+        a.org_id = b.id AND a.create_user = c.id and a.project_id=d.id"
+    sql += " and a.create_date between '" + beg_date + "' and '" + end_date + "'"
+    if float(is_paid) !=-1:
+        sql+=" and a.is_paid="+str(is_paid)
+    sql +="order by a.paid_date"
+    data=db.session.execute(sql).fetchall()
+
+
+    exl_hdngs=['费用所属单位','申请人','项目','金额','报销事由','创建时间','审批状态','支付时间']
+    types=     'text   text   text      text      text     datetime    text   datetime'.split()
+    exl_hdngs_xf=ezxf('font: bold on;align: wrap on,vert centre,horiz center')
+    types_to_xf_map={
+        'int':ezxf(num_format_str='#,##0'),
+        'date':ezxf(num_format_str='yyyy-mm-dd'),
+        'datetime':ezxf(num_format_str='yyyy-mm-dd HH:MM:SS'),
+        'ratio':ezxf(num_format_str='#,##0.00%'),
+        'text':ezxf(),
+        'price':ezxf(num_format_str='￥#,##0.00')
+    }
+
+    data_xfs=[types_to_xf_map[t] for t in types]
+    date=datetime.datetime.now()
+    year=date.year
+    month=date.month
+    day=date.day
+    filename=str(year)+'_'+str(month)+'_'+str(day)+'_'+'报销费用支付详情'+'.xls'
+    exp=export_excel()
+    return exp.export_download(filename,'报销费用支付详情表',exl_hdngs,data,exl_hdngs_xf,data_xfs)
 
 #邮件发送
 def SendMail(reimbursement):
@@ -479,7 +531,7 @@ def SendMail(reimbursement):
 def send_async_email(app,msg,list_id,manager_id,uu):
         with app.app_context():
                 try:  
-                    OA_Email_Url(list_id,manager_id,uu).add()
+                    OA_Email_Url(list_id,manager_id,uu,0).add()
                     db.session.commit()
                     mail = Mail(app)
                     mail.send(msg)
@@ -498,7 +550,7 @@ def email_return(random_uuid):
         login_user(user)
         project = OA_Project.query.order_by("id").all()
         reimbursement = OA_Reimbursement.query.filter_by(id=email.list_id).first()
-        return render_template("bxsq/fysp/email_bxsq.html",reimbursement=reimbursement,project=project)
+        return render_template("bxsq/fysp/email_bxsq.html",reimbursement=reimbursement,project=project,email=email)
     else:
         return redirect("/login")
 
@@ -519,3 +571,8 @@ def email_check(id):
             db.session.rollback()
             logger.exception('exception') 
     return redirect("/welcome")
+
+#返回首页
+@app.route('/fysp/email_check_return',methods=['GET','POST'])
+def email_check_return():
+    return redirect("/login")
